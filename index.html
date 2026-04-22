@@ -196,9 +196,10 @@
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
-      display: flex; align-items: center;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
       position: relative; overflow: hidden;
-      padding: 100px 5% 60px;
+      padding: 120px 5% 80px;
     }
 
     .hero-bg {
@@ -230,7 +231,92 @@
       50% { transform: translateY(-30px) scale(1.05); }
     }
 
-    .hero-content { position: relative; z-index: 1; max-width: 650px; }
+    .hero-content { position: relative; z-index: 1; }
+
+    /* ── HERO IMAGE ── */
+    .hero-image-wrap {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; animation: fadeLeft2 0.9s 0.6s forwards;
+    }
+    @keyframes fadeLeft2 {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Glow ring rere la foto */
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute; inset: -20px;
+      background: radial-gradient(ellipse at center, rgba(249,115,22,0.25) 0%, transparent 70%);
+      border-radius: 32px;
+      animation: floatOrb 6s ease-in-out infinite;
+    }
+
+    /* Border decoratiu taronja */
+    .hero-image-wrap::after {
+      content: '';
+      position: absolute;
+      top: 16px; left: 16px; right: -16px; bottom: -16px;
+      border: 2px solid rgba(249,115,22,0.3);
+      border-radius: 28px;
+      z-index: -1;
+    }
+
+    .hero-img {
+      width: 100%; max-width: 520px;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.15);
+      display: block;
+    }
+
+    /* Badge flotant sobre la foto */
+    .hero-img-badge {
+      position: absolute; bottom: 28px; left: -24px;
+      background: rgba(15,23,42,0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(249,115,22,0.3);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+    .hero-img-badge-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(249,115,22,0.4);
+    }
+    .hero-img-badge-text strong { display: block; font-size: 0.95rem; font-weight: 700; }
+    .hero-img-badge-text span   { font-size: 0.72rem; color: rgba(255,255,255,0.5); }
+
+    /* Segon badge a dalt a la dreta */
+    .hero-img-badge2 {
+      position: absolute; top: 24px; right: -20px;
+      background: rgba(15,23,42,0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 12px 18px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+      animation: floatBadge 4s ease-in-out 2s infinite;
+    }
+    .hero-img-badge2-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse 2s infinite;
+    }
+    .hero-img-badge2 span { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.85); white-space: nowrap; }
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
@@ -296,21 +382,18 @@
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
 
-    .hero-stats {
-      position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
-      display: flex; flex-direction: column; gap: 20px;
-      opacity: 0; animation: fadeLeft 0.8s 1s forwards;
+    /* Stats ara van sota els botons */
+    .hero-stats-row {
+      display: flex; gap: 28px; margin-top: 40px;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
     }
     .stat-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px; padding: 20px 24px; text-align: center;
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s, border-color 0.3s;
+      display: flex; flex-direction: column;
+      border-left: 2px solid rgba(249,115,22,0.35);
+      padding-left: 16px;
     }
-    .stat-card:hover { transform: translateX(-4px); border-color: rgba(249,115,22,0.3); }
-    .stat-num { font-size: 2rem; font-weight: 900; color: var(--orange); }
-    .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+    .stat-num { font-size: 1.8rem; font-weight: 900; color: var(--orange); line-height: 1; }
+    .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
 
     .hero-scroll {
       position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
@@ -329,10 +412,6 @@
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeLeft {
-      from { opacity: 0; transform: translate(30px, -50%); }
-      to { opacity: 1; transform: translate(0, -50%); }
     }
 
     .reveal {
@@ -742,7 +821,10 @@
 
     /* ── MOBILE ── */
     @media (max-width: 1024px) {
-      .hero-stats { display: none; }
+      #hero { grid-template-columns: 1fr; padding-top: 140px; }
+      .hero-image-wrap { order: -1; max-width: 420px; margin: 0 auto; }
+      .hero-img-badge  { left: 0; bottom: 16px; }
+      .hero-img-badge2 { right: 0; }
       .sobre-grid { grid-template-columns: 1fr; }
       .sobre-visual { margin-bottom: 20px; }
       .tec-grid { grid-template-columns: 1fr; }
@@ -936,20 +1018,39 @@
         <span>→</span> Veure serveis
       </a>
     </div>
+    <div class="hero-stats-row">
+      <div class="stat-card">
+        <div class="stat-num">+17</div>
+        <div class="stat-label">Anys d'experiència</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Especialitats</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Tracte personalitzat</div>
+      </div>
+    </div>
   </div>
 
-  <div class="hero-stats">
-    <div class="stat-card">
-      <div class="stat-num">+17</div>
-      <div class="stat-label">Anys d'experiència</div>
+  <!-- FOTO HERO -->
+  <div class="hero-image-wrap">
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=800&q=85"
+      alt="Fisioterapeuta tractant un pacient a Global Centre de Fisioteràpia"
+    />
+    <div class="hero-img-badge">
+      <div class="hero-img-badge-icon">⭐</div>
+      <div class="hero-img-badge-text">
+        <strong>+17 anys</strong>
+        <span>d'experiència</span>
+      </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-num">11</div>
-      <div class="stat-label">Especialitats</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">Tracte personalitzat</div>
+    <div class="hero-img-badge2">
+      <div class="hero-img-badge2-dot"></div>
+      <span>Atenent pacients ara</span>
     </div>
   </div>
 
