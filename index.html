@@ -65,6 +65,10 @@
     }
     .cursor.expanded { transform: translate(-50%, -50%) scale(2.5); opacity: 0.5; }
 
+    @media (hover: none), (pointer: coarse) {
+      .cursor, .cursor-dot { display: none; }
+    }
+
     /* ── NAV ── */
     nav {
       position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
