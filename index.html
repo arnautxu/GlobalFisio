@@ -525,56 +525,139 @@
     .highlight-box p { font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.8); font-style: italic; }
 
     /* ── SERVEIS ── */
-    #serveis { background: var(--dark); }
-
-    .serveis-header { text-align: center; margin-bottom: 60px; }
-    .serveis-header .section-desc { margin: 0 auto; }
-
-    .serveis-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
+    #serveis {
+      background: var(--dark);
+      padding-left: 0; padding-right: 0;
+      overflow: hidden;
     }
 
+    .serveis-header {
+      text-align: center; margin-bottom: 60px;
+      padding: 0 5%;
+    }
+    .serveis-header .section-desc { margin: 0 auto; }
+
+    /* Marquee track */
+    .marquee-wrap {
+      display: flex; flex-direction: column; gap: 20px;
+      /* Edge fade */
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+      mask-image:         linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+
+    .marquee-row {
+      display: flex; gap: 20px;
+      width: max-content;
+    }
+    .marquee-row-inner {
+      display: flex; gap: 20px;
+      animation: marqueeLeft 40s linear infinite;
+    }
+    .marquee-row.reverse .marquee-row-inner {
+      animation: marqueeRight 40s linear infinite;
+    }
+    /* Pause on hover anywhere in the section */
+    #serveis:hover .marquee-row-inner { animation-play-state: paused; }
+
+    @keyframes marqueeLeft {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* Card */
     .servei-card {
+      width: 320px; flex-shrink: 0;
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.07);
-      border-radius: var(--radius);
+      border-radius: 20px;
       padding: 28px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
       position: relative; overflow: hidden;
     }
     .servei-card::before {
-      content: ''; position: absolute;
-      inset: 0; border-radius: var(--radius);
-      background: linear-gradient(135deg, rgba(249,115,22,0.14), rgba(249,115,22,0.04));
+      content: ''; position: absolute; inset: 0; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.1), transparent 70%);
       opacity: 0; transition: opacity 0.3s;
     }
-    .servei-card:hover { border-color: rgba(249,115,22,0.55); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(249,115,22,0.12); }
+    .servei-card:hover {
+      border-color: rgba(249,115,22,0.5);
+      box-shadow: 0 16px 40px rgba(249,115,22,0.12);
+      transform: translateY(-4px);
+    }
     .servei-card:hover::before { opacity: 1; }
+
+    /* Big number watermark */
+    .servei-num {
+      position: absolute; top: -8px; right: 16px;
+      font-size: 5rem; font-weight: 900; line-height: 1;
+      color: rgba(249,115,22,0.06);
+      pointer-events: none; user-select: none;
+      transition: color 0.3s;
+    }
+    .servei-card:hover .servei-num { color: rgba(249,115,22,0.1); }
 
     .servei-icon {
       width: 52px; height: 52px;
-      background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(249,115,22,0.1));
-      border: 1px solid rgba(249,115,22,0.25);
-      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.08));
+      border: 1px solid rgba(249,115,22,0.2);
+      border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.5rem; margin-bottom: 16px;
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    .servei-card:hover .servei-icon { transform: scale(1.1) rotate(-5deg); }
+    .servei-card:hover .servei-icon {
+      transform: scale(1.1) rotate(-6deg);
+      box-shadow: 0 8px 20px rgba(249,115,22,0.25);
+    }
 
-    .servei-name { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
-    .servei-desc { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+    .servei-name {
+      font-size: 1rem; font-weight: 700; margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+    .servei-card:hover .servei-name { color: var(--orange); }
 
+    .servei-desc {
+      font-size: 0.83rem; color: rgba(255,255,255,0.5);
+      line-height: 1.7; margin-bottom: 18px;
+    }
+
+    /* Tags */
+    .servei-tags {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px;
+    }
+    .servei-tag {
+      font-size: 0.7rem; font-weight: 500;
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.2);
+      color: rgba(249,115,22,0.8);
+      padding: 3px 10px; border-radius: 100px;
+    }
+
+    /* Footer de la card */
+    .servei-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .servei-footer-label {
+      font-size: 0.72rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.08em;
+    }
     .servei-arrow {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 0.8rem; color: var(--orange);
-      margin-top: 16px; opacity: 0;
-      transition: opacity 0.2s, gap 0.2s;
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(249,115,22,0.15);
+      color: var(--orange); font-size: 0.85rem;
+      transition: background 0.2s, transform 0.2s;
     }
-    .servei-card:hover .servei-arrow { opacity: 1; gap: 8px; }
+    .servei-card:hover .servei-arrow {
+      background: var(--orange); color: var(--white);
+      transform: translateX(2px);
+    }
 
     /* ── TECNOLOGIA ── */
     #tecnologia {
@@ -1097,76 +1180,216 @@
   <div class="serveis-header">
     <div class="section-label reveal">Els Nostres Serveis</div>
     <h2 class="section-title reveal reveal-delay-1">Tractaments especialitzats<br/>per a cada necessitat</h2>
-    <p class="section-desc reveal reveal-delay-2">Oferim una àmplia gamma de serveis de fisioteràpia per cobrir totes les etapes de la vida i tipus de patologia.</p>
+    <p class="section-desc reveal reveal-delay-2">Fisioteràpia de qualitat per a totes les etapes de la vida. Passa el ratolí per aturar el carrusel.</p>
   </div>
 
-  <div class="serveis-grid">
-    <div class="servei-card reveal reveal-delay-1">
-      <div class="servei-icon">🦴</div>
-      <div class="servei-name">Fisioteràpia Traumatològica</div>
-      <div class="servei-desc">Tractament de lesions musculoesquelètiques: lumbàlgies, cervicàlgies, esquinços, trencaments musculars i rehabilitació postquirúrgica.</div>
-      <div class="servei-arrow">Més info →</div>
+  <div class="marquee-wrap">
+
+    <!-- FILA 1 → esquerra -->
+    <div class="marquee-row">
+      <div class="marquee-row-inner">
+
+        <div class="servei-card">
+          <span class="servei-num">01</span>
+          <div class="servei-icon">🦴</div>
+          <div class="servei-name">Fisioteràpia Traumatològica</div>
+          <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
+          <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Traumatologia</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">02</span>
+          <div class="servei-icon">🏃</div>
+          <div class="servei-name">Fisioteràpia Esportiva</div>
+          <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
+          <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Esport</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">03</span>
+          <div class="servei-icon">🧠</div>
+          <div class="servei-name">Fisioteràpia Neurològica</div>
+          <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
+          <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Neurologia</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">04</span>
+          <div class="servei-icon">🌊</div>
+          <div class="servei-name">Fisioteràpia Aquàtica</div>
+          <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
+          <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Aquàtica</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">05</span>
+          <div class="servei-icon">🔵</div>
+          <div class="servei-name">Reumatologia</div>
+          <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
+          <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Reumatologia</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <!-- Duplicat per al loop infinit -->
+        <div class="servei-card">
+          <span class="servei-num">01</span>
+          <div class="servei-icon">🦴</div>
+          <div class="servei-name">Fisioteràpia Traumatològica</div>
+          <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
+          <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Traumatologia</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">02</span>
+          <div class="servei-icon">🏃</div>
+          <div class="servei-name">Fisioteràpia Esportiva</div>
+          <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
+          <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Esport</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">03</span>
+          <div class="servei-icon">🧠</div>
+          <div class="servei-name">Fisioteràpia Neurològica</div>
+          <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
+          <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Neurologia</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">04</span>
+          <div class="servei-icon">🌊</div>
+          <div class="servei-name">Fisioteràpia Aquàtica</div>
+          <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
+          <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Aquàtica</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">05</span>
+          <div class="servei-icon">🔵</div>
+          <div class="servei-name">Reumatologia</div>
+          <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
+          <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Reumatologia</span><span class="servei-arrow">→</span></div>
+        </div>
+
+      </div>
     </div>
-    <div class="servei-card reveal reveal-delay-2">
-      <div class="servei-icon">🏃</div>
-      <div class="servei-name">Fisioteràpia Esportiva</div>
-      <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar els processos de curació i millorar el rendiment atlètic.</div>
-      <div class="servei-arrow">Més info →</div>
+
+    <!-- FILA 2 → dreta (reverse) -->
+    <div class="marquee-row reverse">
+      <div class="marquee-row-inner">
+
+        <div class="servei-card">
+          <span class="servei-num">06</span>
+          <div class="servei-icon">👴</div>
+          <div class="servei-name">Fisioteràpia Geriàtrica</div>
+          <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
+          <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Geriatria</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">07</span>
+          <div class="servei-icon">👶</div>
+          <div class="servei-name">Fisioteràpia Pediàtrica</div>
+          <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
+          <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Pediatria</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">08</span>
+          <div class="servei-icon">🦷</div>
+          <div class="servei-name">Fisioteràpia ATM</div>
+          <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
+          <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Maxil·lofacial</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">09</span>
+          <div class="servei-icon">💆</div>
+          <div class="servei-name">Massoteràpia</div>
+          <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
+          <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Massoteràpia</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">10</span>
+          <div class="servei-icon">🏠</div>
+          <div class="servei-name">Fisioteràpia a Domicili</div>
+          <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
+          <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">A domicili</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <div class="servei-card">
+          <span class="servei-num">11</span>
+          <div class="servei-icon">🧘</div>
+          <div class="servei-name">Escola d'Esquena · Pilates</div>
+          <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
+          <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Escola d'esquena</span><span class="servei-arrow">→</span></div>
+        </div>
+
+        <!-- Duplicat per al loop infinit -->
+        <div class="servei-card">
+          <span class="servei-num">06</span>
+          <div class="servei-icon">👴</div>
+          <div class="servei-name">Fisioteràpia Geriàtrica</div>
+          <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
+          <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Geriatria</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">07</span>
+          <div class="servei-icon">👶</div>
+          <div class="servei-name">Fisioteràpia Pediàtrica</div>
+          <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
+          <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Pediatria</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">08</span>
+          <div class="servei-icon">🦷</div>
+          <div class="servei-name">Fisioteràpia ATM</div>
+          <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
+          <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Maxil·lofacial</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">09</span>
+          <div class="servei-icon">💆</div>
+          <div class="servei-name">Massoteràpia</div>
+          <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
+          <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Massoteràpia</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">10</span>
+          <div class="servei-icon">🏠</div>
+          <div class="servei-name">Fisioteràpia a Domicili</div>
+          <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
+          <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">A domicili</span><span class="servei-arrow">→</span></div>
+        </div>
+        <div class="servei-card">
+          <span class="servei-num">11</span>
+          <div class="servei-icon">🧘</div>
+          <div class="servei-name">Escola d'Esquena · Pilates</div>
+          <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
+          <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
+          <div class="servei-footer"><span class="servei-footer-label">Escola d'esquena</span><span class="servei-arrow">→</span></div>
+        </div>
+
+      </div>
     </div>
-    <div class="servei-card reveal reveal-delay-3">
-      <div class="servei-icon">🧠</div>
-      <div class="servei-name">Fisioteràpia Neurològica</div>
-      <div class="servei-desc">Atenció a patologies del sistema nerviós: ictus, Parkinson, esclerosi múltiple, ELA i rehabilitació neuromotora.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-1">
-      <div class="servei-icon">🌊</div>
-      <div class="servei-name">Fisioteràpia Aquàtica</div>
-      <div class="servei-desc">Rehabilitació en medi aquàtic per a recuperació postoperatòria, hernies discals i tractaments de manteniment.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-2">
-      <div class="servei-icon">👴</div>
-      <div class="servei-name">Fisioteràpia Geriàtrica</div>
-      <div class="servei-desc">Cura especialitzada per a la gent gran: manteniment de mobilitat, autonomia, força muscular i treball d'equilibri.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-3">
-      <div class="servei-icon">👶</div>
-      <div class="servei-name">Fisioteràpia Pediàtrica</div>
-      <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-1">
-      <div class="servei-icon">🦷</div>
-      <div class="servei-name">Fisioteràpia ATM</div>
-      <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme i alteracions del sistema masticatori.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-2">
-      <div class="servei-icon">💆</div>
-      <div class="servei-name">Massoteràpia</div>
-      <div class="servei-desc">Tècniques de massatge terapèutic per alliberar tensions musculars, millorar la circulació i afavorir la relaxació.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-3">
-      <div class="servei-icon">🏠</div>
-      <div class="servei-name">Fisioteràpia a Domicili</div>
-      <div class="servei-desc">Tractament en el domicili del pacient per a aquells que no poden desplaçar-se a la clínica per mobilitat reduïda.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-1">
-      <div class="servei-icon">🔵</div>
-      <div class="servei-name">Reumatologia</div>
-      <div class="servei-desc">Atenció a malalties reumàtiques com artritis, espondilitis anquilosant, amb focus en el dolor i la mobilitat articular.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
-    <div class="servei-card reveal reveal-delay-2">
-      <div class="servei-icon">🧘</div>
-      <div class="servei-name">Escola d'Esquena · Pilates</div>
-      <div class="servei-desc">Programes actius per a l'estabilitat de la columna i millora postural. Pilates individual adaptat a cada pacient.</div>
-      <div class="servei-arrow">Més info →</div>
-    </div>
+
   </div>
 </section>
 
