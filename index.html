@@ -551,13 +551,11 @@
     }
     .marquee-row-inner {
       display: flex; gap: 20px;
-      animation: marqueeLeft 40s linear infinite;
+      animation: marqueeLeft 70s linear infinite;
     }
     .marquee-row.reverse .marquee-row-inner {
-      animation: marqueeRight 40s linear infinite;
+      animation: marqueeRight 70s linear infinite;
     }
-    /* Pause on hover anywhere in the section */
-    #serveis:hover .marquee-row-inner { animation-play-state: paused; }
 
     @keyframes marqueeLeft {
       from { transform: translateX(0); }
@@ -1747,6 +1745,51 @@
       e.target.reset();
     }, 3000);
   }
+
+  // ── MARQUEE SMOOTH DECELERATION ──
+  (function () {
+    const NORMAL  = 70;   // velocitat normal en segons
+    const SLOW    = 3000; // velocitat "aturada" (molt lenta, no paused)
+    const EASE_IN  = 800; // ms per desaccelerar
+    const EASE_OUT = 600; // ms per accelerar de nou
+
+    const rows = document.querySelectorAll('.marquee-row-inner');
+    // Inicialitza durades individuals per si les animacions ja corren
+    rows.forEach(r => r.style.animationDuration = NORMAL + 's');
+
+    let current  = NORMAL;
+    let target   = NORMAL;
+    let rafId    = null;
+    let startVal, startTime, totalDuration, endVal;
+
+    function ease(t) {
+      // easeInOutCubic
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function animate(ts) {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const t = Math.min(elapsed / totalDuration, 1);
+      current = startVal + (endVal - startVal) * ease(t);
+      rows.forEach(r => r.style.animationDuration = current + 's');
+      if (t < 1) { rafId = requestAnimationFrame(animate); }
+      else { current = endVal; rafId = null; }
+    }
+
+    function tweenTo(newTarget, duration) {
+      if (rafId) cancelAnimationFrame(rafId);
+      startVal  = current;
+      endVal    = newTarget;
+      totalDuration = duration;
+      startTime = null;
+      rafId = requestAnimationFrame(animate);
+    }
+
+    const section = document.getElementById('serveis');
+    section.addEventListener('mouseenter', () => tweenTo(SLOW,  EASE_IN));
+    section.addEventListener('mouseleave', () => tweenTo(NORMAL, EASE_OUT));
+  })();
 
   // ── COUNTER ANIMATION ──
   function animateCount(el, target, suffix = '') {
