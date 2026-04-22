@@ -551,10 +551,10 @@
     }
     .marquee-row-inner {
       display: flex; gap: 20px;
-      animation: marqueeLeft 70s linear infinite;
+      /* JS-driven, sense animació CSS */
     }
     .marquee-row.reverse .marquee-row-inner {
-      animation: marqueeRight 70s linear infinite;
+      /* JS-driven, sense animació CSS */
     }
 
     @keyframes marqueeLeft {
@@ -1746,49 +1746,55 @@
     }, 3000);
   }
 
-  // ── MARQUEE SMOOTH DECELERATION ──
+  // ── MARQUEE JS-DRIVEN (smooth speed) ──
   (function () {
-    const NORMAL  = 70;   // velocitat normal en segons
-    const SLOW    = 3000; // velocitat "aturada" (molt lenta, no paused)
-    const EASE_IN  = 800; // ms per desaccelerar
-    const EASE_OUT = 600; // ms per accelerar de nou
+    const SPEED_NORMAL = 0.4;  // px per frame a 60fps
+    const SPEED_SLOW   = 0.0;  // px per frame quan hover
+    const LERP         = 0.04; // suavitat: més baix = més lent el fade (0.01–0.1)
 
     const rows = document.querySelectorAll('.marquee-row-inner');
-    // Inicialitza durades individuals per si les animacions ja corren
-    rows.forEach(r => r.style.animationDuration = NORMAL + 's');
+    if (!rows.length) return;
 
-    let current  = NORMAL;
-    let target   = NORMAL;
-    let rafId    = null;
-    let startVal, startTime, totalDuration, endVal;
+    // Posicions i direccions de cada fila
+    const state = Array.from(rows).map((row, i) => ({
+      el:  row,
+      pos: 0,
+      dir: i % 2 === 0 ? -1 : 1,  // fila 0 → esquerra, fila 1 → dreta
+    }));
 
-    function ease(t) {
-      // easeInOutCubic
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
+    let currentSpeed = SPEED_NORMAL;
+    let targetSpeed  = SPEED_NORMAL;
+    let hovering     = false;
 
-    function animate(ts) {
-      if (!startTime) startTime = ts;
-      const elapsed = ts - startTime;
-      const t = Math.min(elapsed / totalDuration, 1);
-      current = startVal + (endVal - startVal) * ease(t);
-      rows.forEach(r => r.style.animationDuration = current + 's');
-      if (t < 1) { rafId = requestAnimationFrame(animate); }
-      else { current = endVal; rafId = null; }
-    }
+    // Espera que el DOM estigui pintat per llegir les amplades
+    requestAnimationFrame(() => {
+      state.forEach(s => {
+        // Inicialitza la posició a 0 (fila 0) o -50% (fila 1 reverse)
+        s.halfW = s.el.scrollWidth / 2;
+        s.pos   = s.dir === 1 ? -s.halfW : 0;
+        s.el.style.transform = `translateX(${s.pos}px)`;
+      });
+      requestAnimationFrame(tick);
+    });
 
-    function tweenTo(newTarget, duration) {
-      if (rafId) cancelAnimationFrame(rafId);
-      startVal  = current;
-      endVal    = newTarget;
-      totalDuration = duration;
-      startTime = null;
-      rafId = requestAnimationFrame(animate);
+    function tick() {
+      // Suavitza la velocitat (lerp exponencial)
+      currentSpeed += (targetSpeed - currentSpeed) * LERP;
+
+      state.forEach(s => {
+        s.pos += s.dir * currentSpeed;
+        // Loop: quan supera la meitat, torna
+        if (s.dir === -1 && s.pos <= -s.halfW) s.pos += s.halfW;
+        if (s.dir ===  1 && s.pos >= 0)        s.pos -= s.halfW;
+        s.el.style.transform = `translateX(${s.pos}px)`;
+      });
+
+      requestAnimationFrame(tick);
     }
 
     const section = document.getElementById('serveis');
-    section.addEventListener('mouseenter', () => tweenTo(SLOW,  EASE_IN));
-    section.addEventListener('mouseleave', () => tweenTo(NORMAL, EASE_OUT));
+    section.addEventListener('mouseenter', () => { targetSpeed = SPEED_SLOW; });
+    section.addEventListener('mouseleave', () => { targetSpeed = SPEED_NORMAL; });
   })();
 
   // ── COUNTER ANIMATION ──
