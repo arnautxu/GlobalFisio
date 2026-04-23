@@ -7,32 +7,39 @@
   <meta name="description" content="Centre de fisioteràpia a Sant Antoni de Calonge des de 2007. Traumatologia, esport, neurologia, aquàtica i molt més." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --orange:    #F97316;
-      --orange-d:  #EA580C;
-      --orange-l:  #FED7AA;
-      --blue:      #0EA5E9;
-      --blue-d:    #0369A1;
-      --blue-l:    #BAE6FD;
-      --dark:      #0F172A;
-      --dark2:     #1E293B;
-      --mid:       #334155;
-      --light:     #F8FAFC;
-      --white:     #FFFFFF;
+      --orange:    oklch(0.65 0.19 40);
+      --orange-d:  oklch(0.55 0.20 38);
+      --orange-l:  oklch(0.88 0.08 45);
+      --blue:      oklch(0.62 0.17 220);
+      --blue-d:    oklch(0.45 0.16 225);
+      --blue-l:    oklch(0.85 0.08 220);
+      --green:     oklch(0.72 0.18 148);
+      --dark:      oklch(0.13 0.015 265);
+      --dark2:     oklch(0.18 0.015 265);
+      --mid:       oklch(0.28 0.015 265);
+      --light:     oklch(0.98 0.005 40);
+      --white:     oklch(0.99 0.005 40);
       --radius:    16px;
+      --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Figtree', sans-serif;
       background: var(--dark);
       color: var(--white);
       overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .hero-title, .section-title, .mobile-nav-item {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      letter-spacing: -0.01em;
     }
 
     /* ── SCROLLBAR ── */
@@ -69,6 +76,25 @@
       .cursor, .cursor-dot { display: none; }
     }
 
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100px; left: 16px; z-index: 99999;
+      background: var(--orange); color: var(--white);
+      padding: 10px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem; text-decoration: none;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* ── PREFERS REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     /* ── NAV ── */
     nav {
       position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
@@ -76,17 +102,16 @@
       padding: 0 20px;
       display: flex; align-items: center; justify-content: space-between;
       height: 64px;
-      background: rgba(15,23,42,0.6);
-      backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid rgba(249,115,22,0.2);
+      background: oklch(0.13 0.015 265 / 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid oklch(0.65 0.19 40 / 0.18);
       border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
-      transition: background 0.4s, box-shadow 0.4s, border-color 0.4s;
+      box-shadow: 0 4px 24px oklch(0 0 0 / 0.35);
+      transition: background 0.4s, border-color 0.4s;
     }
     nav.scrolled {
-      background: rgba(10,16,30,0.88);
-      border-color: rgba(249,115,22,0.35);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(249,115,22,0.1), inset 0 1px 0 rgba(255,255,255,0.06);
+      background: oklch(0.13 0.015 265 / 0.92);
+      border-color: oklch(0.65 0.19 40 / 0.28);
     }
 
     /* Logo */
@@ -127,7 +152,7 @@
       background: rgba(249,115,22,0.18);
       border: 1px solid rgba(249,115,22,0.35);
       border-radius: 10px;
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), width 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       box-shadow: 0 0 16px rgba(249,115,22,0.15);
     }
@@ -184,7 +209,7 @@
     .nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
     .nav-hamburger span {
       display: block; height: 2px; background: var(--white);
-      border-radius: 2px; transition: 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      border-radius: 2px; transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .nav-hamburger span:nth-child(1) { width: 22px; }
     .nav-hamburger span:nth-child(2) { width: 16px; }
@@ -215,15 +240,15 @@
       animation: floatOrb 8s ease-in-out infinite;
     }
     .hero-orb-1 {
-      width: 600px; height: 600px;
-      background: rgba(249,115,22,0.22);
-      top: -150px; right: -120px;
+      width: 500px; height: 500px;
+      background: oklch(0.65 0.19 40 / 0.10);
+      top: -100px; right: -80px;
       animation-delay: 0s;
     }
     .hero-orb-2 {
-      width: 350px; height: 350px;
-      background: rgba(14,165,233,0.07);
-      bottom: -50px; left: -80px;
+      width: 300px; height: 300px;
+      background: oklch(0.62 0.17 220 / 0.05);
+      bottom: -40px; left: -60px;
       animation-delay: -4s;
     }
     @keyframes floatOrb {
@@ -275,14 +300,13 @@
     /* Badge flotant sobre la foto */
     .hero-img-badge {
       position: absolute; bottom: 28px; left: -24px;
-      background: rgba(15,23,42,0.9);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(249,115,22,0.3);
+      background: oklch(0.13 0.015 265 / 0.92);
+      border: 1px solid oklch(0.65 0.19 40 / 0.25);
       border-radius: 16px;
       padding: 16px 20px;
       display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
-      animation: floatBadge 4s ease-in-out infinite;
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.35);
+      animation: floatBadge 5s ease-in-out infinite;
     }
     @keyframes floatBadge {
       0%, 100% { transform: translateY(0); }
@@ -301,19 +325,17 @@
     /* Segon badge a dalt a la dreta */
     .hero-img-badge2 {
       position: absolute; top: 24px; right: -20px;
-      background: rgba(15,23,42,0.9);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: oklch(0.13 0.015 265 / 0.92);
+      border: 1px solid oklch(0.99 0.005 40 / 0.1);
       border-radius: 14px;
       padding: 12px 18px;
       display: flex; align-items: center; gap: 8px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-      animation: floatBadge 4s ease-in-out 2s infinite;
+      box-shadow: 0 8px 20px oklch(0 0 0 / 0.3);
+      animation: floatBadge 5s ease-in-out 2.5s infinite;
     }
     .hero-img-badge2-dot {
       width: 8px; height: 8px; border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 8px #22c55e;
+      background: var(--green);
       animation: pulse 2s infinite;
     }
     .hero-img-badge2 span { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.85); white-space: nowrap; }
@@ -339,19 +361,20 @@
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 6vw, 5rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin-bottom: 24px;
+      font-size: clamp(3.2rem, 6.5vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
       opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
     }
     .hero-title .line-orange { color: var(--orange); }
     .hero-title .line-blue  { color: var(--blue); }
 
     .hero-desc {
-      font-size: 1.1rem; color: rgba(255,255,255,0.65);
-      line-height: 1.75; margin-bottom: 40px;
+      font-size: 1.05rem; color: oklch(0.99 0.005 40 / 0.6);
+      line-height: 1.8; margin-bottom: 36px;
+      max-width: 55ch;
       opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
     }
 
@@ -382,18 +405,24 @@
     }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
 
-    /* Stats ara van sota els botons */
-    .hero-stats-row {
-      display: flex; gap: 28px; margin-top: 40px;
+    /* Bloc de confiança sota els botons */
+    .hero-trust {
+      display: flex; align-items: center; gap: 14px;
+      margin-top: 36px;
       opacity: 0; animation: fadeUp 0.8s 1s forwards;
     }
-    .stat-card {
-      display: flex; flex-direction: column;
-      border-left: 2px solid rgba(249,115,22,0.35);
-      padding-left: 16px;
+    .hero-trust-avatars {
+      display: flex;
+      font-size: 1.4rem;
     }
-    .stat-num { font-size: 1.8rem; font-weight: 900; color: var(--orange); line-height: 1; }
-    .stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); margin-top: 4px; }
+    .hero-trust-avatars span { margin-left: -4px; }
+    .hero-trust-avatars span:first-child { margin-left: 0; }
+    .hero-trust-text {
+      font-size: 0.88rem;
+      color: oklch(0.99 0.005 40 / 0.55);
+      line-height: 1.5;
+    }
+    .hero-trust-text strong { color: var(--white); font-weight: 600; }
 
     .hero-scroll {
       position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
@@ -425,7 +454,7 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ── SECTIONS ── */
-    section { padding: 100px 5%; }
+    section { padding: clamp(72px, 10vw, 120px) 5%; }
 
     .section-label {
       display: inline-flex; align-items: center; gap: 8px;
@@ -438,14 +467,14 @@
     }
 
     .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800; letter-spacing: -0.02em;
-      line-height: 1.15; margin-bottom: 20px;
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 800; letter-spacing: -0.01em;
+      line-height: 1.1; margin-bottom: 20px;
     }
 
     .section-desc {
-      color: rgba(255,255,255,0.6); font-size: 1rem;
-      line-height: 1.75; max-width: 560px;
+      color: oklch(0.99 0.005 40 / 0.55); font-size: 1rem;
+      line-height: 1.8; max-width: 62ch;
     }
 
     /* ── SOBRE ── */
@@ -462,7 +491,7 @@
     }
 
     .sobre-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
+      display: grid; grid-template-columns: 1fr 1.1fr;
       gap: 80px; align-items: center;
     }
 
@@ -501,7 +530,7 @@
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 3rem;
-      box-shadow: 0 0 80px rgba(249,115,22,0.5);
+      box-shadow: 0 0 40px oklch(0.65 0.19 40 / 0.3);
     }
 
     .sobre-pills {
@@ -557,14 +586,6 @@
       /* JS-driven, sense animació CSS */
     }
 
-    @keyframes marqueeLeft {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    @keyframes marqueeRight {
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
-    }
 
     /* Card */
     .servei-card {
@@ -969,7 +990,7 @@
       opacity: 0; transform: translateY(20px);
     }
     .mobile-menu.open .mobile-nav-item {
-      animation: mobileItemIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+      animation: mobileItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .mobile-menu.open .mobile-nav-item:nth-child(1) { animation-delay: 0.12s; }
     .mobile-menu.open .mobile-nav-item:nth-child(2) { animation-delay: 0.19s; }
@@ -996,7 +1017,7 @@
       opacity: 0; transform: translateY(20px);
     }
     .mobile-menu.open .mobile-menu-cta {
-      animation: mobileItemIn 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.47s forwards;
+      animation: mobileItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.47s forwards;
     }
     .mobile-menu-cta a {
       display: inline-flex; align-items: center; gap: 8px;
@@ -1027,9 +1048,10 @@
 </head>
 <body>
 
-<div id="progress-bar"></div>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursorDot"></div>
+<a href="#hero" class="skip-link">Saltar al contingut principal</a>
+<div id="progress-bar" role="progressbar" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
@@ -1046,7 +1068,7 @@
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon">🏥</div>
+    <div class="nav-logo-icon" aria-hidden="true">🏥</div>
     <div class="nav-logo-text">
       Global Fisio
       <span>Centre de Fisioteràpia</span>
@@ -1069,9 +1091,11 @@
     </a>
   </div>
 
-  <div class="nav-hamburger" id="hamburger">
+  <button class="nav-hamburger" id="hamburger"
+          type="button" aria-label="Obre el menú de navegació"
+          aria-expanded="false" aria-controls="mobileMenu">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -1099,19 +1123,13 @@
         <span>→</span> Veure serveis
       </a>
     </div>
-    <div class="hero-stats-row">
-      <div class="stat-card">
-        <div class="stat-num">+17</div>
-        <div class="stat-label">Anys d'experiència</div>
+    <div class="hero-trust">
+      <div class="hero-trust-avatars" aria-hidden="true">
+        <span>👤</span><span>👤</span><span>👤</span>
       </div>
-      <div class="stat-card">
-        <div class="stat-num">11</div>
-        <div class="stat-label">Especialitats</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Tracte personalitzat</div>
-      </div>
+      <p class="hero-trust-text">
+        Més de <strong>17 anys</strong> cuidant pacients<br/>a Sant Antoni de Calonge
+      </p>
     </div>
   </div>
 
@@ -1121,9 +1139,10 @@
       class="hero-img"
       src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=800&q=85"
       alt="Fisioterapeuta tractant un pacient a Global Centre de Fisioteràpia"
+      width="520" height="650" fetchpriority="high"
     />
     <div class="hero-img-badge">
-      <div class="hero-img-badge-icon">⭐</div>
+      <div class="hero-img-badge-icon" aria-hidden="true">⭐</div>
       <div class="hero-img-badge-text">
         <strong>+17 anys</strong>
         <span>d'experiència</span>
@@ -1189,7 +1208,7 @@
 
         <div class="servei-card">
           <span class="servei-num">01</span>
-          <div class="servei-icon">🦴</div>
+          <div class="servei-icon" aria-hidden="true">🦴</div>
           <div class="servei-name">Fisioteràpia Traumatològica</div>
           <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
           <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
@@ -1198,7 +1217,7 @@
 
         <div class="servei-card">
           <span class="servei-num">02</span>
-          <div class="servei-icon">🏃</div>
+          <div class="servei-icon" aria-hidden="true">🏃</div>
           <div class="servei-name">Fisioteràpia Esportiva</div>
           <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
           <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
@@ -1207,7 +1226,7 @@
 
         <div class="servei-card">
           <span class="servei-num">03</span>
-          <div class="servei-icon">🧠</div>
+          <div class="servei-icon" aria-hidden="true">🧠</div>
           <div class="servei-name">Fisioteràpia Neurològica</div>
           <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
           <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
@@ -1216,7 +1235,7 @@
 
         <div class="servei-card">
           <span class="servei-num">04</span>
-          <div class="servei-icon">🌊</div>
+          <div class="servei-icon" aria-hidden="true">🌊</div>
           <div class="servei-name">Fisioteràpia Aquàtica</div>
           <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
           <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
@@ -1225,7 +1244,7 @@
 
         <div class="servei-card">
           <span class="servei-num">05</span>
-          <div class="servei-icon">🔵</div>
+          <div class="servei-icon" aria-hidden="true">🔵</div>
           <div class="servei-name">Reumatologia</div>
           <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
           <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
@@ -1235,7 +1254,7 @@
         <!-- Duplicat per al loop infinit -->
         <div class="servei-card">
           <span class="servei-num">01</span>
-          <div class="servei-icon">🦴</div>
+          <div class="servei-icon" aria-hidden="true">🦴</div>
           <div class="servei-name">Fisioteràpia Traumatològica</div>
           <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
           <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
@@ -1243,7 +1262,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">02</span>
-          <div class="servei-icon">🏃</div>
+          <div class="servei-icon" aria-hidden="true">🏃</div>
           <div class="servei-name">Fisioteràpia Esportiva</div>
           <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
           <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
@@ -1251,7 +1270,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">03</span>
-          <div class="servei-icon">🧠</div>
+          <div class="servei-icon" aria-hidden="true">🧠</div>
           <div class="servei-name">Fisioteràpia Neurològica</div>
           <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
           <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
@@ -1259,7 +1278,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">04</span>
-          <div class="servei-icon">🌊</div>
+          <div class="servei-icon" aria-hidden="true">🌊</div>
           <div class="servei-name">Fisioteràpia Aquàtica</div>
           <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
           <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
@@ -1267,7 +1286,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">05</span>
-          <div class="servei-icon">🔵</div>
+          <div class="servei-icon" aria-hidden="true">🔵</div>
           <div class="servei-name">Reumatologia</div>
           <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
           <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
@@ -1283,7 +1302,7 @@
 
         <div class="servei-card">
           <span class="servei-num">06</span>
-          <div class="servei-icon">👴</div>
+          <div class="servei-icon" aria-hidden="true">👴</div>
           <div class="servei-name">Fisioteràpia Geriàtrica</div>
           <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
           <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
@@ -1292,7 +1311,7 @@
 
         <div class="servei-card">
           <span class="servei-num">07</span>
-          <div class="servei-icon">👶</div>
+          <div class="servei-icon" aria-hidden="true">👶</div>
           <div class="servei-name">Fisioteràpia Pediàtrica</div>
           <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
           <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
@@ -1301,7 +1320,7 @@
 
         <div class="servei-card">
           <span class="servei-num">08</span>
-          <div class="servei-icon">🦷</div>
+          <div class="servei-icon" aria-hidden="true">🦷</div>
           <div class="servei-name">Fisioteràpia ATM</div>
           <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
           <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
@@ -1310,7 +1329,7 @@
 
         <div class="servei-card">
           <span class="servei-num">09</span>
-          <div class="servei-icon">💆</div>
+          <div class="servei-icon" aria-hidden="true">💆</div>
           <div class="servei-name">Massoteràpia</div>
           <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
           <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
@@ -1319,7 +1338,7 @@
 
         <div class="servei-card">
           <span class="servei-num">10</span>
-          <div class="servei-icon">🏠</div>
+          <div class="servei-icon" aria-hidden="true">🏠</div>
           <div class="servei-name">Fisioteràpia a Domicili</div>
           <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
           <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
@@ -1328,7 +1347,7 @@
 
         <div class="servei-card">
           <span class="servei-num">11</span>
-          <div class="servei-icon">🧘</div>
+          <div class="servei-icon" aria-hidden="true">🧘</div>
           <div class="servei-name">Escola d'Esquena · Pilates</div>
           <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
           <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
@@ -1338,7 +1357,7 @@
         <!-- Duplicat per al loop infinit -->
         <div class="servei-card">
           <span class="servei-num">06</span>
-          <div class="servei-icon">👴</div>
+          <div class="servei-icon" aria-hidden="true">👴</div>
           <div class="servei-name">Fisioteràpia Geriàtrica</div>
           <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
           <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
@@ -1346,7 +1365,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">07</span>
-          <div class="servei-icon">👶</div>
+          <div class="servei-icon" aria-hidden="true">👶</div>
           <div class="servei-name">Fisioteràpia Pediàtrica</div>
           <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
           <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
@@ -1354,7 +1373,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">08</span>
-          <div class="servei-icon">🦷</div>
+          <div class="servei-icon" aria-hidden="true">🦷</div>
           <div class="servei-name">Fisioteràpia ATM</div>
           <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
           <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
@@ -1362,7 +1381,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">09</span>
-          <div class="servei-icon">💆</div>
+          <div class="servei-icon" aria-hidden="true">💆</div>
           <div class="servei-name">Massoteràpia</div>
           <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
           <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
@@ -1370,7 +1389,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">10</span>
-          <div class="servei-icon">🏠</div>
+          <div class="servei-icon" aria-hidden="true">🏠</div>
           <div class="servei-name">Fisioteràpia a Domicili</div>
           <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
           <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
@@ -1378,7 +1397,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">11</span>
-          <div class="servei-icon">🧘</div>
+          <div class="servei-icon" aria-hidden="true">🧘</div>
           <div class="servei-name">Escola d'Esquena · Pilates</div>
           <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
           <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
@@ -1401,21 +1420,21 @@
         Incorporem les tecnologies més avançades per oferir tractaments més eficaços, ràpids i amb millors resultats.
       </p>
       <div class="tec-feature reveal reveal-delay-2">
-        <div class="tec-feature-icon">⚡</div>
+        <div class="tec-feature-icon" aria-hidden="true">⚡</div>
         <div>
           <h4>INDIBA Activ Therapy</h4>
           <p>Tecnologia de radiofreqüència 448kHz per a l'estimulació del metabolisme cel·lular, accelerant la recuperació tissular.</p>
         </div>
       </div>
       <div class="tec-feature reveal reveal-delay-3">
-        <div class="tec-feature-icon">🎯</div>
+        <div class="tec-feature-icon" aria-hidden="true">🎯</div>
         <div>
           <h4>Electroteràpia Especialitzada</h4>
           <p>TENS, corrents interferencials i electroestimulació per al control del dolor i la recuperació muscular.</p>
         </div>
       </div>
       <div class="tec-feature reveal reveal-delay-4">
-        <div class="tec-feature-icon">💧</div>
+        <div class="tec-feature-icon" aria-hidden="true">💧</div>
         <div>
           <h4>Hidroteràpia</h4>
           <p>Instal·lacions aquàtiques especialitzades per a tractaments en medi aquàtic amb efectes antigravetatorials.</p>
@@ -1544,25 +1563,25 @@
         <form onsubmit="handleForm(event)">
           <div class="form-row">
             <div class="form-group">
-              <label>Nom</label>
-              <input type="text" placeholder="El teu nom" required />
+              <label for="f-nom">Nom</label>
+              <input id="f-nom" type="text" placeholder="El teu nom" required autocomplete="given-name" />
             </div>
             <div class="form-group">
-              <label>Cognom</label>
-              <input type="text" placeholder="El teu cognom" />
+              <label for="f-cognom">Cognom</label>
+              <input id="f-cognom" type="text" placeholder="El teu cognom" autocomplete="family-name" />
             </div>
           </div>
           <div class="form-group">
-            <label>Telèfon</label>
-            <input type="tel" placeholder="+34 6XX XXX XXX" />
+            <label for="f-tel">Telèfon</label>
+            <input id="f-tel" type="tel" placeholder="+34 6XX XXX XXX" autocomplete="tel" />
           </div>
           <div class="form-group">
-            <label>Correu electrònic</label>
-            <input type="email" placeholder="correu@exemple.com" required />
+            <label for="f-email">Correu electrònic</label>
+            <input id="f-email" type="email" placeholder="correu@exemple.com" required autocomplete="email" />
           </div>
           <div class="form-group">
-            <label>Servei d'interès</label>
-            <select>
+            <label for="f-servei">Servei d'interès</label>
+            <select id="f-servei">
               <option value="">Selecciona un servei...</option>
               <option>Fisioteràpia Traumatològica</option>
               <option>Fisioteràpia Esportiva</option>
@@ -1578,8 +1597,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Missatge</label>
-            <textarea placeholder="Explica'ns breument la teva situació..."></textarea>
+            <label for="f-missatge">Missatge</label>
+            <textarea id="f-missatge" placeholder="Explica'ns breument la teva situació..."></textarea>
           </div>
           <button type="submit" class="btn-form">Enviar missatge →</button>
         </form>
@@ -1593,7 +1612,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="#" class="nav-logo">
-        <div class="nav-logo-icon">🏥</div>
+        <div class="nav-logo-icon" aria-hidden="true">🏥</div>
         <div class="nav-logo-text">
           Global Fisio
           <span>Centre de Fisioteràpia</span>
@@ -1717,13 +1736,15 @@
   const mobileMenu = document.getElementById('mobileMenu');
 
   hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('open');
-    mobileMenu.classList.add('open');
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
   });
   document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
   function closeMobileMenu() {
     hamburger.classList.remove('open');
     mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
   }
 
   // ── REVEAL ON SCROLL ──
@@ -1764,35 +1785,39 @@
 
     let currentSpeed = SPEED_NORMAL;
     let targetSpeed  = SPEED_NORMAL;
-    let hovering     = false;
+    let isVisible    = false;
+    let rafId        = null;
 
     // Espera que el DOM estigui pintat per llegir les amplades
     requestAnimationFrame(() => {
       state.forEach(s => {
-        // Inicialitza la posició a 0 (fila 0) o -50% (fila 1 reverse)
         s.halfW = s.el.scrollWidth / 2;
         s.pos   = s.dir === 1 ? -s.halfW : 0;
         s.el.style.transform = `translateX(${s.pos}px)`;
       });
-      requestAnimationFrame(tick);
     });
 
     function tick() {
-      // Suavitza la velocitat (lerp exponencial)
       currentSpeed += (targetSpeed - currentSpeed) * LERP;
-
       state.forEach(s => {
         s.pos += s.dir * currentSpeed;
-        // Loop: quan supera la meitat, torna
         if (s.dir === -1 && s.pos <= -s.halfW) s.pos += s.halfW;
         if (s.dir ===  1 && s.pos >= 0)        s.pos -= s.halfW;
         s.el.style.transform = `translateX(${s.pos}px)`;
       });
-
-      requestAnimationFrame(tick);
+      if (isVisible) rafId = requestAnimationFrame(tick);
     }
 
     const section = document.getElementById('serveis');
+
+    // Atura el RAF quan la secció és fora de pantalla
+    const io = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafId) { rafId = requestAnimationFrame(tick); }
+      else if (!isVisible)     { cancelAnimationFrame(rafId); rafId = null; }
+    }, { threshold: 0 });
+    io.observe(section);
+
     section.addEventListener('mouseenter', () => { targetSpeed = SPEED_SLOW; });
     section.addEventListener('mouseleave', () => { targetSpeed = SPEED_NORMAL; });
   })();
