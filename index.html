@@ -1435,6 +1435,131 @@
     }
     .mobile-close:hover { background: rgba(249,115,22,0.2); color: var(--orange); }
 
+    /* ── BOOKING MODAL (DocFav) ── */
+    .booking-modal {
+      position: fixed; inset: 0; z-index: 9000;
+      background: oklch(0 0 0 / 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(0px, 3vw, 48px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--ease-out);
+    }
+    .booking-modal.open {
+      opacity: 1; pointer-events: auto;
+    }
+    .booking-modal-content {
+      position: relative;
+      width: 100%; max-width: 1100px;
+      height: 100%; max-height: 880px;
+      background: var(--dark2);
+      border: 1px solid oklch(1 0 0 / 0.08);
+      border-radius: clamp(0px, 1.5vw, 24px);
+      overflow: hidden;
+      box-shadow:
+        0 48px 120px oklch(0 0 0 / 0.6),
+        inset 0 1px 0 oklch(1 0 0 / 0.06);
+      transform: translateY(24px) scale(0.96);
+      transition: transform 0.5s var(--ease-out);
+      display: flex; flex-direction: column;
+    }
+    .booking-modal.open .booking-modal-content {
+      transform: translateY(0) scale(1);
+    }
+    .booking-modal-header {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 24px;
+      background: oklch(0.13 0.015 265);
+      border-bottom: 1px solid oklch(1 0 0 / 0.06);
+    }
+    .booking-modal-title {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .booking-modal-title-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+    .booking-modal-title small {
+      display: block;
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.7rem; font-weight: 500;
+      color: oklch(1 0 0 / 0.5);
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+    .booking-modal-close {
+      width: 36px; height: 36px;
+      background: oklch(1 0 0 / 0.04);
+      border: 1px solid oklch(1 0 0 / 0.1);
+      border-radius: 10px;
+      color: var(--white);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .booking-modal-close:hover {
+      background: oklch(0.65 0.19 40 / 0.2);
+      color: var(--orange);
+      transform: rotate(90deg);
+    }
+    .booking-modal-body {
+      position: relative;
+      flex: 1; overflow: hidden;
+    }
+    .booking-modal-iframe {
+      width: 100%; height: 100%;
+      border: 0; display: block;
+      background: var(--white);
+    }
+    .booking-modal-loader {
+      position: absolute; inset: 0;
+      background: var(--dark2);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 18px;
+      transition: opacity 0.4s;
+      z-index: 1;
+    }
+    .booking-modal-loader.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .booking-modal-loader-spinner {
+      width: 44px; height: 44px;
+      border: 2px solid oklch(1 0 0 / 0.08);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spinLoader 0.9s linear infinite;
+    }
+    @keyframes spinLoader { to { transform: rotate(360deg); } }
+    .booking-modal-loader-text {
+      font-size: 0.88rem; color: oklch(1 0 0 / 0.55);
+      letter-spacing: 0.02em;
+    }
+    .booking-modal-loader-fallback {
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: oklch(1 0 0 / 0.4);
+      text-align: center; max-width: 320px;
+      line-height: 1.6;
+    }
+    .booking-modal-loader-fallback a {
+      color: var(--orange);
+      text-decoration: none; font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .booking-modal { padding: 0; }
+      .booking-modal-content {
+        max-height: none; height: 100%;
+        border-radius: 0;
+      }
+    }
+
     /* ── PROGRESS BAR ── */
     #progress-bar {
       position: fixed; top: 0; left: 0; height: 3px; z-index: 2000;
@@ -1563,7 +1688,7 @@
   <a href="#tecnologia" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">03</span>Tecnologia</a>
   <a href="#horaris" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">04</span>Horaris</a>
   <div class="mobile-menu-cta">
-    <a href="#contacte" onclick="closeMobileMenu()"><svg class="icon" style="width:18px;height:18px;margin-right:6px"><use href="#ico-phone"/></svg>Contactar ara</a>
+    <a href="#contacte" data-book onclick="closeMobileMenu()"><svg class="icon" style="width:18px;height:18px;margin-right:6px"><use href="#ico-clock"/></svg>Reservar online</a>
   </div>
 </div>
 
@@ -1587,8 +1712,8 @@
   </div>
 
   <div class="nav-cta-wrap">
-    <a href="#contacte" class="nav-cta">
-      <svg class="icon nav-cta-icon" style="width:15px;height:15px"><use href="#ico-phone"/></svg> Contactar
+    <a href="#contacte" class="nav-cta" data-book>
+      <svg class="icon nav-cta-icon" style="width:15px;height:15px"><use href="#ico-clock"/></svg> Reservar
     </a>
   </div>
 
@@ -1617,8 +1742,8 @@
       Tractaments avançats per millorar la teva qualitat de vida.
     </p>
     <div class="hero-actions">
-      <a href="#contacte" class="btn-primary">
-        <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
+      <a href="#contacte" class="btn-primary" data-book>
+        <svg class="icon" style="width:16px;height:16px"><use href="#ico-clock"/></svg> Reserva online
       </a>
       <a href="#serveis" class="btn-secondary">
         <span>→</span> Veure serveis
@@ -1895,6 +2020,9 @@
   </div>
 </section>
 
+<!-- BOOKING MODAL ROOT (React mount) -->
+<div id="bookingRoot"></div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
@@ -2093,6 +2221,144 @@
 
   const html = htm.bind(React.createElement);
 
+  // ═════════════════════════════════════════════════════════
+  // CONFIG · DOCFAV BOOKING
+  // ─────────────────────────────────────────────────────────
+  // Format del widget DocFav (descobert al main-es2015 bundle):
+  //   https://www.docfav.com/portal-iframe/{SLUG}
+  //   https://www.docfav.com/portal-iframe/{SLUG}/{STAFF}        (per a un professional concret)
+  //   https://www.docfav.com/portal-iframe/{SLUG}/service/{ID}   (per a un servei concret)
+  //
+  // El SLUG és l'identificador del teu centre a DocFav. Per
+  // obtenir-lo: dashboard DocFav → Configuració → Reserva online
+  // → "Copiar codi iFrame". El slug surt en aquesta URL.
+  //
+  // La API key df_pk_* és per crides directes a la API REST,
+  // no per al widget iframe.
+  //
+  // Mentre DOCFAV_SLUG sigui null, els botons "Reserva online"
+  // fan fallback a scroll al formulari de contacte.
+  // ═════════════════════════════════════════════════════════
+  const DOCFAV_PUBLIC_KEY = 'df_pk_4xVuZSmtooO-1sDahHA9z6i6tao7rUS-Kbu0_tRw3irf9-S0a3z7mBc449mtRbrM';
+  const DOCFAV_SLUG = null; // ← Substituir pel slug real (e.g. 'global-centre-de-fisioterapia')
+  const BOOKING_URL = DOCFAV_SLUG ? `https://www.docfav.com/portal-iframe/${DOCFAV_SLUG}` : null;
+
+  // ─────────────────────────────────────────────────────────
+  // BOOKING MODAL · React component
+  // ─────────────────────────────────────────────────────────
+  function BookingModal({ open, onClose }) {
+    const [loaded, setLoaded] = useState(false);
+
+    // Body scroll lock
+    useEffect(() => {
+      if (open) {
+        document.body.style.overflow = 'hidden';
+        setLoaded(false);
+      } else {
+        document.body.style.overflow = '';
+      }
+      return () => { document.body.style.overflow = ''; };
+    }, [open]);
+
+    // Escape to close
+    useEffect(() => {
+      if (!open) return;
+      const onKey = e => { if (e.key === 'Escape') onClose(); };
+      window.addEventListener('keydown', onKey);
+      return () => window.removeEventListener('keydown', onKey);
+    }, [open, onClose]);
+
+    return html`
+      <div
+        className=${'booking-modal' + (open ? ' open' : '')}
+        onClick=${e => { if (e.target === e.currentTarget) onClose(); }}
+        role="dialog" aria-modal=${open}
+        aria-label="Reservar cita en línia"
+      >
+        <div className="booking-modal-content">
+          <div className="booking-modal-header">
+            <div className="booking-modal-title">
+              <span className="booking-modal-title-dot" aria-hidden="true"></span>
+              <div>
+                Reservar cita
+                <small>Global Centre de Fisioteràpia · Sant Antoni de Calonge</small>
+              </div>
+            </div>
+            <button
+              className="booking-modal-close"
+              onClick=${onClose}
+              aria-label="Tancar finestra de reserva"
+              type="button"
+            >
+              <svg className="icon" style=${{ width: '16px', height: '16px' }}>
+                <use href="#ico-close"/>
+              </svg>
+            </button>
+          </div>
+          <div className="booking-modal-body">
+            ${open && html`<iframe
+              key=${'iframe'}
+              className="booking-modal-iframe"
+              src=${BOOKING_URL}
+              title="Sistema de reserves DocFav"
+              allow="payment; clipboard-write"
+              loading="eager"
+              referrerPolicy="no-referrer-when-downgrade"
+              onLoad=${() => setLoaded(true)}
+            />`}
+            <div className=${'booking-modal-loader' + (loaded ? ' hidden' : '')}>
+              <div className="booking-modal-loader-spinner" aria-hidden="true"></div>
+              <div className="booking-modal-loader-text">Carregant calendari de reserves…</div>
+              <div className="booking-modal-loader-fallback">
+                Si no s'obre la passarel·la, pots trucar al
+                ${' '}<a href="tel:+34972662467">972 66 24 67</a>${' '}
+                o escriure'ns a <a href="mailto:neusfp@globalfisio.cat">neusfp@globalfisio.cat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function BookingApp() {
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+      const tryOpen = () => {
+        if (BOOKING_URL) {
+          setOpen(true);
+        } else {
+          // Fallback: scroll to contact form when widget URL no està configurat
+          const target = document.getElementById('contacte');
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+
+      const onOpen = () => tryOpen();
+      window.addEventListener('open-booking', onOpen);
+
+      const onClick = e => {
+        const trigger = e.target.closest('[data-book]');
+        if (trigger) {
+          e.preventDefault();
+          tryOpen();
+        }
+      };
+      document.addEventListener('click', onClick);
+
+      return () => {
+        window.removeEventListener('open-booking', onOpen);
+        document.removeEventListener('click', onClick);
+      };
+    }, []);
+
+    // Si no hi ha URL configurada, no muntem el modal
+    if (!BOOKING_URL) return null;
+
+    return html`<${BookingModal} open=${open} onClose=${() => setOpen(false)} />`;
+  }
+
   // ─────────────────────────────────────────────────────────
   // Utilitat: spring-lerp tilt 3D que segueix el cursor
   // ─────────────────────────────────────────────────────────
@@ -2192,10 +2458,10 @@
           <div className="servei-detail-tags">
             ${service.tags.map(t => html`<span key=${t} className="servei-detail-tag">${t}</span>`)}
           </div>
-          <a href="#contacte" className="servei-detail-cta">
-            Demana informació
+          <a href="#contacte" className="servei-detail-cta" data-book>
+            Reserva ${service.name.includes('·') ? service.name.split('·')[0].trim() : service.name.replace('Fisioteràpia ', '')}
             <svg className="icon" style=${{ width: '16px', height: '16px' }}>
-              <use href="#ico-phone"/>
+              <use href="#ico-clock"/>
             </svg>
           </a>
         </div>
@@ -2360,6 +2626,12 @@
 
   const indibaNode = document.getElementById('indibaShowcase');
   if (indibaNode) createRoot(indibaNode).render(html`<${IndibaShowcase}/>`);
+
+  const bookingNode = document.getElementById('bookingRoot');
+  if (bookingNode) createRoot(bookingNode).render(html`<${BookingApp}/>`);
+
+  // Expose global helper (per a links externs o tracking)
+  window.openBooking = () => window.dispatchEvent(new Event('open-booking'));
 </script>
 </body>
 </html>
