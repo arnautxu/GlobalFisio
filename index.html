@@ -55,26 +55,35 @@
       pointer-events: none; z-index: 9999; opacity: 0.4;
     }
 
-    /* ── CURSOR ── */
-    .cursor {
-      position: fixed; width: 20px; height: 20px;
-      border: 2px solid var(--orange);
-      border-radius: 50%; pointer-events: none; z-index: 10000;
-      transition: transform 0.15s ease, opacity 0.3s;
-      transform: translate(-50%, -50%);
+    /* ── ICON SYSTEM ── */
+    .icon {
+      display: inline-block; width: 1em; height: 1em;
+      vertical-align: middle; fill: none;
+      stroke: currentColor; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
     }
-    .cursor-dot {
-      position: fixed; width: 6px; height: 6px;
-      background: var(--orange); border-radius: 50%;
-      pointer-events: none; z-index: 10001;
-      transform: translate(-50%, -50%);
-      transition: transform 0.05s;
-    }
-    .cursor.expanded { transform: translate(-50%, -50%) scale(2.5); opacity: 0.5; }
+    .icon-filled { fill: currentColor; stroke: none; }
 
-    @media (hover: none), (pointer: coarse) {
-      .cursor, .cursor-dot { display: none; }
+    /* Container-specific icon sizes */
+    .nav-logo-icon .icon { width: 18px; height: 18px; }
+    .hero-img-badge-icon .icon { width: 20px; height: 20px; }
+    .sobre-center .icon { width: 48px; height: 48px; }
+    .servei-icon .icon { width: 24px; height: 24px; color: var(--orange); }
+    .tec-feature-icon .icon { width: 20px; height: 20px; }
+    .indiba-icon .icon { width: 48px; height: 48px; }
+    .contact-icon .icon { width: 18px; height: 18px; color: var(--orange); }
+    .float-btn .icon { width: 16px; height: 16px; }
+
+    /* Trust avatars */
+    .trust-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-left: -10px;
+      border: 2px solid var(--dark);
     }
+    .trust-avatar:first-child { margin-left: 0; }
+    .trust-avatar svg { width: 16px; height: 16px; }
 
     /* ── SKIP LINK ── */
     .skip-link {
@@ -106,7 +115,8 @@
       backdrop-filter: blur(12px);
       border: 1px solid oklch(0.65 0.19 40 / 0.18);
       border-radius: 20px;
-      box-shadow: 0 4px 24px oklch(0 0 0 / 0.35);
+      box-shadow: 0 4px 24px oklch(0 0 0 / 0.35),
+                  inset 0 1px 0 oklch(1 0 0 / 0.06);
       transition: background 0.4s, border-color 0.4s;
     }
     nav.scrolled {
@@ -412,11 +422,8 @@
       opacity: 0; animation: fadeUp 0.8s 1s forwards;
     }
     .hero-trust-avatars {
-      display: flex;
-      font-size: 1.4rem;
+      display: flex; align-items: center;
     }
-    .hero-trust-avatars span { margin-left: -4px; }
-    .hero-trust-avatars span:first-child { margin-left: 0; }
     .hero-trust-text {
       font-size: 0.88rem;
       color: oklch(0.99 0.005 40 / 0.55);
@@ -765,7 +772,9 @@
     .horari-season {
       font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
       text-transform: uppercase; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 6px;
     }
+    .horari-season .icon { width: 13px; height: 13px; }
     .horari-card.active .horari-season { color: var(--orange); }
     .horari-card:not(.active) .horari-season { color: var(--blue); }
     .horari-time { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.03em; }
@@ -1050,25 +1059,130 @@
 
 <a href="#hero" class="skip-link">Saltar al contingut principal</a>
 <div id="progress-bar" role="progressbar" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"></div>
-<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+<!-- SVG SPRITE ── tots els icones de la web -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none" width="0" height="0">
+  <symbol id="ico-cross" viewBox="0 0 24 24">
+    <rect x="9.5" y="2" width="5" height="20" rx="2.5" fill="currentColor" stroke="none"/>
+    <rect x="2" y="9.5" width="20" height="5" rx="2.5" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.05 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.05a16 16 0 0 0 5.86 5.86l1.21-1.21a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+  </symbol>
+  <symbol id="ico-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </symbol>
+  <symbol id="ico-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+    <circle cx="12" cy="10" r="3"/>
+  </symbol>
+  <symbol id="ico-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="m2 7 10 7 10-7"/>
+  </symbol>
+  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 6v6l4 2"/>
+  </symbol>
+  <symbol id="ico-lightning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </symbol>
+  <symbol id="ico-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="6"/>
+    <circle cx="12" cy="12" r="2"/>
+  </symbol>
+  <symbol id="ico-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+  </symbol>
+  <symbol id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  </symbol>
+  <symbol id="ico-snowflake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <line x1="12" y1="2" x2="12" y2="22"/>
+    <path d="M20 16l-4-4 4-4M4 8l4 4-4 4M16 4l-4 4-4-4M8 20l4-4 4 4"/>
+  </symbol>
+  <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <symbol id="ico-bone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6.5" cy="6.5" r="2.5"/>
+    <circle cx="17.5" cy="17.5" r="2.5"/>
+    <line x1="8.8" y1="8.8" x2="15.2" y2="15.2" stroke-width="3"/>
+  </symbol>
+  <symbol id="ico-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+  </symbol>
+  <symbol id="ico-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-1.07-4.99A3 3 0 1 1 9.5 2Z"/>
+    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 1.07-4.99A3 3 0 1 0 14.5 2Z"/>
+  </symbol>
+  <symbol id="ico-waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.4 2 5 2 2.5-2 5-2"/>
+    <path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11s2.4 2 5 2 2.5-2 5-2"/>
+    <path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17s2.4 2 5 2 2.5-2 5-2"/>
+  </symbol>
+  <symbol id="ico-joints" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="8" cy="8" r="5"/>
+    <circle cx="16" cy="16" r="5"/>
+  </symbol>
+  <symbol id="ico-elder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="5" r="2.5"/>
+    <path d="M6 22V14l2-2V9M12 9l-1 3-3 2M16 8l2 14"/>
+  </symbol>
+  <symbol id="ico-child" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="6" r="3"/>
+    <path d="M7 15h10M9 22l3-7 3 7"/>
+  </symbol>
+  <symbol id="ico-tooth" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2c-2.4 0-4.1 1.4-5 3-.9 1.6-1 4-1 7 0 2.5.8 5 2 5 .6 0 1-.5 1.5-1.5.5-1 1-2.5 2.5-2.5s2 1.5 2.5 2.5c.5 1 .9 1.5 1.5 1.5 1.2 0 2-2.5 2-5 0-3-.1-5.4-1-7-.9-1.6-2.6-3-5-3z"/>
+  </symbol>
+  <symbol id="ico-hands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 11V6a2 2 0 0 0-4 0v1M14 7V4a2 2 0 0 0-4 0v4M10 5V4a2 2 0 0 0-4 0v8"/>
+    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+  </symbol>
+  <symbol id="ico-figure" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="4" r="2"/>
+    <path d="M12 6v6M9 12h6M8 22c1.5-3.5 3-5 4-5s2.5 1.5 4 5"/>
+    <path d="M5 17c2-2.5 4-4 7-4s5 1.5 7 4"/>
+  </symbol>
+  <symbol id="ico-stethoscope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+    <path d="M8 15a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6v-3"/>
+    <circle cx="20" cy="10" r="2"/>
+  </symbol>
+  <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="4"/>
+    <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+  </symbol>
+  <symbol id="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </symbol>
+  <symbol id="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+</svg>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" id="mobileClose">✕</button>
+  <button class="mobile-close" id="mobileClose"><svg class="icon" style="width:16px;height:16px"><use href="#ico-close"/></svg></button>
   <a href="#sobre" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">01</span>El Centre</a>
   <a href="#serveis" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">02</span>Serveis</a>
   <a href="#tecnologia" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">03</span>Tecnologia</a>
   <a href="#horaris" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">04</span>Horaris</a>
   <div class="mobile-menu-cta">
-    <a href="#contacte" onclick="closeMobileMenu()">📞 Contactar ara</a>
+    <a href="#contacte" onclick="closeMobileMenu()"><svg class="icon" style="width:18px;height:18px;margin-right:6px"><use href="#ico-phone"/></svg>Contactar ara</a>
   </div>
 </div>
 
 <!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo">
-    <div class="nav-logo-icon" aria-hidden="true">🏥</div>
+    <div class="nav-logo-icon" aria-hidden="true"><svg class="icon"><use href="#ico-cross"/></svg></div>
     <div class="nav-logo-text">
       Global Fisio
       <span>Centre de Fisioteràpia</span>
@@ -1087,7 +1201,7 @@
 
   <div class="nav-cta-wrap">
     <a href="#contacte" class="nav-cta">
-      <span class="nav-cta-icon">📞</span> Contactar
+      <svg class="icon nav-cta-icon" style="width:15px;height:15px"><use href="#ico-phone"/></svg> Contactar
     </a>
   </div>
 
@@ -1117,7 +1231,7 @@
     </p>
     <div class="hero-actions">
       <a href="#contacte" class="btn-primary">
-        <span>📞</span> Demana cita
+        <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
       </a>
       <a href="#serveis" class="btn-secondary">
         <span>→</span> Veure serveis
@@ -1125,7 +1239,9 @@
     </div>
     <div class="hero-trust">
       <div class="hero-trust-avatars" aria-hidden="true">
-        <span>👤</span><span>👤</span><span>👤</span>
+        <div class="trust-avatar" style="background:oklch(0.45 0.16 220)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+        <div class="trust-avatar" style="background:oklch(0.60 0.19 40)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+        <div class="trust-avatar" style="background:oklch(0.32 0.015 265)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
       </div>
       <p class="hero-trust-text">
         Més de <strong>17 anys</strong> cuidant pacients<br/>a Sant Antoni de Calonge
@@ -1142,7 +1258,7 @@
       width="520" height="650" fetchpriority="high"
     />
     <div class="hero-img-badge">
-      <div class="hero-img-badge-icon" aria-hidden="true">⭐</div>
+      <div class="hero-img-badge-icon" aria-hidden="true"><svg class="icon icon-filled"><use href="#ico-star"/></svg></div>
       <div class="hero-img-badge-text">
         <strong>+17 anys</strong>
         <span>d'experiència</span>
@@ -1167,7 +1283,7 @@
       <div class="sobre-ring sobre-ring-1"></div>
       <div class="sobre-ring sobre-ring-2"></div>
       <div class="sobre-ring sobre-ring-3"></div>
-      <div class="sobre-center">🩺</div>
+      <div class="sobre-center"><svg class="icon"><use href="#ico-stethoscope"/></svg></div>
     </div>
     <div>
       <div class="section-label reveal">El Centre</div>
@@ -1208,7 +1324,7 @@
 
         <div class="servei-card">
           <span class="servei-num">01</span>
-          <div class="servei-icon" aria-hidden="true">🦴</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-bone"/></svg></div>
           <div class="servei-name">Fisioteràpia Traumatològica</div>
           <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
           <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
@@ -1217,7 +1333,7 @@
 
         <div class="servei-card">
           <span class="servei-num">02</span>
-          <div class="servei-icon" aria-hidden="true">🏃</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-activity"/></svg></div>
           <div class="servei-name">Fisioteràpia Esportiva</div>
           <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
           <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
@@ -1226,7 +1342,7 @@
 
         <div class="servei-card">
           <span class="servei-num">03</span>
-          <div class="servei-icon" aria-hidden="true">🧠</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-brain"/></svg></div>
           <div class="servei-name">Fisioteràpia Neurològica</div>
           <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
           <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
@@ -1235,7 +1351,7 @@
 
         <div class="servei-card">
           <span class="servei-num">04</span>
-          <div class="servei-icon" aria-hidden="true">🌊</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-waves"/></svg></div>
           <div class="servei-name">Fisioteràpia Aquàtica</div>
           <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
           <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
@@ -1244,7 +1360,7 @@
 
         <div class="servei-card">
           <span class="servei-num">05</span>
-          <div class="servei-icon" aria-hidden="true">🔵</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-joints"/></svg></div>
           <div class="servei-name">Reumatologia</div>
           <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
           <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
@@ -1254,7 +1370,7 @@
         <!-- Duplicat per al loop infinit -->
         <div class="servei-card">
           <span class="servei-num">01</span>
-          <div class="servei-icon" aria-hidden="true">🦴</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-bone"/></svg></div>
           <div class="servei-name">Fisioteràpia Traumatològica</div>
           <div class="servei-desc">Tractament de lesions musculoesquelètiques com lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.</div>
           <div class="servei-tags"><span class="servei-tag">Lumbàlgia</span><span class="servei-tag">Cervicàlgia</span><span class="servei-tag">Post-cirurgia</span></div>
@@ -1262,7 +1378,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">02</span>
-          <div class="servei-icon" aria-hidden="true">🏃</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-activity"/></svg></div>
           <div class="servei-name">Fisioteràpia Esportiva</div>
           <div class="servei-desc">Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.</div>
           <div class="servei-tags"><span class="servei-tag">Prevenció</span><span class="servei-tag">Recuperació</span><span class="servei-tag">Rendiment</span></div>
@@ -1270,7 +1386,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">03</span>
-          <div class="servei-icon" aria-hidden="true">🧠</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-brain"/></svg></div>
           <div class="servei-name">Fisioteràpia Neurològica</div>
           <div class="servei-desc">Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.</div>
           <div class="servei-tags"><span class="servei-tag">Ictus</span><span class="servei-tag">Parkinson</span><span class="servei-tag">ELA</span></div>
@@ -1278,7 +1394,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">04</span>
-          <div class="servei-icon" aria-hidden="true">🌊</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-waves"/></svg></div>
           <div class="servei-name">Fisioteràpia Aquàtica</div>
           <div class="servei-desc">Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hernies discals.</div>
           <div class="servei-tags"><span class="servei-tag">Hidroteràpia</span><span class="servei-tag">Post-op</span><span class="servei-tag">Hèrnia discal</span></div>
@@ -1286,7 +1402,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">05</span>
-          <div class="servei-icon" aria-hidden="true">🔵</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-joints"/></svg></div>
           <div class="servei-name">Reumatologia</div>
           <div class="servei-desc">Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.</div>
           <div class="servei-tags"><span class="servei-tag">Artritis</span><span class="servei-tag">Espondilitis</span><span class="servei-tag">Dolor crònic</span></div>
@@ -1302,7 +1418,7 @@
 
         <div class="servei-card">
           <span class="servei-num">06</span>
-          <div class="servei-icon" aria-hidden="true">👴</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-elder"/></svg></div>
           <div class="servei-name">Fisioteràpia Geriàtrica</div>
           <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
           <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
@@ -1311,7 +1427,7 @@
 
         <div class="servei-card">
           <span class="servei-num">07</span>
-          <div class="servei-icon" aria-hidden="true">👶</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-child"/></svg></div>
           <div class="servei-name">Fisioteràpia Pediàtrica</div>
           <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
           <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
@@ -1320,7 +1436,7 @@
 
         <div class="servei-card">
           <span class="servei-num">08</span>
-          <div class="servei-icon" aria-hidden="true">🦷</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-tooth"/></svg></div>
           <div class="servei-name">Fisioteràpia ATM</div>
           <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
           <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
@@ -1329,7 +1445,7 @@
 
         <div class="servei-card">
           <span class="servei-num">09</span>
-          <div class="servei-icon" aria-hidden="true">💆</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-hands"/></svg></div>
           <div class="servei-name">Massoteràpia</div>
           <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
           <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
@@ -1338,7 +1454,7 @@
 
         <div class="servei-card">
           <span class="servei-num">10</span>
-          <div class="servei-icon" aria-hidden="true">🏠</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-home"/></svg></div>
           <div class="servei-name">Fisioteràpia a Domicili</div>
           <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
           <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
@@ -1347,7 +1463,7 @@
 
         <div class="servei-card">
           <span class="servei-num">11</span>
-          <div class="servei-icon" aria-hidden="true">🧘</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-figure"/></svg></div>
           <div class="servei-name">Escola d'Esquena · Pilates</div>
           <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
           <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
@@ -1357,7 +1473,7 @@
         <!-- Duplicat per al loop infinit -->
         <div class="servei-card">
           <span class="servei-num">06</span>
-          <div class="servei-icon" aria-hidden="true">👴</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-elder"/></svg></div>
           <div class="servei-name">Fisioteràpia Geriàtrica</div>
           <div class="servei-desc">Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l'autonomia, la força muscular i el treball de l'equilibri i la marxa.</div>
           <div class="servei-tags"><span class="servei-tag">Mobilitat</span><span class="servei-tag">Equilibri</span><span class="servei-tag">Autonomia</span></div>
@@ -1365,7 +1481,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">07</span>
-          <div class="servei-icon" aria-hidden="true">👶</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-child"/></svg></div>
           <div class="servei-name">Fisioteràpia Pediàtrica</div>
           <div class="servei-desc">Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.</div>
           <div class="servei-tags"><span class="servei-tag">Nens</span><span class="servei-tag">Adolescents</span><span class="servei-tag">Neuromotor</span></div>
@@ -1373,7 +1489,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">08</span>
-          <div class="servei-icon" aria-hidden="true">🦷</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-tooth"/></svg></div>
           <div class="servei-name">Fisioteràpia ATM</div>
           <div class="servei-desc">Tractament de disfuncions de l'articulació temporomandibular, bruxisme, cefalees d'origen muscular i alteracions del sistema masticatori.</div>
           <div class="servei-tags"><span class="servei-tag">ATM</span><span class="servei-tag">Bruxisme</span><span class="servei-tag">Cefalees</span></div>
@@ -1381,7 +1497,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">09</span>
-          <div class="servei-icon" aria-hidden="true">💆</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-hands"/></svg></div>
           <div class="servei-name">Massoteràpia</div>
           <div class="servei-desc">Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.</div>
           <div class="servei-tags"><span class="servei-tag">Drenatge</span><span class="servei-tag">Tensió muscular</span><span class="servei-tag">Relaxació</span></div>
@@ -1389,7 +1505,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">10</span>
-          <div class="servei-icon" aria-hidden="true">🏠</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-home"/></svg></div>
           <div class="servei-name">Fisioteràpia a Domicili</div>
           <div class="servei-desc">Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.</div>
           <div class="servei-tags"><span class="servei-tag">Domicili</span><span class="servei-tag">Mobilitat reduïda</span><span class="servei-tag">Post-op</span></div>
@@ -1397,7 +1513,7 @@
         </div>
         <div class="servei-card">
           <span class="servei-num">11</span>
-          <div class="servei-icon" aria-hidden="true">🧘</div>
+          <div class="servei-icon" aria-hidden="true"><svg class="icon"><use href="#ico-figure"/></svg></div>
           <div class="servei-name">Escola d'Esquena · Pilates</div>
           <div class="servei-desc">Programa actiu d'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.</div>
           <div class="servei-tags"><span class="servei-tag">Pilates</span><span class="servei-tag">Postura</span><span class="servei-tag">Columna</span></div>
@@ -1420,21 +1536,21 @@
         Incorporem les tecnologies més avançades per oferir tractaments més eficaços, ràpids i amb millors resultats.
       </p>
       <div class="tec-feature reveal reveal-delay-2">
-        <div class="tec-feature-icon" aria-hidden="true">⚡</div>
+        <div class="tec-feature-icon" aria-hidden="true"><svg class="icon"><use href="#ico-lightning"/></svg></div>
         <div>
           <h4>INDIBA Activ Therapy</h4>
           <p>Tecnologia de radiofreqüència 448kHz per a l'estimulació del metabolisme cel·lular, accelerant la recuperació tissular.</p>
         </div>
       </div>
       <div class="tec-feature reveal reveal-delay-3">
-        <div class="tec-feature-icon" aria-hidden="true">🎯</div>
+        <div class="tec-feature-icon" aria-hidden="true"><svg class="icon"><use href="#ico-target"/></svg></div>
         <div>
           <h4>Electroteràpia Especialitzada</h4>
           <p>TENS, corrents interferencials i electroestimulació per al control del dolor i la recuperació muscular.</p>
         </div>
       </div>
       <div class="tec-feature reveal reveal-delay-4">
-        <div class="tec-feature-icon" aria-hidden="true">💧</div>
+        <div class="tec-feature-icon" aria-hidden="true"><svg class="icon"><use href="#ico-droplet"/></svg></div>
         <div>
           <h4>Hidroteràpia</h4>
           <p>Instal·lacions aquàtiques especialitzades per a tractaments en medi aquàtic amb efectes antigravetatorials.</p>
@@ -1443,7 +1559,7 @@
     </div>
     <div class="reveal">
       <div class="indiba-card">
-        <div class="indiba-icon">⚡</div>
+        <div class="indiba-icon"><svg class="icon"><use href="#ico-lightning"/></svg></div>
         <h3>INDIBA Activ</h3>
         <p>Tecnologia líder mundial en radioteràpia per a fisioteràpia. Activa el metabolisme cel·lular per una recuperació natural i accelerada.</p>
         <span class="indiba-badge">Tecnologia Certificada</span>
@@ -1481,14 +1597,14 @@
 
   <div class="horaris-grid">
     <div class="horari-card reveal reveal-delay-1">
-      <div class="horari-season">☀️ Horari d'Estiu</div>
+      <div class="horari-season"><svg class="icon"><use href="#ico-sun"/></svg>Horari d'Estiu</div>
       <div class="horari-time">9h – 18h</div>
       <div class="horari-days">Dilluns a Divendres</div>
       <div class="horari-note">De juny a setembre aproximadament</div>
     </div>
     <div class="horari-card active reveal reveal-delay-2">
       <div class="active-dot"></div>
-      <div class="horari-season">❄️ Horari d'Hivern</div>
+      <div class="horari-season"><svg class="icon"><use href="#ico-snowflake"/></svg>Horari d'Hivern</div>
       <div class="horari-time">9h – 20h</div>
       <div class="horari-days">Dilluns a Divendres</div>
       <div class="horari-note">D'octubre a maig aproximadament</div>
@@ -1520,28 +1636,28 @@
       <h2 class="section-title reveal reveal-delay-1">Vine a visitar-nos</h2>
       <div class="contact-info">
         <div class="contact-item reveal reveal-delay-1">
-          <div class="contact-icon">📍</div>
+          <div class="contact-icon"><svg class="icon"><use href="#ico-pin"/></svg></div>
           <div>
             <h5>Adreça</h5>
             <p>Av. Torre Valentina, 13<br/>17252 Sant Antoni de Calonge, Girona</p>
           </div>
         </div>
         <div class="contact-item reveal reveal-delay-2">
-          <div class="contact-icon">📞</div>
+          <div class="contact-icon"><svg class="icon"><use href="#ico-phone"/></svg></div>
           <div>
             <h5>Telèfon</h5>
             <a href="tel:+34972662467">+34 972 66 24 67</a>
           </div>
         </div>
         <div class="contact-item reveal reveal-delay-3">
-          <div class="contact-icon">✉️</div>
+          <div class="contact-icon"><svg class="icon"><use href="#ico-mail"/></svg></div>
           <div>
             <h5>Correu electrònic</h5>
             <a href="mailto:neusfp@globalfisio.cat">neusfp@globalfisio.cat</a>
           </div>
         </div>
         <div class="contact-item reveal reveal-delay-4">
-          <div class="contact-icon">🕐</div>
+          <div class="contact-icon"><svg class="icon"><use href="#ico-clock"/></svg></div>
           <div>
             <h5>Horari</h5>
             <p>Dl–Dv 9:00–20:00 · Dissabte matí amb cita</p>
@@ -1612,7 +1728,7 @@
   <div class="footer-top">
     <div class="footer-brand">
       <a href="#" class="nav-logo">
-        <div class="nav-logo-icon" aria-hidden="true">🏥</div>
+        <div class="nav-logo-icon" aria-hidden="true"><svg class="icon"><use href="#ico-cross"/></svg></div>
         <div class="nav-logo-text">
           Global Fisio
           <span>Centre de Fisioteràpia</span>
@@ -1650,34 +1766,24 @@
 <!-- FLOATING CTA -->
 <div class="floating-cta">
   <a href="tel:+34972662467" class="float-btn float-btn-phone">
-    📞 972 66 24 67
+    <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> 972 66 24 67
   </a>
 </div>
 
 <script>
-  // ── CURSOR ──
-  const cursor = document.getElementById('cursor');
-  const cursorDot = document.getElementById('cursorDot');
-  let mouseX = 0, mouseY = 0, curX = 0, curY = 0;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX; mouseY = e.clientY;
-    cursorDot.style.left = mouseX + 'px';
-    cursorDot.style.top  = mouseY + 'px';
-  });
-
-  function animateCursor() {
-    curX += (mouseX - curX) * 0.12;
-    curY += (mouseY - curY) * 0.12;
-    cursor.style.left = curX + 'px';
-    cursor.style.top  = curY + 'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-
-  document.querySelectorAll('a, button, .servei-card, .stat-card').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+  // ── MAGNETIC BUTTONS (MOTION_INTENSITY > 5) ──
+  document.querySelectorAll('.btn-primary, .nav-cta, .float-btn-phone').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.18;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.18;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transition = 'transform 0.45s cubic-bezier(0.16,1,0.3,1)';
+      btn.style.transform  = '';
+      setTimeout(() => btn.style.transition = '', 450);
+    });
   });
 
   // ── PROGRESS BAR ──
@@ -1758,10 +1864,10 @@
   function handleForm(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.btn-form');
-    btn.textContent = '✓ Missatge enviat!';
+    btn.innerHTML = '<svg style="display:inline;width:16px;height:16px;margin-right:6px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Missatge enviat!';
     btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
     setTimeout(() => {
-      btn.textContent = 'Enviar missatge →';
+      btn.innerHTML = 'Enviar missatge →';
       btn.style.background = '';
       e.target.reset();
     }, 3000);
