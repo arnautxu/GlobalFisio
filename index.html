@@ -592,53 +592,69 @@
     .servei-item {
       width: 100%;
       display: grid;
-      grid-template-columns: 32px 1fr auto;
+      grid-template-columns: 44px 1fr auto;
       align-items: center; gap: 16px;
-      padding: 18px 0 18px 0;
+      padding: 22px 0;
       border: 0;
       border-bottom: 1px solid oklch(1 0 0 / 0.08);
       background: transparent;
       cursor: pointer;
       text-align: left;
       font-family: inherit;
-      transition: padding-left 0.55s var(--ease-out), border-color 0.3s;
+      transition: transform 0.5s var(--ease-out), border-color 0.3s;
       position: relative;
       color: inherit;
     }
     .servei-item-num {
-      font-size: 0.72rem; font-weight: 700;
-      color: oklch(1 0 0 / 0.32);
-      letter-spacing: 0.08em;
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 36px; height: 28px; padding: 0 8px;
+      font-size: 0.78rem; font-weight: 700;
+      color: oklch(1 0 0 / 0.4);
+      letter-spacing: 0.04em;
       font-variant-numeric: tabular-nums;
-      transition: color 0.3s;
+      background: oklch(1 0 0 / 0.04);
+      border: 1px solid oklch(1 0 0 / 0.06);
+      border-radius: 8px;
+      transition: background 0.4s var(--ease-out),
+                  border-color 0.4s var(--ease-out),
+                  color 0.4s,
+                  transform 0.4s var(--ease-out);
     }
     .servei-item-name {
       font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: 1.35rem; font-weight: 700;
+      font-size: 1.4rem; font-weight: 700;
       color: oklch(1 0 0 / 0.55);
       letter-spacing: -0.01em; line-height: 1.1;
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.5s var(--ease-out);
     }
     .servei-item-line {
-      width: 0; height: 1px;
-      background: var(--orange);
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--orange), oklch(0.65 0.19 40 / 0));
       transition: width 0.55s var(--ease-out);
     }
-    .servei-item:hover,
-    .servei-item.active {
-      padding-left: 20px;
+    .servei-item:hover .servei-item-num {
+      color: var(--white);
+      background: oklch(0.65 0.19 40 / 0.18);
+      border-color: oklch(0.65 0.19 40 / 0.4);
     }
-    .servei-item:hover .servei-item-num,
+    .servei-item:hover .servei-item-name {
+      color: var(--white);
+      transform: translateX(4px);
+    }
+    .servei-item:hover .servei-item-line { width: 32px; }
     .servei-item.active .servei-item-num {
-      color: var(--orange);
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--white);
+      box-shadow: 0 4px 14px oklch(0.65 0.19 40 / 0.45);
+      transform: scale(1.08);
     }
-    .servei-item:hover .servei-item-name,
     .servei-item.active .servei-item-name {
       color: var(--white);
+      transform: translateX(8px);
     }
-    .servei-item:hover .servei-item-line,
     .servei-item.active .servei-item-line {
-      width: 28px;
+      width: 48px;
     }
     .servei-item:focus-visible {
       outline: 2px solid var(--orange);
@@ -646,74 +662,124 @@
       border-radius: 4px;
     }
 
-    /* Right: detail panel (sticky) */
+    /* Right: detail panel · ASYMMETRIC SPLIT (visual + content) */
     .servei-detail {
       position: sticky; top: 100px;
       align-self: start;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 0;
       background: linear-gradient(160deg,
-        oklch(0.18 0.015 265 / 0.7),
-        oklch(0.13 0.015 265 / 0.4));
-      border: 1px solid oklch(1 0 0 / 0.07);
-      border-radius: 28px;
-      padding: 48px;
-      min-height: 520px;
+        oklch(0.18 0.015 265 / 0.85),
+        oklch(0.13 0.015 265 / 0.5));
+      border: 1px solid oklch(1 0 0 / 0.08);
+      border-radius: 32px;
+      padding: 0;
+      min-height: 560px;
       overflow: hidden;
-      box-shadow: 0 32px 80px oklch(0 0 0 / 0.35),
-                  inset 0 1px 0 oklch(1 0 0 / 0.05);
+      box-shadow:
+        0 48px 120px oklch(0 0 0 / 0.5),
+        0 24px 48px oklch(0 0 0 / 0.35),
+        inset 0 1px 0 oklch(1 0 0 / 0.08);
     }
-    .servei-detail::before {
+
+    /* LEFT: visual side with big icon + number */
+    .servei-detail-visual {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 32px;
+      padding: 48px 24px;
+      background: linear-gradient(135deg,
+        oklch(0.65 0.19 40 / 0.22),
+        oklch(0.65 0.19 40 / 0.04) 60%,
+        oklch(0.45 0.16 225 / 0.06) 100%);
+      border-right: 1px solid oklch(1 0 0 / 0.06);
+      overflow: hidden;
+    }
+    .servei-detail-visual::before {
       content: '';
-      position: absolute; top: -80px; right: -80px;
-      width: 320px; height: 320px;
-      background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.18), transparent 70%);
-      filter: blur(40px); pointer-events: none;
+      position: absolute; inset: -20%;
+      background: radial-gradient(circle at center,
+        oklch(0.65 0.19 40 / 0.3), transparent 60%);
+      filter: blur(40px);
+      animation: visualPulse 5s infinite ease-in-out;
+      pointer-events: none;
     }
+    @keyframes visualPulse {
+      0%, 100% { opacity: 0.5; transform: scale(0.9); }
+      50%      { opacity: 1;   transform: scale(1.1); }
+    }
+    .servei-detail-visual::after {
+      content: '';
+      position: absolute;
+      top: 24px; left: 24px; right: 24px; bottom: 24px;
+      border: 1px solid oklch(0.65 0.19 40 / 0.15);
+      border-radius: 24px;
+      pointer-events: none;
+      transform: translateZ(10px);
+    }
+
+    .servei-detail-icon {
+      width: 140px; height: 140px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      border-radius: 32px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      box-shadow:
+        0 24px 60px oklch(0.65 0.19 40 / 0.5),
+        inset 0 2px 0 oklch(1 0 0 / 0.2);
+      position: relative; z-index: 1;
+      transform: translateZ(60px);
+      animation: detailIconFloat 5s infinite ease-in-out;
+    }
+    .servei-detail-icon svg { width: 64px; height: 64px; }
+    @keyframes detailIconFloat {
+      0%, 100% { transform: translateZ(60px) translateY(0) rotate(-3deg); }
+      50%      { transform: translateZ(60px) translateY(-10px) rotate(3deg); }
+    }
+
     .servei-detail-num {
-      position: absolute; top: 32px; right: 40px;
       font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: clamp(5rem, 9vw, 7rem); font-weight: 900;
-      color: oklch(0.65 0.19 40 / 0.07);
-      letter-spacing: -0.04em; line-height: 1;
+      font-size: clamp(5rem, 8vw, 7rem); font-weight: 900;
+      color: var(--white);
+      letter-spacing: -0.05em; line-height: 1;
       font-variant-numeric: tabular-nums;
+      position: relative; z-index: 1;
+      transform: translateZ(40px);
+      text-shadow: 0 12px 32px oklch(0 0 0 / 0.4);
       pointer-events: none; user-select: none;
     }
+
+    /* RIGHT: content side */
     .servei-detail-content {
       position: relative; z-index: 1;
-      transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+      padding: 48px;
+      display: flex; flex-direction: column; justify-content: center;
+      transform: translateZ(20px);
     }
-    .servei-detail-content.fading {
-      opacity: 0; transform: translateY(8px);
-    }
-    .servei-detail-icon {
-      width: 64px; height: 64px;
-      background: linear-gradient(135deg,
-        oklch(0.65 0.19 40 / 0.25),
-        oklch(0.65 0.19 40 / 0.08));
-      border: 1px solid oklch(0.65 0.19 40 / 0.3);
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--orange);
-      margin-bottom: 28px;
-    }
-    .servei-detail-icon svg { width: 28px; height: 28px; }
     .servei-detail-cat {
-      display: inline-block;
+      display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--orange);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
+    }
+    .servei-detail-cat::before {
+      content: ''; width: 24px; height: 1px;
+      background: var(--orange);
     }
     .servei-detail-title {
       font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 2.2rem); font-weight: 800;
-      letter-spacing: -0.02em; line-height: 1.1;
-      margin-bottom: 18px;
+      font-size: clamp(2rem, 3.4vw, 2.6rem); font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.05;
+      margin-bottom: 20px;
     }
     .servei-detail-desc {
-      color: oklch(1 0 0 / 0.65);
+      color: oklch(1 0 0 / 0.7);
       line-height: 1.75;
       margin-bottom: 28px;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       max-width: 52ch;
     }
     .servei-detail-tags {
@@ -992,37 +1058,67 @@
       .tec-extras { grid-template-columns: 1fr; }
     }
 
-    /* ── 3D DEPTH PER A SERVEI DETAIL (less flat) ── */
+    /* ── 3D DEPTH PER A SERVEI DETAIL (visible at rest) ── */
     .servei-detail {
-      transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      /* Default tilt visible without cursor for non-flat feel */
+      transform: perspective(1400px) rotateX(var(--rx, -1.5deg)) rotateY(var(--ry, 2.5deg));
       transform-style: preserve-3d;
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
       will-change: transform;
     }
-    .servei-detail::after {
-      /* extra stacked card behind */
+    .servei-detail::before {
+      /* stacked card peeking behind for depth */
       content: '';
       position: absolute;
-      top: 12px; left: 12px; right: 12px; bottom: -12px;
-      background: oklch(0.18 0.015 265 / 0.4);
+      top: 16px; left: 14px; right: 14px; bottom: -16px;
+      background: linear-gradient(160deg,
+        oklch(0.18 0.015 265 / 0.5),
+        oklch(0.13 0.015 265 / 0.3));
       border: 1px solid oklch(1 0 0 / 0.04);
-      border-radius: 28px;
+      border-radius: 32px;
       z-index: -1;
-      transform: scale(0.96) translateZ(-40px);
-      filter: blur(0.5px);
-      opacity: 0.6;
+      transform: scale(0.95) translateZ(-50px);
+      filter: blur(1px);
+      opacity: 0.5;
     }
-    .servei-detail-icon { transform: translateZ(40px); }
-    .servei-detail-num  { transform: translateZ(20px); }
-    .servei-detail-title { transform: translateZ(25px); }
-    .servei-detail-cta { transform: translateZ(30px); }
-    .servei-detail-content > * { will-change: transform; }
     .servei-detail-content {
       animation: serveiContentIn 0.55s cubic-bezier(0.16,1,0.3,1);
     }
+    .servei-detail-content > * {
+      animation: contentItemIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .servei-detail-content > *:nth-child(1) { animation-delay: 0.05s; }
+    .servei-detail-content > *:nth-child(2) { animation-delay: 0.10s; }
+    .servei-detail-content > *:nth-child(3) { animation-delay: 0.15s; }
+    .servei-detail-content > *:nth-child(4) { animation-delay: 0.20s; }
+    .servei-detail-content > *:nth-child(5) { animation-delay: 0.25s; }
     @keyframes serveiContentIn {
-      from { opacity: 0; transform: translateY(14px) scale(0.97); filter: blur(6px); }
-      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      from { opacity: 0; transform: translateZ(20px) translateY(8px); }
+      to   { opacity: 1; transform: translateZ(20px) translateY(0); }
+    }
+    @keyframes contentItemIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE: collapse split visual ── stack vertical */
+    @media (max-width: 900px) {
+      .servei-detail {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        transform: none !important;
+      }
+      .servei-detail-visual {
+        padding: 32px 24px;
+        border-right: 0;
+        border-bottom: 1px solid oklch(1 0 0 / 0.06);
+        flex-direction: row;
+      }
+      .servei-detail-icon { width: 88px; height: 88px; }
+      .servei-detail-icon svg { width: 40px; height: 40px; }
+      .servei-detail-num { font-size: 4rem; }
+      .servei-detail-content { padding: 32px 28px; }
+      .servei-item-name { font-size: 1.15rem; }
     }
 
     /* ── MUTUALITATS ── */
@@ -2082,23 +2178,28 @@
 
   function ServeiContent({ service }) {
     return html`
-      <div className="servei-detail-content" key=${service.num}>
-        <div className="servei-detail-cat">${service.cat}</div>
-        <div className="servei-detail-icon">
-          <svg className="icon"><use href=${'#' + service.icon}/></svg>
+      <${React.Fragment} key=${service.num}>
+        <div className="servei-detail-visual">
+          <div className="servei-detail-icon" aria-hidden="true">
+            <svg className="icon"><use href=${'#' + service.icon}/></svg>
+          </div>
+          <div className="servei-detail-num">${service.num}</div>
         </div>
-        <h3 className="servei-detail-title">${service.name}</h3>
-        <p className="servei-detail-desc">${service.desc}</p>
-        <div className="servei-detail-tags">
-          ${service.tags.map(t => html`<span key=${t} className="servei-detail-tag">${t}</span>`)}
+        <div className="servei-detail-content">
+          <div className="servei-detail-cat">${service.cat}</div>
+          <h3 className="servei-detail-title">${service.name}</h3>
+          <p className="servei-detail-desc">${service.desc}</p>
+          <div className="servei-detail-tags">
+            ${service.tags.map(t => html`<span key=${t} className="servei-detail-tag">${t}</span>`)}
+          </div>
+          <a href="#contacte" className="servei-detail-cta">
+            Demana informació
+            <svg className="icon" style=${{ width: '16px', height: '16px' }}>
+              <use href="#ico-phone"/>
+            </svg>
+          </a>
         </div>
-        <a href="#contacte" className="servei-detail-cta">
-          Demana informació
-          <svg className="icon" style=${{ width: '16px', height: '16px' }}>
-            <use href="#ico-phone"/>
-          </svg>
-        </a>
-      </div>
+      </${React.Fragment}>
     `;
   }
 
@@ -2154,7 +2255,6 @@
           onMouseMove=${tilt.onMouseMove}
           onMouseLeave=${tilt.onMouseLeave}
         >
-          <div className="servei-detail-num">${active.num}</div>
           <${ServeiContent} service=${active} />
         </div>
       </div>
