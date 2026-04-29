@@ -2161,8 +2161,8 @@
     children
   }) {
     const config = easing === 'elastic'
-      ? { ease: 'elastic.out(0.6,0.9)', durDrop: 2, durMove: 2, durReturn: 2, promoteOverlap: 0.9, returnDelay: 0.05 }
-      : { ease: 'power1.inOut', durDrop: 0.8, durMove: 0.8, durReturn: 0.8, promoteOverlap: 0.45, returnDelay: 0.2 };
+      ? { ease: 'power2.out', durDrop: 0.55, durMove: 0.55, durReturn: 0.55, promoteOverlap: 0.65, returnDelay: 0.2 }
+      : { ease: 'power1.inOut', durDrop: 0.6, durMove: 0.6, durReturn: 0.6, promoteOverlap: 0.45, returnDelay: 0.2 };
 
     const childArr = useMemo(() => Children.toArray(children), [children]);
     const refs = useMemo(
@@ -2188,7 +2188,9 @@
 
         const [front, ...rest] = order.current;
         const elFront = refs[front].current;
-        const tl = gsap.timeline({ onComplete: () => { isAnimating.current = false; } });
+        // Safety timeout: if onComplete never fires (rare GSAP edge case), unlock anyway
+        const safety = setTimeout(() => { isAnimating.current = false; }, 2000);
+        const tl = gsap.timeline({ onComplete: () => { clearTimeout(safety); isAnimating.current = false; } });
         tlRef.current = tl;
 
         tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
@@ -2224,7 +2226,8 @@
         const init = order.current.slice(0, -1);
         const last = order.current[order.current.length - 1];
         const elLast = refs[last].current;
-        const tl = gsap.timeline({ onComplete: () => { isAnimating.current = false; } });
+        const safety = setTimeout(() => { isAnimating.current = false; }, 2000);
+        const tl = gsap.timeline({ onComplete: () => { clearTimeout(safety); isAnimating.current = false; } });
         tlRef.current = tl;
 
         // Pre-position last card below screen at front-slot x/z, ready to rise
@@ -2270,27 +2273,20 @@
       };
       startAuto();
 
-      // Expose imperative controls to parent
+      // Expose imperative controls. Ignore clicks during in-progress animation
+      // (animations are ~0.55s, user won't notice). Avoids visual glitch from
+      // fast-forwarding mid-animation.
       if (controlsRef) {
         controlsRef.current = {
           next: () => {
-            console.log('[CardSwap] next clicked, isAnimating=', isAnimating.current);
+            if (isAnimating.current) return;
             clearInterval(intervalRef.current);
-            // Safety: if stuck, force unlock
-            if (isAnimating.current) {
-              tlRef.current?.kill();
-              isAnimating.current = false;
-            }
             swapForward();
             startAuto();
           },
           prev: () => {
-            console.log('[CardSwap] prev clicked, isAnimating=', isAnimating.current);
+            if (isAnimating.current) return;
             clearInterval(intervalRef.current);
-            if (isAnimating.current) {
-              tlRef.current?.kill();
-              isAnimating.current = false;
-            }
             swapBackward();
             startAuto();
           },
@@ -2298,10 +2294,8 @@
         };
       }
 
-      if (pauseOnHover) {
+      if (pauseOnHover && autoPlay) {
         const node = container.current;
-        // Only pause the auto-rotation interval, NOT the timeline
-        // (pausing the timeline mid-anim leaves isAnimating stuck)
         const pause = () => { clearInterval(intervalRef.current); };
         const resume = () => { startAuto(); };
         node.addEventListener('mouseenter', pause);
@@ -2414,7 +2408,8 @@
           delay=${4500}
           skewAmount=${4}
           easing="elastic"
-          pauseOnHover=${true}
+          autoPlay=${false}
+          pauseOnHover=${false}
           onIndexChange=${i => setActiveIdx(i)}
         >
           ${services.map(s => html`
