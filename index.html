@@ -562,7 +562,7 @@
     }
     .highlight-box p { font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.8); font-style: italic; }
 
-    /* ── SERVEIS · EXPLORADOR INTERACTIU ── */
+    /* ── SERVEIS · STACK ANIMAT (CardSwap GSAP) ── */
     #serveis {
       background: var(--dark);
       position: relative; overflow: hidden;
@@ -574,241 +574,182 @@
       background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.08), transparent 70%);
       filter: blur(80px); pointer-events: none;
     }
+    #serveis::after {
+      content: '';
+      position: absolute; bottom: -200px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, oklch(0.62 0.17 220 / 0.06), transparent 70%);
+      filter: blur(80px); pointer-events: none;
+    }
 
-    .serveis-header { margin-bottom: 64px; }
-
-    .servei-explorer {
+    .serveis-layout {
       display: grid;
-      grid-template-columns: minmax(340px, 0.85fr) 1.15fr;
-      gap: 64px; align-items: start;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 60px;
+      align-items: center;
       position: relative;
+      min-height: 640px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 5%;
     }
 
-    /* Left: vertical index list */
-    .servei-list {
-      list-style: none; margin: 0; padding: 0;
-      border-top: 1px solid oklch(1 0 0 / 0.08);
-    }
-    .servei-item {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 44px 1fr auto;
-      align-items: center; gap: 16px;
-      padding: 22px 0;
-      border: 0;
-      border-bottom: 1px solid oklch(1 0 0 / 0.08);
-      background: transparent;
-      cursor: pointer;
-      text-align: left;
-      font-family: inherit;
-      transition: transform 0.5s var(--ease-out), border-color 0.3s;
+    .serveis-intro {
       position: relative;
-      color: inherit;
+      z-index: 2;
+      max-width: 480px;
     }
-    .servei-item-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-width: 36px; height: 28px; padding: 0 8px;
-      font-size: 0.78rem; font-weight: 700;
-      color: oklch(1 0 0 / 0.4);
-      letter-spacing: 0.04em;
-      font-variant-numeric: tabular-nums;
-      background: oklch(1 0 0 / 0.04);
-      border: 1px solid oklch(1 0 0 / 0.06);
-      border-radius: 8px;
-      transition: background 0.4s var(--ease-out),
-                  border-color 0.4s var(--ease-out),
-                  color 0.4s,
-                  transform 0.4s var(--ease-out);
+    .serveis-intro .section-title {
+      margin-bottom: 24px;
     }
-    .servei-item-name {
-      font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: 1.4rem; font-weight: 700;
-      color: oklch(1 0 0 / 0.55);
-      letter-spacing: -0.01em; line-height: 1.1;
-      transition: color 0.3s, transform 0.5s var(--ease-out);
+    .serveis-intro-meta {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-top: 28px;
+      font-size: 0.78rem;
+      color: oklch(1 0 0 / 0.5);
+      letter-spacing: 0.02em;
     }
-    .servei-item-line {
-      width: 0; height: 2px;
-      background: linear-gradient(90deg, var(--orange), oklch(0.65 0.19 40 / 0));
-      transition: width 0.55s var(--ease-out);
-    }
-    .servei-item:hover .servei-item-num {
-      color: var(--white);
-      background: oklch(0.65 0.19 40 / 0.18);
-      border-color: oklch(0.65 0.19 40 / 0.4);
-    }
-    .servei-item:hover .servei-item-name {
-      color: var(--white);
-      transform: translateX(4px);
-    }
-    .servei-item:hover .servei-item-line { width: 32px; }
-    .servei-item.active .servei-item-num {
+    .serveis-intro-meta-dot {
+      width: 8px; height: 8px; border-radius: 50%;
       background: var(--orange);
-      border-color: var(--orange);
-      color: var(--white);
-      box-shadow: 0 4px 14px oklch(0.65 0.19 40 / 0.45);
-      transform: scale(1.08);
-    }
-    .servei-item.active .servei-item-name {
-      color: var(--white);
-      transform: translateX(8px);
-    }
-    .servei-item.active .servei-item-line {
-      width: 48px;
-    }
-    .servei-item:focus-visible {
-      outline: 2px solid var(--orange);
-      outline-offset: 4px;
-      border-radius: 4px;
+      box-shadow: 0 0 8px var(--orange);
+      animation: pulse 2s infinite;
     }
 
-    /* Right: detail panel · ASYMMETRIC SPLIT (visual + content) */
-    .servei-detail {
-      position: sticky; top: 100px;
-      align-self: start;
-      display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
-      gap: 0;
-      background: linear-gradient(160deg,
-        oklch(0.18 0.015 265 / 0.85),
-        oklch(0.13 0.015 265 / 0.5));
-      border: 1px solid oklch(1 0 0 / 0.08);
-      border-radius: 32px;
-      padding: 0;
-      min-height: 560px;
-      overflow: hidden;
-      box-shadow:
-        0 48px 120px oklch(0 0 0 / 0.5),
-        0 24px 48px oklch(0 0 0 / 0.35),
-        inset 0 1px 0 oklch(1 0 0 / 0.08);
-    }
-
-    /* LEFT: visual side with big icon + number */
-    .servei-detail-visual {
+    .serveis-stack-wrap {
       position: relative;
+      height: 600px;
+    }
+
+    /* CardSwap container (override library defaults to fit our layout) */
+    .card-swap-container {
+      position: absolute;
+      bottom: 0; right: 0;
+      transform: translate(5%, 20%);
+      transform-origin: bottom right;
+      perspective: 1100px;
+      overflow: visible;
+    }
+
+    /* Service stack card */
+    .servei-stack-card {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 480px; height: 460px;
+      border-radius: 26px;
+      background: linear-gradient(160deg,
+        oklch(0.20 0.018 265 / 0.97) 0%,
+        oklch(0.13 0.015 265 / 0.97) 100%);
+      border: 1px solid oklch(0.65 0.19 40 / 0.28);
+      padding: 36px 36px 32px;
       display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 32px;
-      padding: 48px 24px;
-      background: linear-gradient(135deg,
-        oklch(0.65 0.19 40 / 0.22),
-        oklch(0.65 0.19 40 / 0.04) 60%,
-        oklch(0.45 0.16 225 / 0.06) 100%);
-      border-right: 1px solid oklch(1 0 0 / 0.06);
+      box-shadow:
+        0 32px 80px oklch(0 0 0 / 0.55),
+        0 12px 24px oklch(0 0 0 / 0.35),
+        inset 0 1px 0 oklch(1 0 0 / 0.07);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      cursor: pointer;
       overflow: hidden;
     }
-    .servei-detail-visual::before {
+    .servei-stack-card::before {
       content: '';
-      position: absolute; inset: -20%;
-      background: radial-gradient(circle at center,
-        oklch(0.65 0.19 40 / 0.3), transparent 60%);
-      filter: blur(40px);
-      animation: visualPulse 5s infinite ease-in-out;
-      pointer-events: none;
-    }
-    @keyframes visualPulse {
-      0%, 100% { opacity: 0.5; transform: scale(0.9); }
-      50%      { opacity: 1;   transform: scale(1.1); }
-    }
-    .servei-detail-visual::after {
-      content: '';
-      position: absolute;
-      top: 24px; left: 24px; right: 24px; bottom: 24px;
-      border: 1px solid oklch(0.65 0.19 40 / 0.15);
-      border-radius: 24px;
-      pointer-events: none;
-      transform: translateZ(10px);
+      position: absolute; top: -40%; right: -30%;
+      width: 80%; height: 100%;
+      background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.22), transparent 70%);
+      filter: blur(40px); pointer-events: none;
     }
 
-    .servei-detail-icon {
-      width: 140px; height: 140px;
-      background: linear-gradient(135deg, var(--orange), var(--orange-d));
-      border-radius: 32px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--white);
-      box-shadow:
-        0 24px 60px oklch(0.65 0.19 40 / 0.5),
-        inset 0 2px 0 oklch(1 0 0 / 0.2);
-      position: relative; z-index: 1;
-      transform: translateZ(60px);
-      animation: detailIconFloat 5s infinite ease-in-out;
-    }
-    .servei-detail-icon svg { width: 64px; height: 64px; }
-    @keyframes detailIconFloat {
-      0%, 100% { transform: translateZ(60px) translateY(0) rotate(-3deg); }
-      50%      { transform: translateZ(60px) translateY(-10px) rotate(3deg); }
-    }
-
-    .servei-detail-num {
+    .servei-stack-num {
+      position: absolute; top: 24px; right: 30px;
       font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: clamp(5rem, 8vw, 7rem); font-weight: 900;
-      color: var(--white);
-      letter-spacing: -0.05em; line-height: 1;
+      font-size: 4.5rem; font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1;
+      color: oklch(0.65 0.19 40 / 0.13);
       font-variant-numeric: tabular-nums;
-      position: relative; z-index: 1;
-      transform: translateZ(40px);
-      text-shadow: 0 12px 32px oklch(0 0 0 / 0.4);
       pointer-events: none; user-select: none;
     }
-
-    /* RIGHT: content side */
-    .servei-detail-content {
-      position: relative; z-index: 1;
-      padding: 48px;
-      display: flex; flex-direction: column; justify-content: center;
-      transform: translateZ(20px);
-    }
-    .servei-detail-cat {
+    .servei-stack-cat {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.7rem; font-weight: 700;
       letter-spacing: 0.18em; text-transform: uppercase;
       color: var(--orange);
-      margin-bottom: 16px;
+      margin-bottom: 18px;
+      position: relative;
     }
-    .servei-detail-cat::before {
-      content: ''; width: 24px; height: 1px;
+    .servei-stack-cat::before {
+      content: ''; width: 22px; height: 1px;
       background: var(--orange);
     }
-    .servei-detail-title {
+    .servei-stack-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      margin-bottom: 22px;
+      box-shadow:
+        0 12px 28px oklch(0.65 0.19 40 / 0.45),
+        inset 0 1px 0 oklch(1 0 0 / 0.2);
+      position: relative;
+    }
+    .servei-stack-icon svg { width: 28px; height: 28px; }
+    .servei-stack-name {
       font-family: 'Barlow Semi Condensed', sans-serif;
-      font-size: clamp(2rem, 3.4vw, 2.6rem); font-weight: 800;
+      font-size: 1.7rem; font-weight: 800;
       letter-spacing: -0.02em; line-height: 1.05;
-      margin-bottom: 20px;
+      margin-bottom: 14px;
+      position: relative;
     }
-    .servei-detail-desc {
-      color: oklch(1 0 0 / 0.7);
-      line-height: 1.75;
-      margin-bottom: 28px;
-      font-size: 0.98rem;
-      max-width: 52ch;
+    .servei-stack-desc {
+      color: oklch(1 0 0 / 0.65);
+      line-height: 1.65;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+      position: relative;
     }
-    .servei-detail-tags {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 32px;
+    .servei-stack-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: auto;
+      position: relative;
     }
-    .servei-detail-tag {
-      font-size: 0.72rem; font-weight: 500;
+    .servei-stack-tag {
+      font-size: 0.7rem; font-weight: 500;
       background: oklch(0.65 0.19 40 / 0.1);
       border: 1px solid oklch(0.65 0.19 40 / 0.25);
       color: oklch(0.88 0.08 45);
-      padding: 5px 12px; border-radius: 100px;
+      padding: 4px 11px; border-radius: 100px;
     }
-    .servei-detail-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: var(--orange); font-weight: 600; font-size: 0.92rem;
-      text-decoration: none;
-      transition: gap 0.3s var(--ease-out);
-    }
-    .servei-detail-cta:hover { gap: 14px; }
 
-    @media (max-width: 900px) {
-      .servei-explorer { grid-template-columns: 1fr; gap: 32px; }
-      .servei-detail {
-        position: static; min-height: auto;
-        padding: 32px;
+    @media (max-width: 1024px) {
+      .serveis-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        min-height: auto;
       }
-      .servei-detail-num { font-size: 4.5rem; top: 24px; right: 24px; }
-      .servei-item-name { font-size: 1.15rem; }
+      .serveis-intro { max-width: none; }
+      .serveis-stack-wrap { height: 540px; }
+      .card-swap-container {
+        transform: scale(0.85) translate(0, 8%);
+        transform-origin: center bottom;
+      }
+    }
+    @media (max-width: 768px) {
+      .serveis-stack-wrap { height: 500px; }
+      .servei-stack-card { width: 360px; height: 440px; padding: 28px; }
+      .servei-stack-num { font-size: 3.5rem; }
+      .servei-stack-name { font-size: 1.4rem; }
+      .card-swap-container {
+        transform: scale(0.75) translate(0, 5%);
+      }
+    }
+    @media (max-width: 480px) {
+      .servei-stack-card { width: 300px; height: 420px; padding: 24px; }
+      .card-swap-container {
+        transform: scale(0.62) translate(0, 0);
+      }
     }
 
     /* ── TECNOLOGIA ── */
@@ -1056,69 +997,6 @@
     }
     @media (max-width: 768px) {
       .tec-extras { grid-template-columns: 1fr; }
-    }
-
-    /* ── 3D DEPTH PER A SERVEI DETAIL (visible at rest) ── */
-    .servei-detail {
-      /* Default tilt visible without cursor for non-flat feel */
-      transform: perspective(1400px) rotateX(var(--rx, -1.5deg)) rotateY(var(--ry, 2.5deg));
-      transform-style: preserve-3d;
-      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
-      will-change: transform;
-    }
-    .servei-detail::before {
-      /* stacked card peeking behind for depth */
-      content: '';
-      position: absolute;
-      top: 16px; left: 14px; right: 14px; bottom: -16px;
-      background: linear-gradient(160deg,
-        oklch(0.18 0.015 265 / 0.5),
-        oklch(0.13 0.015 265 / 0.3));
-      border: 1px solid oklch(1 0 0 / 0.04);
-      border-radius: 32px;
-      z-index: -1;
-      transform: scale(0.95) translateZ(-50px);
-      filter: blur(1px);
-      opacity: 0.5;
-    }
-    .servei-detail-content {
-      animation: serveiContentIn 0.55s cubic-bezier(0.16,1,0.3,1);
-    }
-    .servei-detail-content > * {
-      animation: contentItemIn 0.5s cubic-bezier(0.16,1,0.3,1) both;
-    }
-    .servei-detail-content > *:nth-child(1) { animation-delay: 0.05s; }
-    .servei-detail-content > *:nth-child(2) { animation-delay: 0.10s; }
-    .servei-detail-content > *:nth-child(3) { animation-delay: 0.15s; }
-    .servei-detail-content > *:nth-child(4) { animation-delay: 0.20s; }
-    .servei-detail-content > *:nth-child(5) { animation-delay: 0.25s; }
-    @keyframes serveiContentIn {
-      from { opacity: 0; transform: translateZ(20px) translateY(8px); }
-      to   { opacity: 1; transform: translateZ(20px) translateY(0); }
-    }
-    @keyframes contentItemIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* MOBILE: collapse split visual ── stack vertical */
-    @media (max-width: 900px) {
-      .servei-detail {
-        grid-template-columns: 1fr;
-        min-height: auto;
-        transform: none !important;
-      }
-      .servei-detail-visual {
-        padding: 32px 24px;
-        border-right: 0;
-        border-bottom: 1px solid oklch(1 0 0 / 0.06);
-        flex-direction: row;
-      }
-      .servei-detail-icon { width: 88px; height: 88px; }
-      .servei-detail-icon svg { width: 40px; height: 40px; }
-      .servei-detail-num { font-size: 4rem; }
-      .servei-detail-content { padding: 32px 28px; }
-      .servei-item-name { font-size: 1.15rem; }
     }
 
     /* ── MUTUALITATS ── */
@@ -1697,13 +1575,26 @@
 
 <!-- SERVEIS -->
 <section id="serveis">
-  <div class="serveis-header" style="padding: 0 5%; max-width: 1400px; margin: 0 auto 64px;">
-    <div class="section-label reveal">Els Nostres Serveis</div>
-    <h2 class="section-title reveal reveal-delay-1">Tractaments especialitzats<br/>per a cada necessitat</h2>
-    <p class="section-desc reveal reveal-delay-2">11 especialitats. Passa el cursor o fes clic per explorar cada tractament.</p>
-  </div>
+  <div class="serveis-layout">
+    <div class="serveis-intro">
+      <div class="section-label reveal">Els Nostres Serveis</div>
+      <h2 class="section-title reveal reveal-delay-1">Tractaments<br/>especialitzats</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        11 especialitats per a cada necessitat. La targeta de davant canvia automàticament cada 4&nbsp;segons — passa el cursor sobre l'stack per pausar i fer clic.
+      </p>
+      <a href="#contacte" class="btn-primary reveal reveal-delay-3" style="margin-top:24px">
+        <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
+      </a>
+      <div class="serveis-intro-meta reveal reveal-delay-4">
+        <span class="serveis-intro-meta-dot" aria-hidden="true"></span>
+        Auto-rotació activa · Hover per pausar
+      </div>
+    </div>
 
-  <div id="serveiExplorer" class="reveal" style="padding: 0 5%; max-width: 1400px; margin: 0 auto;"></div>
+    <div class="serveis-stack-wrap reveal reveal-delay-2">
+      <div id="serveiStack"></div>
+    </div>
+  </div>
 </section>
 
 <!-- TECNOLOGIA -->
@@ -2087,9 +1978,10 @@
 
 <!-- ── REACT COMPONENTS (esm.sh, sense build step) ── -->
 <script type="module">
-  import React, { useState, useRef, useEffect, useCallback } from 'https://esm.sh/react@18';
+  import React, { useState, useRef, useEffect, useCallback, useMemo, Children, cloneElement, isValidElement, forwardRef } from 'https://esm.sh/react@18';
   import { createRoot } from 'https://esm.sh/react-dom@18/client';
   import htm from 'https://esm.sh/htm@3';
+  import gsap from 'https://esm.sh/gsap@3';
 
   const html = htm.bind(React.createElement);
 
@@ -2176,88 +2068,166 @@
       tags: ['Pilates', 'Postura', 'Columna'] },
   ];
 
-  function ServeiContent({ service }) {
+  // ─────────────────────────────────────────────────────────
+  // CardSwap (React Bits) · port a htm
+  // ─────────────────────────────────────────────────────────
+  const Card = forwardRef(({ customClass, ...rest }, ref) =>
+    React.createElement('div', {
+      ref,
+      ...rest,
+      className: `card ${customClass ?? ''} ${rest.className ?? ''}`.trim()
+    })
+  );
+  Card.displayName = 'Card';
+
+  const makeSlot = (i, distX, distY, total) => ({
+    x: i * distX,
+    y: -i * distY,
+    z: -i * distX * 1.5,
+    zIndex: total - i
+  });
+  const placeNow = (el, slot, skew) =>
+    gsap.set(el, {
+      x: slot.x, y: slot.y, z: slot.z,
+      xPercent: -50, yPercent: -50,
+      skewY: skew,
+      transformOrigin: 'center center',
+      zIndex: slot.zIndex,
+      force3D: true
+    });
+
+  function CardSwap({
+    width = 500,
+    height = 400,
+    cardDistance = 60,
+    verticalDistance = 70,
+    delay = 5000,
+    pauseOnHover = false,
+    onCardClick,
+    skewAmount = 6,
+    easing = 'elastic',
+    children
+  }) {
+    const config = easing === 'elastic'
+      ? { ease: 'elastic.out(0.6,0.9)', durDrop: 2, durMove: 2, durReturn: 2, promoteOverlap: 0.9, returnDelay: 0.05 }
+      : { ease: 'power1.inOut', durDrop: 0.8, durMove: 0.8, durReturn: 0.8, promoteOverlap: 0.45, returnDelay: 0.2 };
+
+    const childArr = useMemo(() => Children.toArray(children), [children]);
+    const refs = useMemo(
+      () => childArr.map(() => React.createRef()),
+      [childArr.length]
+    );
+
+    const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
+    const tlRef = useRef(null);
+    const intervalRef = useRef();
+    const container = useRef(null);
+
+    useEffect(() => {
+      const total = refs.length;
+      refs.forEach((r, i) =>
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount)
+      );
+
+      const swap = () => {
+        if (order.current.length < 2) return;
+        const [front, ...rest] = order.current;
+        const elFront = refs[front].current;
+        const tl = gsap.timeline();
+        tlRef.current = tl;
+
+        tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
+        tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+
+        rest.forEach((idx, i) => {
+          const el = refs[idx].current;
+          const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 'promote');
+          tl.to(el, {
+            x: slot.x, y: slot.y, z: slot.z,
+            duration: config.durMove, ease: config.ease
+          }, `promote+=${i * 0.15}`);
+        });
+
+        const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+        tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+        tl.call(() => { gsap.set(elFront, { zIndex: backSlot.zIndex }); }, undefined, 'return');
+        tl.to(elFront, {
+          x: backSlot.x, y: backSlot.y, z: backSlot.z,
+          duration: config.durReturn, ease: config.ease
+        }, 'return');
+        tl.call(() => { order.current = [...rest, front]; });
+      };
+
+      swap();
+      intervalRef.current = window.setInterval(swap, delay);
+
+      if (pauseOnHover) {
+        const node = container.current;
+        const pause = () => { tlRef.current?.pause(); clearInterval(intervalRef.current); };
+        const resume = () => { tlRef.current?.play(); intervalRef.current = window.setInterval(swap, delay); };
+        node.addEventListener('mouseenter', pause);
+        node.addEventListener('mouseleave', resume);
+        return () => {
+          node.removeEventListener('mouseenter', pause);
+          node.removeEventListener('mouseleave', resume);
+          clearInterval(intervalRef.current);
+        };
+      }
+      return () => clearInterval(intervalRef.current);
+    }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+
+    const rendered = childArr.map((child, i) =>
+      isValidElement(child)
+        ? cloneElement(child, {
+            key: i,
+            ref: refs[i],
+            style: { width, height, ...(child.props.style ?? {}) },
+            onClick: e => {
+              child.props.onClick?.(e);
+              onCardClick?.(i);
+            }
+          })
+        : child
+    );
+
     return html`
-      <${React.Fragment} key=${service.num}>
-        <div className="servei-detail-visual">
-          <div className="servei-detail-icon" aria-hidden="true">
-            <svg className="icon"><use href=${'#' + service.icon}/></svg>
-          </div>
-          <div className="servei-detail-num">${service.num}</div>
-        </div>
-        <div className="servei-detail-content">
-          <div className="servei-detail-cat">${service.cat}</div>
-          <h3 className="servei-detail-title">${service.name}</h3>
-          <p className="servei-detail-desc">${service.desc}</p>
-          <div className="servei-detail-tags">
-            ${service.tags.map(t => html`<span key=${t} className="servei-detail-tag">${t}</span>`)}
-          </div>
-          <a href="#contacte" className="servei-detail-cta">
-            Demana informació
-            <svg className="icon" style=${{ width: '16px', height: '16px' }}>
-              <use href="#ico-phone"/>
-            </svg>
-          </a>
-        </div>
-      </${React.Fragment}>
+      <div ref=${container} className="card-swap-container" style=${{ width, height }}>
+        ${rendered}
+      </div>
     `;
   }
 
-  function ServeiExplorer() {
-    const [activeIdx, setActiveIdx] = useState(0);
-    const tilt = useTilt({ max: 5, smooth: 0.12 });
-    const hoverTimer = useRef(null);
-
-    const onItemEnter = i => {
-      clearTimeout(hoverTimer.current);
-      hoverTimer.current = setTimeout(() => setActiveIdx(i), 90);
-    };
-
-    const onKey = e => {
-      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-      e.preventDefault();
-      const next = e.key === 'ArrowDown'
-        ? (activeIdx + 1) % services.length
-        : (activeIdx - 1 + services.length) % services.length;
-      setActiveIdx(next);
-    };
-
-    const active = services[activeIdx];
-
+  // ─────────────────────────────────────────────────────────
+  // SERVEI STACK · CardSwap amb les 11 especialitats
+  // ─────────────────────────────────────────────────────────
+  function ServeiStack() {
     return html`
-      <div className="servei-explorer">
-        <ul className="servei-list" role="tablist" aria-label="Llista de serveis" onKeyDown=${onKey}>
-          ${services.map((s, i) => html`
-            <li role="presentation" key=${s.num}>
-              <button
-                className=${'servei-item' + (i === activeIdx ? ' active' : '')}
-                role="tab"
-                aria-selected=${i === activeIdx}
-                aria-controls="serveiDetail"
-                onMouseEnter=${() => onItemEnter(i)}
-                onFocus=${() => setActiveIdx(i)}
-                onClick=${e => { e.preventDefault(); setActiveIdx(i); }}
-              >
-                <span className="servei-item-num">${s.num}</span>
-                <span className="servei-item-name">${s.name}</span>
-                <span className="servei-item-line" aria-hidden="true"></span>
-              </button>
-            </li>
-          `)}
-        </ul>
-
-        <div
-          id="serveiDetail"
-          className="servei-detail"
-          role="tabpanel"
-          aria-live="polite"
-          ref=${tilt.ref}
-          onMouseMove=${tilt.onMouseMove}
-          onMouseLeave=${tilt.onMouseLeave}
-        >
-          <${ServeiContent} service=${active} />
-        </div>
-      </div>
+      <${CardSwap}
+        width=${480}
+        height=${460}
+        cardDistance=${48}
+        verticalDistance=${58}
+        delay=${4500}
+        skewAmount=${5}
+        easing="elastic"
+        pauseOnHover=${true}
+      >
+        ${services.map(s => html`
+          <${Card} key=${s.num} customClass="servei-stack-card">
+            <div className="servei-stack-num">${s.num}</div>
+            <div className="servei-stack-cat">${s.cat}</div>
+            <div className="servei-stack-icon" aria-hidden="true">
+              <svg className="icon"><use href=${'#' + s.icon}/></svg>
+            </div>
+            <h3 className="servei-stack-name">${s.name}</h3>
+            <p className="servei-stack-desc">${s.desc}</p>
+            <div className="servei-stack-tags">
+              ${s.tags.map(t => html`<span key=${t} className="servei-stack-tag">${t}</span>`)}
+            </div>
+          </${Card}>
+        `)}
+      </${CardSwap}>
     `;
   }
 
@@ -2355,8 +2325,8 @@
   }
 
   // Mount
-  const serveiNode = document.getElementById('serveiExplorer');
-  if (serveiNode) createRoot(serveiNode).render(html`<${ServeiExplorer}/>`);
+  const serveiNode = document.getElementById('serveiStack');
+  if (serveiNode) createRoot(serveiNode).render(html`<${ServeiStack}/>`);
 
   const indibaNode = document.getElementById('indibaShowcase');
   if (indibaNode) createRoot(indibaNode).render(html`<${IndibaShowcase}/>`);
