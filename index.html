@@ -602,18 +602,47 @@
     .serveis-intro .section-title {
       margin-bottom: 24px;
     }
-    .serveis-intro-meta {
-      display: inline-flex; align-items: center; gap: 10px;
-      margin-top: 28px;
-      font-size: 0.78rem;
-      color: oklch(1 0 0 / 0.5);
-      letter-spacing: 0.02em;
+    /* Stack controls (arrows + indicator) */
+    .stack-controls {
+      position: absolute;
+      bottom: 0; left: 0;
+      z-index: 5;
+      display: flex; align-items: center; gap: 14px;
     }
-    .serveis-intro-meta-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--orange);
-      box-shadow: 0 0 8px var(--orange);
-      animation: pulse 2s infinite;
+    .stack-arrow {
+      width: 48px; height: 48px;
+      background: oklch(1 0 0 / 0.04);
+      border: 1px solid oklch(1 0 0 / 0.1);
+      border-radius: 14px;
+      color: var(--white);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, border-color 0.25s, transform 0.3s var(--ease-out), color 0.25s;
+    }
+    .stack-arrow:hover {
+      background: oklch(0.65 0.19 40 / 0.18);
+      border-color: oklch(0.65 0.19 40 / 0.5);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+    .stack-arrow:active {
+      transform: translateY(0) scale(0.96);
+    }
+    .stack-arrow svg { width: 20px; height: 20px; }
+    .stack-arrow[disabled] {
+      opacity: 0.3; pointer-events: none;
+    }
+    .stack-counter {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: oklch(1 0 0 / 0.55);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      min-width: 50px;
+    }
+    .stack-counter strong {
+      color: var(--orange);
+      font-weight: 800;
     }
 
     .serveis-stack-wrap {
@@ -1431,6 +1460,12 @@
   <symbol id="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="20 6 9 17 4 12"/>
   </symbol>
+  <symbol id="ico-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </symbol>
+  <symbol id="ico-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </symbol>
 </svg>
 
 <!-- MOBILE MENU -->
@@ -1585,10 +1620,6 @@
       <a href="#contacte" class="btn-primary reveal reveal-delay-3" style="margin-top:24px">
         <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
       </a>
-      <div class="serveis-intro-meta reveal reveal-delay-4">
-        <span class="serveis-intro-meta-dot" aria-hidden="true"></span>
-        Auto-rotació activa · Hover per pausar
-      </div>
     </div>
 
     <div class="serveis-stack-wrap reveal reveal-delay-2">
@@ -2102,8 +2133,11 @@
     cardDistance = 60,
     verticalDistance = 70,
     delay = 5000,
+    autoPlay = true,
     pauseOnHover = false,
     onCardClick,
+    onIndexChange,
+    controlsRef,
     skewAmount = 6,
     easing = 'elastic',
     children
@@ -2122,6 +2156,7 @@
     const tlRef = useRef(null);
     const intervalRef = useRef();
     const container = useRef(null);
+    const isAnimating = useRef(false);
 
     useEffect(() => {
       const total = refs.length;
@@ -2129,11 +2164,13 @@
         placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount)
       );
 
-      const swap = () => {
-        if (order.current.length < 2) return;
+      const swapForward = () => {
+        if (order.current.length < 2 || isAnimating.current) return;
+        isAnimating.current = true;
+
         const [front, ...rest] = order.current;
         const elFront = refs[front].current;
-        const tl = gsap.timeline();
+        const tl = gsap.timeline({ onComplete: () => { isAnimating.current = false; } });
         tlRef.current = tl;
 
         tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
@@ -2156,16 +2193,78 @@
           x: backSlot.x, y: backSlot.y, z: backSlot.z,
           duration: config.durReturn, ease: config.ease
         }, 'return');
-        tl.call(() => { order.current = [...rest, front]; });
+        tl.call(() => {
+          order.current = [...rest, front];
+          onIndexChange?.(order.current[0]);
+        });
       };
 
-      swap();
-      intervalRef.current = window.setInterval(swap, delay);
+      const swapBackward = () => {
+        if (order.current.length < 2 || isAnimating.current) return;
+        isAnimating.current = true;
+
+        const init = order.current.slice(0, -1);
+        const last = order.current[order.current.length - 1];
+        const elLast = refs[last].current;
+        const tl = gsap.timeline({ onComplete: () => { isAnimating.current = false; } });
+        tlRef.current = tl;
+
+        // Pre-position last card below screen at front-slot x/z, ready to rise
+        const frontSlot = makeSlot(0, cardDistance, verticalDistance, refs.length);
+        tl.set(elLast, {
+          x: frontSlot.x,
+          y: frontSlot.y + 500,
+          z: frontSlot.z,
+          zIndex: frontSlot.zIndex
+        });
+
+        // Rise to front
+        tl.to(elLast, {
+          y: frontSlot.y,
+          duration: config.durDrop,
+          ease: config.ease
+        });
+
+        // Demote others (each shifts back one slot)
+        tl.addLabel('demote', `-=${config.durDrop * config.promoteOverlap}`);
+        init.forEach((idx, i) => {
+          const el = refs[idx].current;
+          const slot = makeSlot(i + 1, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 'demote');
+          tl.to(el, {
+            x: slot.x, y: slot.y, z: slot.z,
+            duration: config.durMove, ease: config.ease
+          }, `demote+=${i * 0.12}`);
+        });
+
+        tl.call(() => {
+          order.current = [last, ...init];
+          onIndexChange?.(order.current[0]);
+        });
+      };
+
+      // Start auto-rotation
+      const startAuto = () => {
+        clearInterval(intervalRef.current);
+        if (autoPlay) {
+          intervalRef.current = window.setInterval(swapForward, delay);
+        }
+      };
+      startAuto();
+
+      // Expose imperative controls to parent
+      if (controlsRef) {
+        controlsRef.current = {
+          next: () => { clearInterval(intervalRef.current); swapForward(); startAuto(); },
+          prev: () => { clearInterval(intervalRef.current); swapBackward(); startAuto(); },
+          getActiveIndex: () => order.current[0]
+        };
+      }
 
       if (pauseOnHover) {
         const node = container.current;
         const pause = () => { tlRef.current?.pause(); clearInterval(intervalRef.current); };
-        const resume = () => { tlRef.current?.play(); intervalRef.current = window.setInterval(swap, delay); };
+        const resume = () => { tlRef.current?.play(); startAuto(); };
         node.addEventListener('mouseenter', pause);
         node.addEventListener('mouseleave', resume);
         return () => {
@@ -2175,7 +2274,7 @@
         };
       }
       return () => clearInterval(intervalRef.current);
-    }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+    }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, autoPlay]);
 
     const rendered = childArr.map((child, i) =>
       isValidElement(child)
@@ -2199,35 +2298,124 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // SERVEI STACK · CardSwap amb les 11 especialitats
+  // SERVEI STACK · CardSwap + drag + arrows
   // ─────────────────────────────────────────────────────────
   function ServeiStack() {
+    const controls = useRef(null);
+    const [activeIdx, setActiveIdx] = useState(0);
+    const wrapRef = useRef(null);
+
+    // Drag-to-swipe handler
+    useEffect(() => {
+      const node = wrapRef.current;
+      if (!node) return;
+
+      let startX = 0, startY = 0, dragging = false, decided = false;
+      const THRESHOLD = 60;
+
+      const onDown = e => {
+        // Ignore drags starting on arrow buttons
+        if (e.target.closest('.stack-arrow')) return;
+        dragging = true; decided = false;
+        startX = e.clientX; startY = e.clientY;
+        node.style.cursor = 'grabbing';
+      };
+      const onMove = e => {
+        if (!dragging || decided) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+        decided = true;
+        if (dx < 0) controls.current?.next();
+        else controls.current?.prev();
+      };
+      const onUp = () => {
+        dragging = false;
+        node.style.cursor = '';
+      };
+
+      node.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+      return () => {
+        node.removeEventListener('pointerdown', onDown);
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+      };
+    }, []);
+
+    // Keyboard nav (← →) when wrap is focused/hovered
+    useEffect(() => {
+      const onKey = e => {
+        if (e.key === 'ArrowLeft') controls.current?.prev();
+        else if (e.key === 'ArrowRight') controls.current?.next();
+      };
+      const node = wrapRef.current;
+      node?.addEventListener('keydown', onKey);
+      return () => node?.removeEventListener('keydown', onKey);
+    }, []);
+
     return html`
-      <${CardSwap}
-        width=${480}
-        height=${460}
-        cardDistance=${48}
-        verticalDistance=${58}
-        delay=${4500}
-        skewAmount=${5}
-        easing="elastic"
-        pauseOnHover=${true}
+      <div
+        ref=${wrapRef}
+        className="stack-drag-area"
+        style=${{ position: 'relative', width: '100%', height: '100%', cursor: 'grab', touchAction: 'pan-y', userSelect: 'none' }}
+        tabIndex=${0}
+        role="region"
+        aria-label="Carrusel de serveis. Fes drag, fletxes ← → o botons per navegar."
       >
-        ${services.map(s => html`
-          <${Card} key=${s.num} customClass="servei-stack-card">
-            <div className="servei-stack-num">${s.num}</div>
-            <div className="servei-stack-cat">${s.cat}</div>
-            <div className="servei-stack-icon" aria-hidden="true">
-              <svg className="icon"><use href=${'#' + s.icon}/></svg>
-            </div>
-            <h3 className="servei-stack-name">${s.name}</h3>
-            <p className="servei-stack-desc">${s.desc}</p>
-            <div className="servei-stack-tags">
-              ${s.tags.map(t => html`<span key=${t} className="servei-stack-tag">${t}</span>`)}
-            </div>
-          </${Card}>
-        `)}
-      </${CardSwap}>
+        <${CardSwap}
+          controlsRef=${controls}
+          width=${480}
+          height=${460}
+          cardDistance=${48}
+          verticalDistance=${58}
+          delay=${4500}
+          skewAmount=${5}
+          easing="elastic"
+          pauseOnHover=${true}
+          onIndexChange=${i => setActiveIdx(i)}
+        >
+          ${services.map(s => html`
+            <${Card} key=${s.num} customClass="servei-stack-card">
+              <div className="servei-stack-num">${s.num}</div>
+              <div className="servei-stack-cat">${s.cat}</div>
+              <div className="servei-stack-icon" aria-hidden="true">
+                <svg className="icon"><use href=${'#' + s.icon}/></svg>
+              </div>
+              <h3 className="servei-stack-name">${s.name}</h3>
+              <p className="servei-stack-desc">${s.desc}</p>
+              <div className="servei-stack-tags">
+                ${s.tags.map(t => html`<span key=${t} className="servei-stack-tag">${t}</span>`)}
+              </div>
+            </${Card}>
+          `)}
+        </${CardSwap}>
+
+        <div className="stack-controls" aria-hidden="false">
+          <button
+            type="button"
+            className="stack-arrow"
+            onClick=${() => controls.current?.prev()}
+            aria-label="Servei anterior"
+          >
+            <svg className="icon"><use href="#ico-chevron-left"/></svg>
+          </button>
+          <button
+            type="button"
+            className="stack-arrow"
+            onClick=${() => controls.current?.next()}
+            aria-label="Servei següent"
+          >
+            <svg className="icon"><use href="#ico-chevron-right"/></svg>
+          </button>
+          <div className="stack-counter" aria-live="polite">
+            <strong>${String(activeIdx + 1).padStart(2, '0')}</strong> / ${String(services.length).padStart(2, '0')}
+          </div>
+        </div>
+      </div>
     `;
   }
 
