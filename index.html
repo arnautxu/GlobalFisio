@@ -608,8 +608,14 @@
       position: absolute;
       bottom: 0; left: 50%;
       transform: translateX(-50%);
-      z-index: 5;
+      z-index: 100; /* per sobre de qualsevol card del stack */
       display: flex; align-items: center; gap: 14px;
+      pointer-events: auto;
+    }
+    .stack-arrow {
+      pointer-events: auto;
+      position: relative;
+      z-index: 1;
     }
     .stack-arrow {
       width: 48px; height: 48px;
@@ -630,7 +636,7 @@
     .stack-arrow:active {
       transform: translateY(0) scale(0.96);
     }
-    .stack-arrow svg { width: 20px; height: 20px; }
+    .stack-arrow svg { width: 20px; height: 20px; pointer-events: none; }
     .stack-arrow[disabled] {
       opacity: 0.3; pointer-events: none;
     }
@@ -2267,16 +2273,37 @@
       // Expose imperative controls to parent
       if (controlsRef) {
         controlsRef.current = {
-          next: () => { clearInterval(intervalRef.current); swapForward(); startAuto(); },
-          prev: () => { clearInterval(intervalRef.current); swapBackward(); startAuto(); },
+          next: () => {
+            console.log('[CardSwap] next clicked, isAnimating=', isAnimating.current);
+            clearInterval(intervalRef.current);
+            // Safety: if stuck, force unlock
+            if (isAnimating.current) {
+              tlRef.current?.kill();
+              isAnimating.current = false;
+            }
+            swapForward();
+            startAuto();
+          },
+          prev: () => {
+            console.log('[CardSwap] prev clicked, isAnimating=', isAnimating.current);
+            clearInterval(intervalRef.current);
+            if (isAnimating.current) {
+              tlRef.current?.kill();
+              isAnimating.current = false;
+            }
+            swapBackward();
+            startAuto();
+          },
           getActiveIndex: () => order.current[0]
         };
       }
 
       if (pauseOnHover) {
         const node = container.current;
-        const pause = () => { tlRef.current?.pause(); clearInterval(intervalRef.current); };
-        const resume = () => { tlRef.current?.play(); startAuto(); };
+        // Only pause the auto-rotation interval, NOT the timeline
+        // (pausing the timeline mid-anim leaves isAnimating stuck)
+        const pause = () => { clearInterval(intervalRef.current); };
+        const resume = () => { startAuto(); };
         node.addEventListener('mouseenter', pause);
         node.addEventListener('mouseleave', resume);
         return () => {
