@@ -10,13 +10,17 @@
 .hero-bg {
   position: absolute; inset: 0;
   z-index: 0;
+  background:
+    linear-gradient(180deg, oklch(0.12 0.015 265 / 0.92), oklch(0.1 0.012 265 / 0.98)),
+    linear-gradient(135deg, oklch(0.2 0.03 255 / 0.25), transparent 38%);
 }
 .hero-bg::after {
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(60% 60% at 70% 50%, oklch(0.65 0.19 40 / 0.18), transparent 70%),
-    radial-gradient(50% 50% at 20% 80%, oklch(0.62 0.17 220 / 0.12), transparent 70%);
+    radial-gradient(58% 58% at 72% 48%, oklch(0.65 0.19 40 / 0.16), transparent 70%),
+    radial-gradient(48% 48% at 18% 76%, oklch(0.62 0.17 220 / 0.12), transparent 70%),
+    linear-gradient(180deg, oklch(0 0 0 / 0), oklch(0.05 0.005 260 / 0.34));
   pointer-events: none;
 }
 

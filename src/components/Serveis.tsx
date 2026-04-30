@@ -31,6 +31,9 @@ const iconMap = {
   pilates: Orbit,
 } as const;
 
+const featuredServices = [services[0], services[1], services[2], services[3], services[5], services[10]];
+const secondaryServices = services.filter((service) => !featuredServices.includes(service));
+
 export default function Serveis() {
   return (
     <section id="serveis" className="section serveis">
@@ -47,25 +50,46 @@ export default function Serveis() {
             pacient i àrees d’intervenció.
           </p>
 
-          <div className="serveis-legend" aria-label="Especialitats disponibles">
-            {services.map((service) => (
-              <span
-                key={service.num}
-                className="serveis-legend-item"
-                style={{ '--legend-accent': service.accent } as CSSProperties}
-              >
-                {service.short}
-              </span>
-            ))}
+          <div className="serveis-constellation" aria-label="Mapa d'especialitats">
+            <div className="serveis-constellation-grid">
+              {featuredServices.map((service, index) => (
+                <div
+                  key={service.num}
+                  className={`serveis-node serveis-node-${index + 1}`}
+                  style={{ '--node-accent': service.accent } as CSSProperties}
+                >
+                  <span className="serveis-node-num">{service.num}</span>
+                  <strong>{service.short}</strong>
+                </div>
+              ))}
+
+              <div className="serveis-core">
+                <span className="serveis-core-kicker">Centre actiu</span>
+                <strong>11 especialitats</strong>
+                <p>Traumatologia, esport, neurologia i programes actius en una sola lectura.</p>
+              </div>
+            </div>
+
+            <div className="serveis-secondary-rail">
+              {secondaryServices.map((service) => (
+                <span
+                  key={service.num}
+                  className="serveis-secondary-chip"
+                  style={{ '--chip-accent': service.accent } as CSSProperties}
+                >
+                  {service.short}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
         <MotionCarousel
           items={services}
-          options={{ loop: true, align: 'start' }}
+          options={{ loop: true, align: 'center' }}
           className="serveis-carousel"
-          viewportClassName="overflow-visible"
-          trackClassName="items-stretch"
+          viewportClassName="serveis-carousel-viewport"
+          trackClassName="serveis-carousel-track"
           slideClassName="serveis-slide"
           controlsClassName="serveis-carousel-controls"
           dotsClassName="serveis-carousel-dots"

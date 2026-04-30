@@ -1,83 +1,23 @@
-import { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, MeshDistortMaterial, Environment, Sphere } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import * as THREE from 'three';
 import { PHONE } from '../data/services';
+import DotField from './DotField';
 import './Hero.css';
-
-function MorphBlob() {
-  const mat = useRef<any>(null);
-  useFrame(({ clock }) => {
-    if (mat.current) {
-      mat.current.distort = 0.35 + Math.sin(clock.elapsedTime * 0.4) * 0.08;
-    }
-  });
-  return (
-    <Float speed={1.4} rotationIntensity={0.6} floatIntensity={1.2}>
-      <Sphere args={[1.4, 128, 128]}>
-        <MeshDistortMaterial
-          ref={mat}
-          color="#f97316"
-          attach="material"
-          distort={0.4}
-          speed={1.6}
-          roughness={0.1}
-          metalness={0.6}
-          envMapIntensity={1.4}
-        />
-      </Sphere>
-    </Float>
-  );
-}
-
-function OrbitParticles() {
-  const group = useRef<THREE.Group>(null);
-  const count = 80;
-  const positions = useRef<THREE.Vector3[]>(
-    Array.from({ length: count }, () => {
-      const r = 2.2 + Math.random() * 1.4;
-      const phi = Math.random() * Math.PI * 2;
-      const theta = (Math.random() - 0.5) * Math.PI;
-      return new THREE.Vector3(
-        r * Math.cos(phi) * Math.cos(theta),
-        r * Math.sin(theta),
-        r * Math.sin(phi) * Math.cos(theta),
-      );
-    }),
-  );
-  useFrame((_, dt) => { if (group.current) group.current.rotation.y += dt * 0.08; });
-  return (
-    <group ref={group}>
-      {positions.current.map((p, i) => (
-        <mesh key={i} position={p}>
-          <sphereGeometry args={[0.018 + Math.random() * 0.018, 8, 8]} />
-          <meshBasicMaterial color={i % 5 === 0 ? '#0ea5e9' : '#f97316'} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
 
 export default function Hero() {
   return (
     <section id="hero" className="hero">
       <div className="hero-bg">
-        <Suspense fallback={null}>
-          <Canvas
-            dpr={[1, 1.6]}
-            camera={{ position: [0, 0, 5], fov: 45 }}
-            gl={{ antialias: true, alpha: true }}
-          >
-            <ambientLight intensity={0.3} />
-            <directionalLight position={[3, 4, 5]} intensity={1.4} color="#fff" />
-            <pointLight position={[-3, -2, 2]} intensity={1.2} color="#0ea5e9" />
-            <pointLight position={[3, 2, 2]} intensity={1.4} color="#f97316" />
-            <MorphBlob />
-            <OrbitParticles />
-            <Environment preset="city" />
-          </Canvas>
-        </Suspense>
+        <DotField
+          dotRadius={1.8}
+          dotSpacing={15}
+          bulgeStrength={72}
+          glowRadius={220}
+          sparkle
+          waveAmplitude={0.9}
+          gradientFrom="rgba(249, 115, 22, 0.34)"
+          gradientTo="rgba(14, 165, 233, 0.22)"
+          glowColor="#221611"
+        />
       </div>
 
       <div className="hero-grid container">
