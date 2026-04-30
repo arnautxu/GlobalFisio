@@ -51,160 +51,78 @@
   font-size: 1rem;
   line-height: 1.72;
   color: oklch(0.92 0.012 45 / 0.74);
-  margin: 0 auto 26px;
-}
-
-.serveis-constellation {
-  width: min(100%, 56rem);
   margin: 0 auto;
 }
 
-.serveis-constellation-grid {
+.serveis-stage {
   position: relative;
-  min-height: 23rem;
-  margin: 0 auto 20px;
+  z-index: 1;
+  width: min(100%, 72rem);
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 28px);
+  border-radius: 36px;
+  border: 1px solid oklch(1 0 0 / 0.08);
+  background:
+    linear-gradient(180deg, oklch(1 0 0 / 0.04), transparent 24%),
+    linear-gradient(180deg, oklch(0.15 0.016 265 / 0.92), oklch(0.1 0.012 265 / 0.92));
+  box-shadow:
+    0 32px 90px oklch(0 0 0 / 0.22),
+    inset 0 1px 0 oklch(1 0 0 / 0.06);
 }
 
-.serveis-constellation-grid::before,
-.serveis-constellation-grid::after {
+.serveis-stage::before {
   content: '';
   position: absolute;
-  inset: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 12% 18%, oklch(0.65 0.19 40 / 0.09), transparent 24%),
+    radial-gradient(circle at 86% 16%, oklch(0.62 0.17 220 / 0.08), transparent 20%);
   pointer-events: none;
 }
 
-.serveis-constellation-grid::before {
-  width: min(100%, 31rem);
-  height: min(100%, 19rem);
+.serveis-stage-meta {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.serveis-stage-pill {
+  min-height: 88px;
+  padding: 14px 16px;
+  border-radius: 22px;
   border: 1px solid oklch(1 0 0 / 0.08);
-  background:
-    radial-gradient(circle at center, oklch(0.65 0.19 40 / 0.06), transparent 58%);
-}
-
-.serveis-constellation-grid::after {
-  width: min(100%, 22rem);
-  height: min(100%, 12rem);
-  border: 1px dashed oklch(1 0 0 / 0.08);
-}
-
-.serveis-core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(100%, 18rem);
-  transform: translate(-50%, -50%);
-  padding: 24px 26px;
+  background: oklch(0.1 0.01 265 / 0.42);
   text-align: center;
-  border-radius: 26px;
-  border: 1px solid oklch(1 0 0 / 0.1);
-  background:
-    linear-gradient(180deg, oklch(1 0 0 / 0.06), transparent),
-    oklch(0.12 0.012 265 / 0.74);
-  box-shadow:
-    0 22px 60px oklch(0 0 0 / 0.2),
-    inset 0 1px 0 oklch(1 0 0 / 0.08);
 }
 
-.serveis-core-kicker {
+.serveis-stage-label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--orange-l);
+  color: oklch(0.88 0.03 45 / 0.62);
 }
 
-.serveis-core strong {
-  display: block;
+.serveis-stage-pill strong {
   font-family: 'Barlow Semi Condensed', sans-serif;
-  font-size: clamp(2rem, 1.4rem + 1.5vw, 2.8rem);
-  line-height: 0.95;
-}
-
-.serveis-core p {
-  margin-top: 12px;
-  color: oklch(0.94 0.01 45 / 0.72);
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.serveis-node {
-  --node-accent: var(--orange);
-  position: absolute;
-  min-width: 9rem;
-  padding: 10px 14px 12px;
-  border-radius: 20px;
-  border: 1px solid color-mix(in oklab, var(--node-accent) 28%, transparent);
-  background:
-    linear-gradient(180deg, oklch(1 0 0 / 0.06), transparent),
-    color-mix(in oklab, var(--node-accent) 8%, oklch(0.11 0.012 265 / 0.82));
-  text-align: left;
-  box-shadow: 0 16px 36px oklch(0 0 0 / 0.14);
-}
-
-.serveis-node::before {
-  content: '';
-  position: absolute;
-  inset: auto auto -12px 24px;
-  width: 1px;
-  height: 20px;
-  background: color-mix(in oklab, var(--node-accent) 42%, transparent);
-  opacity: 0.7;
-}
-
-.serveis-node strong {
-  display: block;
-  font-size: 0.95rem;
-  line-height: 1.15;
-}
-
-.serveis-node-num {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: color-mix(in oklab, var(--node-accent) 70%, white);
-}
-
-.serveis-node-1 { top: 4%; left: 10%; }
-.serveis-node-2 { top: 9%; right: 10%; }
-.serveis-node-3 { top: 38%; left: 0; }
-.serveis-node-4 { top: 40%; right: 0; }
-.serveis-node-5 { bottom: 4%; left: 14%; }
-.serveis-node-6 { bottom: 2%; right: 14%; }
-
-.serveis-secondary-rail {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.serveis-secondary-chip {
-  --chip-accent: var(--orange);
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  padding: 0 13px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--chip-accent) 24%, transparent);
-  background: color-mix(in oklab, var(--chip-accent) 9%, transparent);
-  color: oklch(0.95 0.01 45 / 0.78);
-  font-size: 0.75rem;
+  font-size: clamp(1.35rem, 1rem + 0.8vw, 1.9rem);
+  line-height: 1;
 }
 
 .serveis-carousel {
   --slide-height: auto;
   --slide-spacing: 1.15rem;
-  --slide-size: clamp(22rem, 42vw, 30rem);
+  --slide-size: clamp(21rem, 39vw, 29rem);
   position: relative;
   z-index: 1;
-  width: min(100%, 68rem);
+  width: 100%;
   margin: 0 auto;
-  padding-top: 18px;
+  padding-top: 6px;
   justify-self: center;
 }
 
@@ -227,6 +145,7 @@
   align-items: center;
   justify-content: center;
   gap: 14px;
+  margin-top: 2px;
 }
 
 .serveis-carousel-controls > button {
@@ -435,30 +354,41 @@
   font-weight: 600;
 }
 
+.serveis-rail {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.serveis-rail-chip {
+  --chip-accent: var(--orange);
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--chip-accent) 24%, transparent);
+  background: color-mix(in oklab, var(--chip-accent) 9%, transparent);
+  color: oklch(0.95 0.01 45 / 0.78);
+  font-size: 0.75rem;
+}
+
 @media (max-width: 720px) {
-  .serveis-constellation-grid {
-    min-height: auto;
-    display: grid;
-    gap: 12px;
-    margin-bottom: 16px;
+  .serveis-stage {
+    padding: 18px;
+    border-radius: 28px;
   }
 
-  .serveis-constellation-grid::before,
-  .serveis-constellation-grid::after,
-  .serveis-node::before {
-    display: none;
+  .serveis-stage-meta {
+    grid-template-columns: 1fr;
   }
 
-  .serveis-core,
-  .serveis-node {
-    position: static;
-    width: 100%;
-    transform: none;
-  }
-
-  .serveis-core {
-    width: 100%;
-    margin-bottom: 4px;
+  .serveis-stage-pill {
+    min-height: 74px;
   }
 
   .serveis-carousel {
