@@ -1,0 +1,32 @@
+.mutus { background: var(--dark); text-align: center; }
+.mutus-head { max-width: 600px; margin: 0 auto 48px; }
+.mutus-title {
+  font-size: var(--fs-xl);
+  margin: 16px 0;
+}
+.mutus-desc {
+  color: oklch(1 0 0 / 0.6);
+  line-height: 1.65;
+  max-width: 50ch;
+  margin: 0 auto;
+}
+.mutus-list {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 12px;
+}
+.mutu {
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid oklch(1 0 0 / 0.08);
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: oklch(1 0 0 / 0.78);
+  transition: all 0.25s;
+}
+.mutu:hover {
+  background: oklch(0.65 0.19 40 / 0.15);
+  border-color: var(--orange);
+  color: var(--orange-l);
+  transform: translateY(-2px);
+}

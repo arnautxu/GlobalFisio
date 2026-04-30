@@ -1,0 +1,115 @@
+/* GlobalFisio · Design tokens + reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: oklch(0.65 0.19 40);
+  --orange-d: oklch(0.55 0.20 38);
+  --orange-l: oklch(0.88 0.08 45);
+  --blue: oklch(0.62 0.17 220);
+  --blue-d: oklch(0.45 0.16 225);
+  --blue-l: oklch(0.85 0.08 220);
+  --green: oklch(0.72 0.18 148);
+  --dark: oklch(0.13 0.015 265);
+  --dark2: oklch(0.18 0.015 265);
+  --mid: oklch(0.28 0.015 265);
+  --light: oklch(0.98 0.005 40);
+  --white: oklch(0.99 0.005 40);
+  --radius: 16px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-emil: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Fluid type scale */
+  --fs-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.82rem);
+  --fs-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.92rem);
+  --fs-base: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
+  --fs-md: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  --fs-lg: clamp(1.5rem, 1.3rem + 0.8vw, 1.9rem);
+  --fs-xl: clamp(2rem, 1.7rem + 1.4vw, 2.8rem);
+  --fs-display: clamp(3rem, 2.4rem + 3vw, 5.5rem);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Figtree', system-ui, sans-serif;
+  background: var(--dark);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern', 'liga', 'cv11';
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+img, svg { display: block; max-width: 100%; }
+
+/* Noise texture (subtle, fixed) */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+/* Selection */
+::selection { background: var(--orange); color: var(--white); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--dark2); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Utility containers */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.section {
+  padding: clamp(72px, 10vw, 140px) 0;
+  position: relative;
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: var(--fs-xs); font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--orange);
+}
+.eyebrow::before {
+  content: ''; width: 24px; height: 1px; background: var(--orange);
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute; top: -100px; left: 16px; z-index: 99999;
+  background: var(--orange); color: var(--white);
+  padding: 10px 20px; border-radius: 8px;
+  font-weight: 700;
+}
+.skip-link:focus { top: 16px; }

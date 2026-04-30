@@ -1,0 +1,118 @@
+.sobre { background: var(--dark2); position: relative; overflow: hidden; }
+.sobre::before {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 50%; height: 600px;
+  background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.1), transparent 70%);
+  filter: blur(80px); pointer-events: none;
+}
+
+.sobre-grid {
+  display: grid; gap: 60px;
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .sobre-grid { grid-template-columns: 1fr 1.1fr; gap: 80px; }
+}
+
+.sobre-visual {
+  position: relative;
+  width: 360px; height: 360px;
+  margin: 0 auto;
+  display: grid; place-items: center;
+}
+.sobre-ring {
+  position: absolute;
+  border: 1px solid;
+  border-radius: 50%;
+  animation: spin 20s linear infinite;
+}
+.sobre-ring-1 {
+  width: 360px; height: 360px;
+  border-color: oklch(0.65 0.19 40 / 0.32);
+}
+.sobre-ring-2 {
+  width: 260px; height: 260px;
+  border-color: oklch(0.65 0.19 40 / 0.2);
+  animation-direction: reverse;
+  animation-duration: 14s;
+}
+.sobre-ring-3 {
+  width: 180px; height: 180px;
+  border-color: oklch(0.65 0.19 40 / 0.25);
+  animation-duration: 10s;
+}
+.sobre-ring::before {
+  content: '';
+  position: absolute; top: -4px; left: 50%;
+  width: 8px; height: 8px;
+  margin-left: -4px;
+  background: var(--orange);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--orange);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.sobre-center {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 4.5rem;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, var(--orange), var(--orange-d));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  z-index: 1;
+}
+.sobre-center-label {
+  position: absolute;
+  bottom: 130px;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: oklch(1 0 0 / 0.5);
+}
+
+.sobre-title {
+  font-size: var(--fs-xl);
+  margin: 16px 0 20px;
+}
+.orange { color: var(--orange); }
+
+.sobre-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: oklch(1 0 0 / 0.7);
+  max-width: 60ch;
+}
+
+.sobre-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 28px;
+}
+.pill {
+  font-size: 0.78rem;
+  background: oklch(1 0 0 / 0.05);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  color: oklch(1 0 0 / 0.75);
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+}
+.pill:hover {
+  background: oklch(0.65 0.19 40 / 0.15);
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+.sobre-quote {
+  margin-top: 32px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, oklch(0.65 0.19 40 / 0.18), oklch(0.65 0.19 40 / 0.04));
+  border: 1px solid oklch(0.65 0.19 40 / 0.2);
+  border-radius: var(--radius);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: oklch(1 0 0 / 0.85);
+}

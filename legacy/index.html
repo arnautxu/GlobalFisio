@@ -1,0 +1,2557 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global Centre de Fisioteràpia – Sant Antoni de Calonge</title>
+  <meta name="description" content="Centre de fisioteràpia a Sant Antoni de Calonge des de 2007. Traumatologia, esport, neurologia, aquàtica i molt més." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:    oklch(0.65 0.19 40);
+      --orange-d:  oklch(0.55 0.20 38);
+      --orange-l:  oklch(0.88 0.08 45);
+      --blue:      oklch(0.62 0.17 220);
+      --blue-d:    oklch(0.45 0.16 225);
+      --blue-l:    oklch(0.85 0.08 220);
+      --green:     oklch(0.72 0.18 148);
+      --dark:      oklch(0.13 0.015 265);
+      --dark2:     oklch(0.18 0.015 265);
+      --mid:       oklch(0.28 0.015 265);
+      --light:     oklch(0.98 0.005 40);
+      --white:     oklch(0.99 0.005 40);
+      --radius:    16px;
+      --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .hero-title, .section-title, .mobile-nav-item {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark2); }
+    ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    /* ── ICON SYSTEM ── */
+    .icon {
+      display: inline-block; width: 1em; height: 1em;
+      vertical-align: middle; fill: none;
+      stroke: currentColor; stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .icon-filled { fill: currentColor; stroke: none; }
+
+    /* Container-specific icon sizes */
+    .hero-img-badge-icon .icon { width: 20px; height: 20px; }
+    .sobre-center .icon { width: 48px; height: 48px; }
+    .servei-icon .icon { width: 24px; height: 24px; color: var(--orange); }
+    .tec-feature-icon .icon { width: 20px; height: 20px; }
+    .indiba-icon .icon { width: 48px; height: 48px; }
+    .contact-icon .icon { width: 18px; height: 18px; color: var(--orange); }
+    .float-btn .icon { width: 16px; height: 16px; }
+
+    /* Trust avatars */
+    .trust-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      margin-left: -10px;
+      border: 2px solid var(--dark);
+    }
+    .trust-avatar:first-child { margin-left: 0; }
+    .trust-avatar svg { width: 16px; height: 16px; }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100px; left: 16px; z-index: 99999;
+      background: var(--orange); color: var(--white);
+      padding: 10px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem; text-decoration: none;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* ── PREFERS REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 1000; width: calc(100% - 48px); max-width: 1100px;
+      padding: 0 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      background: oklch(0.13 0.015 265 / 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid oklch(0.65 0.19 40 / 0.18);
+      border-radius: 20px;
+      box-shadow: 0 4px 24px oklch(0 0 0 / 0.35),
+                  inset 0 1px 0 oklch(1 0 0 / 0.06);
+      transition: background 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: oklch(0.13 0.015 265 / 0.92);
+      border-color: oklch(0.65 0.19 40 / 0.28);
+    }
+
+    /* Logo (text-only) */
+    .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none; flex-shrink: 0;
+      position: relative;
+    }
+    .nav-logo-text {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--white); line-height: 1.1;
+      letter-spacing: -0.01em;
+      transition: color 0.25s;
+    }
+    .nav-logo-text span {
+      display: block;
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.6rem; font-weight: 500;
+      color: var(--orange);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.85; margin-top: 2px;
+    }
+    .nav-logo:hover .nav-logo-text { color: var(--orange-l); }
+
+    /* Nav pill wrapper */
+    .nav-pill-wrapper {
+      position: relative;
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 4px;
+    }
+
+    /* Sliding active background */
+    .nav-indicator {
+      position: absolute;
+      height: calc(100% - 8px); top: 4px; left: 4px;
+      background: rgba(249,115,22,0.18);
+      border: 1px solid rgba(249,115,22,0.35);
+      border-radius: 10px;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      box-shadow: 0 0 16px rgba(249,115,22,0.15);
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; position: relative; }
+    .nav-links li a {
+      color: rgba(255,255,255,0.6); text-decoration: none;
+      font-size: 0.82rem; font-weight: 500;
+      padding: 7px 16px; border-radius: 10px;
+      position: relative; transition: color 0.25s;
+      letter-spacing: 0.01em; white-space: nowrap;
+      display: block;
+    }
+    .nav-links li a:hover { color: rgba(255,255,255,0.95); }
+    .nav-links li a.active { color: var(--orange); font-weight: 600; }
+
+    /* Glow dot on hover */
+    .nav-links li a::before {
+      content: '';
+      position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%);
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--orange);
+      opacity: 0; transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 0 6px var(--orange);
+    }
+    .nav-links li a:hover::before,
+    .nav-links li a.active::before { opacity: 1; }
+
+    /* CTA button */
+    .nav-cta-wrap { margin-left: 16px; flex-shrink: 0; }
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      color: var(--white); text-decoration: none;
+      padding: 9px 20px; border-radius: 12px;
+      font-weight: 700; font-size: 0.82rem;
+      box-shadow: 0 4px 16px rgba(249,115,22,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.01em; white-space: nowrap;
+      position: relative; overflow: hidden;
+    }
+    .nav-cta::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.55); }
+    .nav-cta:hover::after { opacity: 1; }
+    .nav-cta-icon { font-size: 0.9rem; transition: transform 0.3s; }
+    .nav-cta:hover .nav-cta-icon { transform: rotate(15deg) scale(1.2); }
+
+    /* Hamburger */
+    .nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav-hamburger span {
+      display: block; height: 2px; background: var(--white);
+      border-radius: 2px; transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-hamburger span:nth-child(1) { width: 22px; }
+    .nav-hamburger span:nth-child(2) { width: 16px; }
+    .nav-hamburger span:nth-child(3) { width: 22px; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); width: 22px; background: var(--orange); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); width: 22px; background: var(--orange); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px;
+      position: relative; overflow: hidden;
+      padding: 120px 5% 80px;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 60% 50%, rgba(249,115,22,0.18) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 60% at 20% 80%, rgba(249,115,22,0.10) 0%, transparent 50%);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+    .hero-orb-1 {
+      width: 500px; height: 500px;
+      background: oklch(0.65 0.19 40 / 0.10);
+      top: -100px; right: -80px;
+      animation-delay: 0s;
+    }
+    .hero-orb-2 {
+      width: 300px; height: 300px;
+      background: oklch(0.62 0.17 220 / 0.05);
+      bottom: -40px; left: -60px;
+      animation-delay: -4s;
+    }
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    /* ── HERO IMAGE ── */
+    .hero-image-wrap {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; animation: fadeLeft2 0.9s 0.6s forwards;
+    }
+    @keyframes fadeLeft2 {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Glow ring rere la foto */
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute; inset: -20px;
+      background: radial-gradient(ellipse at center, rgba(249,115,22,0.25) 0%, transparent 70%);
+      border-radius: 32px;
+      animation: floatOrb 6s ease-in-out infinite;
+    }
+
+    /* Border decoratiu taronja */
+    .hero-image-wrap::after {
+      content: '';
+      position: absolute;
+      top: 16px; left: 16px; right: -16px; bottom: -16px;
+      border: 2px solid rgba(249,115,22,0.3);
+      border-radius: 28px;
+      z-index: -1;
+    }
+
+    .hero-img {
+      width: 100%; max-width: 520px;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.15);
+      display: block;
+    }
+
+    /* Badge flotant sobre la foto */
+    .hero-img-badge {
+      position: absolute; bottom: 28px; left: -24px;
+      background: oklch(0.13 0.015 265 / 0.92);
+      border: 1px solid oklch(0.65 0.19 40 / 0.25);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 8px 24px oklch(0 0 0 / 0.35);
+      animation: floatBadge 5s ease-in-out infinite;
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+    .hero-img-badge-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(249,115,22,0.4);
+    }
+    .hero-img-badge-text strong { display: block; font-size: 0.95rem; font-weight: 700; }
+    .hero-img-badge-text span   { font-size: 0.72rem; color: rgba(255,255,255,0.5); }
+
+    /* Segon badge a dalt a la dreta */
+    .hero-img-badge2 {
+      position: absolute; top: 24px; right: -20px;
+      background: oklch(0.13 0.015 265 / 0.92);
+      border: 1px solid oklch(0.99 0.005 40 / 0.1);
+      border-radius: 14px;
+      padding: 12px 18px;
+      display: flex; align-items: center; gap: 8px;
+      box-shadow: 0 8px 20px oklch(0 0 0 / 0.3);
+      animation: floatBadge 5s ease-in-out 2.5s infinite;
+    }
+    .hero-img-badge2-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s infinite;
+    }
+    .hero-img-badge2 span { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.85); white-space: nowrap; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(249,115,22,0.15);
+      border: 1px solid rgba(249,115,22,0.3);
+      padding: 6px 16px; border-radius: 100px;
+      font-size: 0.8rem; font-weight: 500; color: var(--orange);
+      margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--orange); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-title {
+      font-size: clamp(3.2rem, 6.5vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title .line-orange { color: var(--orange); }
+    .hero-title .line-blue  { color: var(--blue); }
+
+    .hero-desc {
+      font-size: 1.05rem; color: oklch(0.99 0.005 40 / 0.6);
+      line-height: 1.8; margin-bottom: 36px;
+      max-width: 55ch;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .hero-actions {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      color: var(--white); text-decoration: none;
+      padding: 14px 28px; border-radius: 12px;
+      font-weight: 600; font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(249,115,22,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(249,115,22,0.45); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white); text-decoration: none;
+      padding: 14px 28px; border-radius: 12px;
+      font-weight: 600; font-size: 0.95rem;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+
+    /* Bloc de confiança sota els botons */
+    .hero-trust {
+      display: flex; align-items: center; gap: 14px;
+      margin-top: 36px;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+    .hero-trust-avatars {
+      display: flex; align-items: center;
+    }
+    .hero-trust-text {
+      font-size: 0.88rem;
+      color: oklch(0.99 0.005 40 / 0.55);
+      line-height: 1.5;
+    }
+    .hero-trust-text strong { color: var(--white); font-weight: 600; }
+
+    .hero-scroll {
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeUp 0.8s 1.2s forwards;
+    }
+    .hero-scroll span { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(var(--orange), transparent); animation: scrollPulse 2s infinite; }
+    @keyframes scrollPulse {
+      0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); }
+      100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── SECTIONS ── */
+    section { padding: clamp(72px, 10vw, 120px) 5%; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 16px;
+    }
+    .section-label::before {
+      content: ''; width: 24px; height: 2px; background: var(--orange);
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 800; letter-spacing: -0.01em;
+      line-height: 1.1; margin-bottom: 20px;
+    }
+
+    .section-desc {
+      color: oklch(0.99 0.005 40 / 0.55); font-size: 1rem;
+      line-height: 1.8; max-width: 62ch;
+    }
+
+    /* ── SOBRE ── */
+    #sobre {
+      background: var(--dark2);
+      position: relative; overflow: hidden;
+    }
+    #sobre::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .sobre-grid {
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .sobre-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .sobre-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid;
+      animation: spin 20s linear infinite;
+    }
+    .sobre-ring-1 { width: 320px; height: 320px; border-color: rgba(249,115,22,0.35); animation-duration: 20s; }
+    .sobre-ring-2 { width: 240px; height: 240px; border-color: rgba(249,115,22,0.2); animation-direction: reverse; animation-duration: 14s; }
+    .sobre-ring-3 { width: 160px; height: 160px; border-color: rgba(249,115,22,0.25); animation-duration: 10s; }
+
+    .sobre-ring-1::before,
+    .sobre-ring-2::before,
+    .sobre-ring-3::before {
+      content: '';
+      position: absolute; top: -4px; left: 50%;
+      width: 8px; height: 8px; border-radius: 50%;
+      margin-left: -4px;
+    }
+    .sobre-ring-1::before { background: var(--orange); box-shadow: 0 0 12px var(--orange); }
+    .sobre-ring-2::before { background: var(--orange-d); box-shadow: 0 0 12px var(--orange-d); }
+    .sobre-ring-3::before { background: var(--orange); box-shadow: 0 0 12px var(--orange); }
+
+    @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+    .sobre-center {
+      width: 120px; height: 120px; z-index: 1;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      box-shadow: 0 0 40px oklch(0.65 0.19 40 / 0.3);
+    }
+
+    .sobre-pills {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px;
+    }
+    .pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 0.8rem; color: rgba(255,255,255,0.7);
+      transition: all 0.2s;
+    }
+    .pill:hover { background: rgba(249,115,22,0.15); border-color: var(--orange); color: var(--orange); }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(249,115,22,0.18), rgba(249,115,22,0.06));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px;
+      margin-top: 32px;
+    }
+    .highlight-box p { font-size: 0.95rem; line-height: 1.7; color: rgba(255,255,255,0.8); font-style: italic; }
+
+    /* ── SERVEIS · STACK ANIMAT (CardSwap GSAP) ── */
+    #serveis {
+      background: var(--dark);
+      position: relative;
+      overflow: visible; /* permet que l'stack es desbordi cap amunt sense tallar-se */
+    }
+    #serveis::before {
+      content: '';
+      position: absolute; top: 30%; left: 0;
+      width: 50%; height: 600px;
+      background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.08), transparent 70%);
+      filter: blur(80px); pointer-events: none;
+    }
+    #serveis::after {
+      content: '';
+      position: absolute; bottom: 0; right: 0;
+      width: 50%; height: 500px;
+      background: radial-gradient(circle, oklch(0.62 0.17 220 / 0.06), transparent 70%);
+      filter: blur(80px); pointer-events: none;
+    }
+
+    .serveis-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      min-height: 720px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 5%;
+    }
+
+    .serveis-intro {
+      position: relative;
+      z-index: 2;
+      max-width: 480px;
+    }
+    .serveis-intro .section-title {
+      margin-bottom: 24px;
+    }
+    /* Stack controls (arrows + indicator) — fixats sota el wrap */
+    .stack-controls {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      z-index: 100; /* per sobre de qualsevol card del stack */
+      display: flex; align-items: center; gap: 14px;
+      pointer-events: auto;
+    }
+    .stack-arrow {
+      pointer-events: auto;
+      position: relative;
+      z-index: 1;
+    }
+    .stack-arrow {
+      width: 48px; height: 48px;
+      background: oklch(1 0 0 / 0.04);
+      border: 1px solid oklch(1 0 0 / 0.1);
+      border-radius: 14px;
+      color: var(--white);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s, border-color 0.25s, transform 0.3s var(--ease-out), color 0.25s;
+    }
+    .stack-arrow:hover {
+      background: oklch(0.65 0.19 40 / 0.18);
+      border-color: oklch(0.65 0.19 40 / 0.5);
+      color: var(--orange);
+      transform: translateY(-2px);
+    }
+    .stack-arrow:active {
+      transform: translateY(0) scale(0.96);
+    }
+    .stack-arrow svg { width: 20px; height: 20px; pointer-events: none; }
+    .stack-arrow[disabled] {
+      opacity: 0.3; pointer-events: none;
+    }
+    .stack-counter {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: oklch(1 0 0 / 0.55);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      min-width: 50px;
+    }
+    .stack-counter strong {
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    .serveis-stack-wrap {
+      position: relative;
+      height: clamp(560px, 56vw, 720px);
+    }
+    #serveiStack {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* CardSwap container · ancorat al centre baix del wrap, stack creix amunt-dreta */
+    .card-swap-container {
+      position: absolute !important;
+      bottom: 70px !important;
+      /* Anchor més a l'esquerra perquè l'stack creix cap a la dreta */
+      left: 30% !important;
+      right: auto !important;
+      top: auto !important;
+      transform: translateX(-50%) !important;
+      transform-origin: center bottom !important;
+      perspective: 1200px;
+      overflow: visible;
+    }
+
+    /* Service stack card */
+    .servei-stack-card {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 420px; height: 400px;
+      border-radius: 26px;
+      background: linear-gradient(160deg,
+        oklch(0.20 0.018 265 / 0.97) 0%,
+        oklch(0.13 0.015 265 / 0.97) 100%);
+      border: 1px solid oklch(0.65 0.19 40 / 0.28);
+      padding: 36px 36px 32px;
+      display: flex; flex-direction: column;
+      box-shadow:
+        0 32px 80px oklch(0 0 0 / 0.55),
+        0 12px 24px oklch(0 0 0 / 0.35),
+        inset 0 1px 0 oklch(1 0 0 / 0.07);
+      transform-style: preserve-3d;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .servei-stack-card::before {
+      content: '';
+      position: absolute; top: -40%; right: -30%;
+      width: 80%; height: 100%;
+      background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.22), transparent 70%);
+      filter: blur(40px); pointer-events: none;
+    }
+
+    .servei-stack-num {
+      position: absolute; top: 24px; right: 30px;
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 4.5rem; font-weight: 900;
+      letter-spacing: -0.04em; line-height: 1;
+      color: oklch(0.65 0.19 40 / 0.13);
+      font-variant-numeric: tabular-nums;
+      pointer-events: none; user-select: none;
+    }
+    .servei-stack-cat {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .servei-stack-cat::before {
+      content: ''; width: 22px; height: 1px;
+      background: var(--orange);
+    }
+    .servei-stack-icon {
+      width: 64px; height: 64px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      margin-bottom: 22px;
+      box-shadow:
+        0 12px 28px oklch(0.65 0.19 40 / 0.45),
+        inset 0 1px 0 oklch(1 0 0 / 0.2);
+      position: relative;
+    }
+    .servei-stack-icon svg { width: 28px; height: 28px; }
+    .servei-stack-name {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 1.7rem; font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.05;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .servei-stack-desc {
+      color: oklch(1 0 0 / 0.65);
+      line-height: 1.65;
+      font-size: 0.92rem;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .servei-stack-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: auto;
+      position: relative;
+    }
+    .servei-stack-tag {
+      font-size: 0.7rem; font-weight: 500;
+      background: oklch(0.65 0.19 40 / 0.1);
+      border: 1px solid oklch(0.65 0.19 40 / 0.25);
+      color: oklch(0.88 0.08 45);
+      padding: 4px 11px; border-radius: 100px;
+    }
+
+    @media (max-width: 1024px) {
+      .serveis-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        min-height: auto;
+      }
+      .serveis-intro { max-width: none; }
+      .serveis-stack-wrap { height: 540px; }
+      .card-swap-container {
+        transform: scale(0.85) translate(0, 8%);
+        transform-origin: center bottom;
+      }
+    }
+    @media (max-width: 768px) {
+      .serveis-stack-wrap { height: clamp(500px, 110vw, 620px); }
+      .servei-stack-card { width: 340px; height: 400px; padding: 28px; }
+      .servei-stack-num { font-size: 3.5rem; }
+      .servei-stack-name { font-size: 1.4rem; }
+      .card-swap-container {
+        transform: translateX(-50%) scale(0.85) !important;
+      }
+    }
+    @media (max-width: 480px) {
+      .servei-stack-card { width: 290px; height: 380px; padding: 22px; }
+      .card-swap-container {
+        transform: translateX(-50%) scale(0.72) !important;
+      }
+    }
+
+    /* ── TECNOLOGIA ── */
+    #tecnologia {
+      background: var(--dark2);
+      position: relative; overflow: hidden;
+    }
+    #tecnologia::before {
+      content: ''; position: absolute;
+      bottom: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, oklch(0.62 0.17 220 / 0.08), transparent 65%);
+      filter: blur(80px); pointer-events: none;
+    }
+
+    /* ── INDIBA SHOWCASE ── */
+    .indiba-showcase {
+      position: relative;
+      background:
+        linear-gradient(160deg,
+          oklch(0.65 0.19 40 / 0.18) 0%,
+          oklch(0.18 0.015 265 / 0.5) 60%,
+          oklch(0.13 0.015 265 / 0.4) 100%);
+      border: 1px solid oklch(0.65 0.19 40 / 0.4);
+      border-radius: 32px;
+      padding: clamp(40px, 6vw, 80px) clamp(32px, 5vw, 64px);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      box-shadow:
+        0 48px 120px oklch(0.65 0.19 40 / 0.18),
+        0 24px 48px oklch(0 0 0 / 0.45),
+        inset 0 1px 0 oklch(1 0 0 / 0.08);
+    }
+    .indiba-showcase::before {
+      content: '';
+      position: absolute; inset: -2px;
+      border-radius: 32px;
+      background: conic-gradient(from var(--ang, 0deg),
+        oklch(0.65 0.19 40 / 0) 0%,
+        oklch(0.65 0.19 40 / 0.5) 25%,
+        oklch(0.65 0.19 40 / 0) 50%,
+        oklch(0.62 0.17 220 / 0.4) 75%,
+        oklch(0.65 0.19 40 / 0) 100%);
+      opacity: 0.5;
+      z-index: -1;
+      animation: indibaRotate 8s linear infinite;
+    }
+    @keyframes indibaRotate { to { --ang: 360deg; } }
+    @property --ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+    .indiba-waves {
+      position: absolute; top: 50%; left: 50%;
+      width: clamp(400px, 60vw, 700px);
+      height: clamp(400px, 60vw, 700px);
+      transform: translate(-50%, -50%);
+      pointer-events: none; z-index: 0;
+    }
+    .indiba-wave {
+      position: absolute; inset: 0;
+      border: 1px solid oklch(0.65 0.19 40 / 0.5);
+      border-radius: 50%;
+      animation: indibaPulse 4.5s infinite cubic-bezier(0.16,1,0.3,1);
+      opacity: 0;
+    }
+    @keyframes indibaPulse {
+      0%   { transform: scale(0.15); opacity: 0; }
+      8%   { opacity: 0.8; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    .indiba-meta {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      gap: 14px; margin-bottom: 40px;
+      flex-wrap: wrap;
+      transform: translateZ(30px);
+    }
+    .indiba-pill {
+      background: var(--orange); color: var(--white);
+      padding: 6px 14px; border-radius: 100px;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .indiba-pill::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--white);
+      animation: pulse 2s infinite;
+    }
+    .indiba-cat {
+      font-size: 0.7rem; font-weight: 700;
+      color: oklch(1 0 0 / 0.5);
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+
+    .indiba-hero {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      gap: clamp(16px, 3vw, 32px);
+      margin-bottom: 40px;
+      transform: translateZ(60px);
+    }
+    .indiba-glyph {
+      width: clamp(64px, 8vw, 96px);
+      height: clamp(64px, 8vw, 96px);
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      border-radius: 24px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); flex-shrink: 0;
+      box-shadow:
+        0 16px 32px oklch(0.65 0.19 40 / 0.5),
+        inset 0 1px 0 oklch(1 0 0 / 0.2);
+      animation: indibaGlyphFloat 5s infinite ease-in-out;
+    }
+    .indiba-glyph svg { width: 50%; height: 50%; }
+    @keyframes indibaGlyphFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-6px) rotate(2deg); }
+    }
+
+    .indiba-frequency {
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .indiba-num {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: clamp(4.5rem, 12vw, 9rem);
+      font-weight: 900; line-height: 0.9;
+      letter-spacing: -0.05em;
+      color: var(--orange);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 8px 32px oklch(0.65 0.19 40 / 0.3);
+    }
+    .indiba-unit {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: clamp(1.2rem, 2vw, 1.8rem);
+      font-weight: 700;
+      color: oklch(1 0 0 / 0.7);
+      letter-spacing: -0.01em;
+    }
+
+    .indiba-title {
+      position: relative; z-index: 1;
+      text-align: center;
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em; line-height: 1.05;
+      margin-bottom: 20px;
+      transform: translateZ(20px);
+    }
+
+    .indiba-desc {
+      position: relative; z-index: 1;
+      text-align: center;
+      color: oklch(1 0 0 / 0.7);
+      line-height: 1.75;
+      max-width: 580px;
+      margin: 0 auto 48px;
+      font-size: 1rem;
+    }
+    .indiba-desc strong { color: var(--white); font-weight: 600; }
+
+    .indiba-stats {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid oklch(1 0 0 / 0.1);
+      padding-top: 32px;
+      max-width: 600px; margin: 0 auto;
+    }
+    .indiba-stat {
+      text-align: center;
+      position: relative;
+      padding: 0 16px;
+    }
+    .indiba-stat:not(:last-child)::after {
+      content: ''; position: absolute;
+      right: 0; top: 50%; transform: translateY(-50%);
+      width: 1px; height: 40px;
+      background: oklch(1 0 0 / 0.08);
+    }
+    .indiba-stat-num {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .indiba-stat-label {
+      font-size: 0.78rem;
+      color: oklch(1 0 0 / 0.55);
+      letter-spacing: 0.04em;
+    }
+
+    /* Supporting tech extras (2-col asymmetric) */
+    .tec-extras {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .tec-extra {
+      display: flex; gap: 20px;
+      background: oklch(1 0 0 / 0.025);
+      border: 1px solid oklch(1 0 0 / 0.07);
+      border-radius: 20px;
+      padding: 28px;
+      transition: border-color 0.3s, background 0.3s, transform 0.4s var(--ease-out);
+    }
+    .tec-extra:hover {
+      border-color: oklch(0.65 0.19 40 / 0.3);
+      background: oklch(0.65 0.19 40 / 0.03);
+      transform: translateY(-3px);
+    }
+    .tec-extra-icon {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: linear-gradient(135deg, oklch(0.65 0.19 40 / 0.2), oklch(0.65 0.19 40 / 0.05));
+      border: 1px solid oklch(0.65 0.19 40 / 0.25);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--orange);
+    }
+    .tec-extra-icon .icon { width: 22px; height: 22px; }
+    .tec-extra-eyebrow {
+      font-size: 0.68rem; font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.15em; text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .tec-extra h4 {
+      font-family: 'Barlow Semi Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .tec-extra p {
+      font-size: 0.88rem;
+      color: oklch(1 0 0 / 0.55);
+      line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+      .tec-extras { grid-template-columns: 1fr; }
+    }
+
+    /* ── MUTUALITATS ── */
+    #mutualitats {
+      background: var(--dark);
+      text-align: center;
+    }
+    .mutual-desc { color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto 48px; line-height: 1.7; }
+    .mutual-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;
+    }
+    .mutual-badge {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 24px; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 500;
+      transition: all 0.2s; cursor: default;
+    }
+    .mutual-badge:hover {
+      background: rgba(249,115,22,0.15);
+      border-color: var(--orange); color: var(--orange-l);
+    }
+
+    /* ── HORARIS ── */
+    #horaris {
+      background: var(--dark2);
+    }
+    .horaris-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 24px; margin-top: 48px;
+    }
+    .horari-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius); padding: 32px;
+      position: relative; overflow: hidden;
+    }
+    .horari-card.active { border-color: rgba(249,115,22,0.4); }
+    .horari-season {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .horari-season .icon { width: 13px; height: 13px; }
+    .horari-card.active .horari-season { color: var(--orange); }
+    .horari-card:not(.active) .horari-season { color: var(--blue); }
+    .horari-time { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.03em; }
+    .horari-days { color: rgba(255,255,255,0.55); margin-top: 8px; font-size: 0.9rem; }
+    .horari-note {
+      margin-top: 16px; font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .active-dot {
+      position: absolute; top: 24px; right: 24px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--orange); animation: pulse 2s infinite;
+    }
+
+    .horari-full {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius); padding: 32px;
+      margin-top: 24px;
+    }
+    .horari-full h4 { margin-bottom: 16px; font-weight: 700; }
+    .horari-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+    .horari-row:last-child { border-bottom: none; }
+    .horari-row .day { color: rgba(255,255,255,0.6); }
+    .horari-row .time { font-weight: 600; }
+    .horari-row .time.orange { color: var(--orange); }
+
+    /* ── CONTACTE ── */
+    #contacte { background: var(--dark); }
+
+    .contacte-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: start;
+    }
+
+    .contact-info { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
+    .contact-item {
+      display: flex; gap: 16px; align-items: flex-start;
+    }
+    .contact-icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: rgba(249,115,22,0.15);
+      border: 1px solid rgba(249,115,22,0.25);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+    }
+    .contact-item h5 { font-weight: 700; font-size: 0.85rem; margin-bottom: 4px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.05em; }
+    .contact-item a, .contact-item p { color: var(--white); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+    .contact-item a:hover { color: var(--orange); }
+
+    .map-container {
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .map-container iframe {
+      width: 100%; height: 380px;
+      filter: grayscale(0.5) invert(0.9) hue-rotate(180deg);
+      display: block;
+    }
+    .map-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 70%, rgba(15,23,42,0.5));
+      pointer-events: none;
+    }
+
+    /* ── FORM ── */
+    .contact-form { margin-top: 8px; }
+    .form-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); padding: 12px 16px;
+      border-radius: 10px; font-family: inherit; font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--orange);
+      background: rgba(249,115,22,0.06);
+    }
+    .form-group textarea { height: 100px; resize: vertical; }
+    .form-group select option { background: var(--dark2); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .btn-form {
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      color: var(--white); border: none; cursor: pointer;
+      padding: 14px; border-radius: 10px;
+      font-weight: 700; font-size: 0.95rem; font-family: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 20px rgba(249,115,22,0.3);
+    }
+    .btn-form:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(249,115,22,0.4); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #070E1A;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 60px 5% 32px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px; padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-brand p { color: rgba(255,255,255,0.5); font-size: 0.875rem; line-height: 1.7; margin-top: 16px; max-width: 300px; }
+    .footer-col h5 { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 32px; font-size: 0.8rem; color: rgba(255,255,255,0.3);
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom span span { color: var(--orange); }
+
+    /* ── FLOATING CTA ── */
+    .floating-cta {
+      position: fixed; bottom: 32px; right: 32px; z-index: 500;
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+    }
+    .float-btn {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 20px; border-radius: 100px;
+      font-weight: 600; font-size: 0.875rem; text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    .float-btn:hover { transform: translateX(-4px); }
+    .float-btn-phone {
+      background: var(--orange);
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(249,115,22,0.4);
+    }
+    .float-btn-wa {
+      background: #25D366;
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; padding-top: 140px; }
+      .hero-image-wrap { order: -1; max-width: 420px; margin: 0 auto; }
+      .hero-img-badge  { left: 0; bottom: 16px; }
+      .hero-img-badge2 { right: 0; }
+      .sobre-grid { grid-template-columns: 1fr; }
+      .sobre-visual { margin-bottom: 20px; }
+      .tec-grid { grid-template-columns: 1fr; }
+      .contacte-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 72px 5%; }
+      nav { top: 10px; width: calc(100% - 24px); padding: 0 16px; }
+      .nav-pill-wrapper { display: none; }
+      .nav-cta-wrap { display: none; }
+      .nav-hamburger { display: flex; }
+      .horaris-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .floating-cta { bottom: 20px; right: 16px; }
+    }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 998;
+      background: rgba(8,14,26,0.97); backdrop-filter: blur(28px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      clip-path: circle(0% at calc(100% - 40px) 48px);
+      transition: clip-path 0.55s cubic-bezier(0.77,0,0.175,1);
+      pointer-events: none;
+    }
+    .mobile-menu.open {
+      clip-path: circle(150% at calc(100% - 40px) 48px);
+      pointer-events: all;
+    }
+
+    /* decorative orange ring inside mobile menu */
+    .mobile-menu::before {
+      content: '';
+      position: absolute; width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 1px solid rgba(249,115,22,0.12);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .mobile-menu::after {
+      content: '';
+      position: absolute; width: 250px; height: 250px;
+      border-radius: 50%;
+      border: 1px solid rgba(249,115,22,0.08);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .mobile-nav-item {
+      display: flex; align-items: center; gap: 12px;
+      color: rgba(255,255,255,0.5); text-decoration: none;
+      font-size: 2rem; font-weight: 800; letter-spacing: -0.03em;
+      padding: 10px 32px; border-radius: 16px;
+      transition: color 0.2s, background 0.2s, transform 0.2s;
+      position: relative; z-index: 1;
+      opacity: 0; transform: translateY(20px);
+    }
+    .mobile-menu.open .mobile-nav-item {
+      animation: mobileItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .mobile-menu.open .mobile-nav-item:nth-child(1) { animation-delay: 0.12s; }
+    .mobile-menu.open .mobile-nav-item:nth-child(2) { animation-delay: 0.19s; }
+    .mobile-menu.open .mobile-nav-item:nth-child(3) { animation-delay: 0.26s; }
+    .mobile-menu.open .mobile-nav-item:nth-child(4) { animation-delay: 0.33s; }
+    .mobile-menu.open .mobile-nav-item:nth-child(5) { animation-delay: 0.40s; }
+
+    @keyframes mobileItemIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-nav-item:hover {
+      color: var(--orange);
+      background: rgba(249,115,22,0.08);
+      transform: translateX(6px);
+    }
+    .mobile-nav-num {
+      font-size: 0.75rem; font-weight: 600; color: var(--orange);
+      opacity: 0.7; width: 20px;
+    }
+
+    .mobile-menu-cta {
+      margin-top: 16px; z-index: 1;
+      opacity: 0; transform: translateY(20px);
+    }
+    .mobile-menu.open .mobile-menu-cta {
+      animation: mobileItemIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.47s forwards;
+    }
+    .mobile-menu-cta a {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--orange), var(--orange-d));
+      color: var(--white); text-decoration: none;
+      padding: 14px 36px; border-radius: 14px;
+      font-weight: 700; font-size: 1rem;
+      box-shadow: 0 8px 28px rgba(249,115,22,0.4);
+    }
+
+    .mobile-close {
+      position: absolute; top: 24px; right: 24px;
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); font-size: 1rem; cursor: pointer;
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2; transition: background 0.2s, color 0.2s;
+    }
+    .mobile-close:hover { background: rgba(249,115,22,0.2); color: var(--orange); }
+
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; z-index: 2000;
+      background: linear-gradient(90deg, var(--orange), var(--blue));
+      width: 0; transition: width 0.1s;
+    }
+  </style>
+</head>
+<body>
+
+<a href="#hero" class="skip-link">Saltar al contingut principal</a>
+<div id="progress-bar" role="progressbar" aria-hidden="true"></div>
+
+<!-- SVG SPRITE ── tots els icones de la web -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none" width="0" height="0">
+  <symbol id="ico-cross" viewBox="0 0 24 24">
+    <rect x="9.5" y="2" width="5" height="20" rx="2.5" fill="currentColor" stroke="none"/>
+    <rect x="2" y="9.5" width="20" height="5" rx="2.5" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.05 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.05a16 16 0 0 0 5.86 5.86l1.21-1.21a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
+  </symbol>
+  <symbol id="ico-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </symbol>
+  <symbol id="ico-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+    <circle cx="12" cy="10" r="3"/>
+  </symbol>
+  <symbol id="ico-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="m2 7 10 7 10-7"/>
+  </symbol>
+  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 6v6l4 2"/>
+  </symbol>
+  <symbol id="ico-lightning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+  </symbol>
+  <symbol id="ico-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <circle cx="12" cy="12" r="6"/>
+    <circle cx="12" cy="12" r="2"/>
+  </symbol>
+  <symbol id="ico-droplet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+  </symbol>
+  <symbol id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"/>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+  </symbol>
+  <symbol id="ico-snowflake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <line x1="12" y1="2" x2="12" y2="22"/>
+    <path d="M20 16l-4-4 4-4M4 8l4 4-4 4M16 4l-4 4-4-4M8 20l4-4 4 4"/>
+  </symbol>
+  <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+  </symbol>
+  <symbol id="ico-bone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6.5" cy="6.5" r="2.5"/>
+    <circle cx="17.5" cy="17.5" r="2.5"/>
+    <line x1="8.8" y1="8.8" x2="15.2" y2="15.2" stroke-width="3"/>
+  </symbol>
+  <symbol id="ico-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+  </symbol>
+  <symbol id="ico-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-1.07-4.99A3 3 0 1 1 9.5 2Z"/>
+    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 1.07-4.99A3 3 0 1 0 14.5 2Z"/>
+  </symbol>
+  <symbol id="ico-waves" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5s2.4 2 5 2 2.5-2 5-2"/>
+    <path d="M2 12c.6.5 1.2 1 2.5 1C7 13 7 11 9.5 11s2.4 2 5 2 2.5-2 5-2"/>
+    <path d="M2 18c.6.5 1.2 1 2.5 1C7 19 7 17 9.5 17s2.4 2 5 2 2.5-2 5-2"/>
+  </symbol>
+  <symbol id="ico-joints" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="8" cy="8" r="5"/>
+    <circle cx="16" cy="16" r="5"/>
+  </symbol>
+  <symbol id="ico-elder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="5" r="2.5"/>
+    <path d="M6 22V14l2-2V9M12 9l-1 3-3 2M16 8l2 14"/>
+  </symbol>
+  <symbol id="ico-child" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="6" r="3"/>
+    <path d="M7 15h10M9 22l3-7 3 7"/>
+  </symbol>
+  <symbol id="ico-tooth" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2c-2.4 0-4.1 1.4-5 3-.9 1.6-1 4-1 7 0 2.5.8 5 2 5 .6 0 1-.5 1.5-1.5.5-1 1-2.5 2.5-2.5s2 1.5 2.5 2.5c.5 1 .9 1.5 1.5 1.5 1.2 0 2-2.5 2-5 0-3-.1-5.4-1-7-.9-1.6-2.6-3-5-3z"/>
+  </symbol>
+  <symbol id="ico-hands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 11V6a2 2 0 0 0-4 0v1M14 7V4a2 2 0 0 0-4 0v4M10 5V4a2 2 0 0 0-4 0v8"/>
+    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+  </symbol>
+  <symbol id="ico-figure" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="4" r="2"/>
+    <path d="M12 6v6M9 12h6M8 22c1.5-3.5 3-5 4-5s2.5 1.5 4 5"/>
+    <path d="M5 17c2-2.5 4-4 7-4s5 1.5 7 4"/>
+  </symbol>
+  <symbol id="ico-stethoscope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
+    <path d="M8 15a6 6 0 0 0 6 6h0a6 6 0 0 0 6-6v-3"/>
+    <circle cx="20" cy="10" r="2"/>
+  </symbol>
+  <symbol id="ico-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="4"/>
+    <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+  </symbol>
+  <symbol id="ico-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </symbol>
+  <symbol id="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="ico-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"/>
+  </symbol>
+  <symbol id="ico-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </symbol>
+</svg>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose"><svg class="icon" style="width:16px;height:16px"><use href="#ico-close"/></svg></button>
+  <a href="#sobre" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">01</span>El Centre</a>
+  <a href="#serveis" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">02</span>Serveis</a>
+  <a href="#tecnologia" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">03</span>Tecnologia</a>
+  <a href="#horaris" class="mobile-nav-item" onclick="closeMobileMenu()"><span class="mobile-nav-num">04</span>Horaris</a>
+  <div class="mobile-menu-cta">
+    <a href="#contacte" onclick="closeMobileMenu()"><svg class="icon" style="width:18px;height:18px;margin-right:6px"><use href="#ico-phone"/></svg>Contactar ara</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-text">
+      Global Fisio
+      <span>Centre de Fisioteràpia</span>
+    </div>
+  </a>
+
+  <div class="nav-pill-wrapper" id="navPillWrapper">
+    <div class="nav-indicator" id="navIndicator"></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#sobre" class="nav-link-item">El Centre</a></li>
+      <li><a href="#serveis" class="nav-link-item">Serveis</a></li>
+      <li><a href="#tecnologia" class="nav-link-item">Tecnologia</a></li>
+      <li><a href="#horaris" class="nav-link-item">Horaris</a></li>
+    </ul>
+  </div>
+
+  <div class="nav-cta-wrap">
+    <a href="#contacte" class="nav-cta">
+      <svg class="icon nav-cta-icon" style="width:15px;height:15px"><use href="#ico-phone"/></svg> Contactar
+    </a>
+  </div>
+
+  <button class="nav-hamburger" id="hamburger"
+          type="button" aria-label="Obre el menú de navegació"
+          aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Obert des de 2007 · Sant Antoni de Calonge</div>
+    <h1 class="hero-title">
+      Recupera el teu<br/>
+      <span class="line-orange">moviment</span> amb<br/>
+      <span class="line-blue">professionals</span>
+    </h1>
+    <p class="hero-desc">
+      Fisioteràpia personalitzada i d'alta qualitat a la Costa Brava.<br/>
+      Tractaments avançats per millorar la teva qualitat de vida.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacte" class="btn-primary">
+        <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
+      </a>
+      <a href="#serveis" class="btn-secondary">
+        <span>→</span> Veure serveis
+      </a>
+    </div>
+    <div class="hero-trust">
+      <div class="hero-trust-avatars" aria-hidden="true">
+        <div class="trust-avatar" style="background:oklch(0.45 0.16 220)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+        <div class="trust-avatar" style="background:oklch(0.60 0.19 40)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+        <div class="trust-avatar" style="background:oklch(0.32 0.015 265)"><svg fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg></div>
+      </div>
+      <p class="hero-trust-text">
+        Més de <strong>17 anys</strong> cuidant pacients<br/>a Sant Antoni de Calonge
+      </p>
+    </div>
+  </div>
+
+  <!-- FOTO HERO -->
+  <div class="hero-image-wrap">
+    <img
+      class="hero-img"
+      src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=800&q=85"
+      alt="Fisioterapeuta tractant un pacient a Global Centre de Fisioteràpia"
+      width="520" height="650" fetchpriority="high"
+    />
+    <div class="hero-img-badge">
+      <div class="hero-img-badge-icon" aria-hidden="true"><svg class="icon icon-filled"><use href="#ico-star"/></svg></div>
+      <div class="hero-img-badge-text">
+        <strong>+17 anys</strong>
+        <span>d'experiència</span>
+      </div>
+    </div>
+    <div class="hero-img-badge2">
+      <div class="hero-img-badge2-dot"></div>
+      <span>Atenent pacients ara</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-grid">
+    <div class="sobre-visual reveal">
+      <div class="sobre-ring sobre-ring-1"></div>
+      <div class="sobre-ring sobre-ring-2"></div>
+      <div class="sobre-ring sobre-ring-3"></div>
+      <div class="sobre-center"><svg class="icon"><use href="#ico-stethoscope"/></svg></div>
+    </div>
+    <div>
+      <div class="section-label reveal">El Centre</div>
+      <h2 class="section-title reveal reveal-delay-1">Fisioteràpia de<br/><span style="color:var(--orange)">confiança</span> des de 2007</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        Global Centre de Fisioteràpia va néixer a Sant Antoni de Calonge amb la vocació de oferir un servei de fisioteràpia proper, professional i d'alta qualitat. El nostre equip treballa per millorar la teva qualitat de vida a través de tractaments personalitzats.
+      </p>
+      <div class="sobre-pills reveal reveal-delay-3">
+        <span class="pill">Traumatologia</span>
+        <span class="pill">Esport</span>
+        <span class="pill">Neurologia</span>
+        <span class="pill">Geriatria</span>
+        <span class="pill">Pediatria</span>
+        <span class="pill">Aquàtica</span>
+        <span class="pill">ATM</span>
+        <span class="pill">Pilates</span>
+      </div>
+      <div class="highlight-box reveal reveal-delay-4">
+        <p>"Atenem pacients privats i derivats de mútues d'accident i salut. El tracte personalitzat és la nostra essència."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVEIS -->
+<section id="serveis">
+  <div class="serveis-layout">
+    <div class="serveis-intro">
+      <div class="section-label reveal">Els Nostres Serveis</div>
+      <h2 class="section-title reveal reveal-delay-1">Tractaments<br/>especialitzats</h2>
+      <p class="section-desc reveal reveal-delay-2">
+        11 especialitats per a cada necessitat. La targeta de davant canvia automàticament cada 4&nbsp;segons — passa el cursor sobre l'stack per pausar i fer clic.
+      </p>
+      <a href="#contacte" class="btn-primary reveal reveal-delay-3" style="margin-top:24px">
+        <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> Demana cita
+      </a>
+    </div>
+
+    <div class="serveis-stack-wrap">
+      <div id="serveiStack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGIA -->
+<section id="tecnologia">
+  <div class="tec-header reveal" style="text-align:center; max-width:760px; margin: 0 auto 56px;">
+    <div class="section-label" style="justify-content:center">Tecnologia Avançada</div>
+    <h2 class="section-title">INDIBA &amp; Electroteràpia<br/><span style="color:var(--blue)">d'última generació</span></h2>
+    <p class="section-desc" style="margin: 16px auto 0;">
+      Incorporem les tecnologies més avançades per oferir tractaments més eficaços, ràpids i amb millors resultats.
+    </p>
+  </div>
+
+  <!-- INDIBA REACT SHOWCASE -->
+  <div id="indibaShowcase" class="reveal" style="max-width:1200px; margin: 0 auto 64px;"></div>
+
+  <!-- Supporting tech (2-col asymmetric, no 3-column slop) -->
+  <div class="tec-extras reveal reveal-delay-2">
+    <article class="tec-extra">
+      <div class="tec-extra-icon"><svg class="icon"><use href="#ico-target"/></svg></div>
+      <div>
+        <div class="tec-extra-eyebrow">Control del dolor</div>
+        <h4>Electroteràpia Especialitzada</h4>
+        <p>TENS, corrents interferencials i electroestimulació per al control del dolor i la recuperació muscular activa.</p>
+      </div>
+    </article>
+    <article class="tec-extra">
+      <div class="tec-extra-icon"><svg class="icon"><use href="#ico-droplet"/></svg></div>
+      <div>
+        <div class="tec-extra-eyebrow">Antigravetatori</div>
+        <h4>Hidroteràpia</h4>
+        <p>Instal·lacions aquàtiques especialitzades per a tractaments en medi aquàtic amb efectes antigravetatorials.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- MUTUALITATS -->
+<section id="mutualitats">
+  <div class="section-label reveal" style="justify-content:center">Col·laboradors</div>
+  <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Treballem amb mútues<br/>i assegurances de salut</h2>
+  <p class="mutual-desc reveal reveal-delay-2">
+    Atenem pacients privats i derivats de mútues d'accidents i salut. Consulta si la teva assegurança cobreix el tractament.
+  </p>
+  <div class="mutual-grid reveal reveal-delay-3">
+    <div class="mutual-badge">Mútua Universal</div>
+    <div class="mutual-badge">AXA Seguros</div>
+    <div class="mutual-badge">Mapfre</div>
+    <div class="mutual-badge">Zurich</div>
+    <div class="mutual-badge">Allianz</div>
+    <div class="mutual-badge">Sanitas</div>
+    <div class="mutual-badge">Mútua de Terrassa</div>
+    <div class="mutual-badge">ASISA</div>
+    <div class="mutual-badge">DKV</div>
+    <div class="mutual-badge">+ Consulta la teva</div>
+  </div>
+</section>
+
+<!-- HORARIS -->
+<section id="horaris">
+  <div class="section-label reveal">Quan ens trobaràs</div>
+  <h2 class="section-title reveal reveal-delay-1">Horaris d'atenció</h2>
+  <p class="section-desc reveal reveal-delay-2">Adaptem el nostre horari a les necessitats de la temporada per estar sempre disponibles per a tu.</p>
+
+  <div class="horaris-grid">
+    <div class="horari-card reveal reveal-delay-1">
+      <div class="horari-season"><svg class="icon"><use href="#ico-sun"/></svg>Horari d'Estiu</div>
+      <div class="horari-time">9h – 18h</div>
+      <div class="horari-days">Dilluns a Divendres</div>
+      <div class="horari-note">De juny a setembre aproximadament</div>
+    </div>
+    <div class="horari-card active reveal reveal-delay-2">
+      <div class="active-dot"></div>
+      <div class="horari-season"><svg class="icon"><use href="#ico-snowflake"/></svg>Horari d'Hivern</div>
+      <div class="horari-time">9h – 20h</div>
+      <div class="horari-days">Dilluns a Divendres</div>
+      <div class="horari-note">D'octubre a maig aproximadament</div>
+    </div>
+  </div>
+
+  <div class="horari-full reveal">
+    <h4>Tota la setmana</h4>
+    <div class="horari-row">
+      <span class="day">Dilluns – Divendres</span>
+      <span class="time orange">9:00 – 18:00 / 20:00</span>
+    </div>
+    <div class="horari-row">
+      <span class="day">Dissabte</span>
+      <span class="time">Matins amb cita prèvia</span>
+    </div>
+    <div class="horari-row">
+      <span class="day">Diumenge i festius</span>
+      <span class="time" style="color:rgba(255,255,255,0.3)">Tancat</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTE -->
+<section id="contacte">
+  <div class="contacte-grid">
+    <div>
+      <div class="section-label reveal">On som</div>
+      <h2 class="section-title reveal reveal-delay-1">Vine a visitar-nos</h2>
+      <div class="contact-info">
+        <div class="contact-item reveal reveal-delay-1">
+          <div class="contact-icon"><svg class="icon"><use href="#ico-pin"/></svg></div>
+          <div>
+            <h5>Adreça</h5>
+            <p>Av. Torre Valentina, 13<br/>17252 Sant Antoni de Calonge, Girona</p>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-2">
+          <div class="contact-icon"><svg class="icon"><use href="#ico-phone"/></svg></div>
+          <div>
+            <h5>Telèfon</h5>
+            <a href="tel:+34972662467">+34 972 66 24 67</a>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-3">
+          <div class="contact-icon"><svg class="icon"><use href="#ico-mail"/></svg></div>
+          <div>
+            <h5>Correu electrònic</h5>
+            <a href="mailto:neusfp@globalfisio.cat">neusfp@globalfisio.cat</a>
+          </div>
+        </div>
+        <div class="contact-item reveal reveal-delay-4">
+          <div class="contact-icon"><svg class="icon"><use href="#ico-clock"/></svg></div>
+          <div>
+            <h5>Horari</h5>
+            <p>Dl–Dv 9:00–20:00 · Dissabte matí amb cita</p>
+          </div>
+        </div>
+      </div>
+      <div class="map-container reveal" style="margin-top:32px">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2978.5!2d3.0668!3d41.8547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12bb1c3f8b0e7a5b%3A0x1!2sAv.+Torre+Valentina%2C+13%2C+17252+Sant+Antoni+de+Calonge!5e0!3m2!1sca!2ses!4v1234567890"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="map-overlay"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="contact-form reveal reveal-delay-1">
+        <p class="form-title">Envia'ns un missatge</p>
+        <form onsubmit="handleForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-nom">Nom</label>
+              <input id="f-nom" type="text" placeholder="El teu nom" required autocomplete="given-name" />
+            </div>
+            <div class="form-group">
+              <label for="f-cognom">Cognom</label>
+              <input id="f-cognom" type="text" placeholder="El teu cognom" autocomplete="family-name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-tel">Telèfon</label>
+            <input id="f-tel" type="tel" placeholder="+34 6XX XXX XXX" autocomplete="tel" />
+          </div>
+          <div class="form-group">
+            <label for="f-email">Correu electrònic</label>
+            <input id="f-email" type="email" placeholder="correu@exemple.com" required autocomplete="email" />
+          </div>
+          <div class="form-group">
+            <label for="f-servei">Servei d'interès</label>
+            <select id="f-servei">
+              <option value="">Selecciona un servei...</option>
+              <option>Fisioteràpia Traumatològica</option>
+              <option>Fisioteràpia Esportiva</option>
+              <option>Fisioteràpia Neurològica</option>
+              <option>Fisioteràpia Aquàtica</option>
+              <option>Fisioteràpia Geriàtrica</option>
+              <option>Fisioteràpia Pediàtrica</option>
+              <option>Fisioteràpia ATM</option>
+              <option>Massoteràpia</option>
+              <option>Fisioteràpia a Domicili</option>
+              <option>Escola d'Esquena / Pilates</option>
+              <option>No sé, necessito orientació</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-missatge">Missatge</label>
+            <textarea id="f-missatge" placeholder="Explica'ns breument la teva situació..."></textarea>
+          </div>
+          <button type="submit" class="btn-form">Enviar missatge →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-text">
+          Global Fisio
+          <span>Centre de Fisioteràpia</span>
+        </div>
+      </a>
+      <p>Fisioteràpia especialitzada a Sant Antoni de Calonge des de 2007. Millorant la qualitat de vida dels nostres pacients cada dia.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Serveis</h5>
+      <ul>
+        <li><a href="#serveis">Traumatologia</a></li>
+        <li><a href="#serveis">Esport</a></li>
+        <li><a href="#serveis">Neurologia</a></li>
+        <li><a href="#serveis">Geriatria</a></li>
+        <li><a href="#serveis">Aquàtica</a></li>
+        <li><a href="#serveis">Pilates</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contacte</h5>
+      <ul>
+        <li><a href="tel:+34972662467">972 66 24 67</a></li>
+        <li><a href="mailto:neusfp@globalfisio.cat">neusfp@globalfisio.cat</a></li>
+        <li><a href="#contacte">Com arribar-hi</a></li>
+        <li><a href="#horaris">Horaris</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Global Centre de Fisioteràpia · Av. Torre Valentina, 13 · Sant Antoni de Calonge</span>
+    <span>Fet amb <span>♥</span> per als nostres pacients</span>
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<div class="floating-cta">
+  <a href="tel:+34972662467" class="float-btn float-btn-phone">
+    <svg class="icon" style="width:16px;height:16px"><use href="#ico-phone"/></svg> 972 66 24 67
+  </a>
+</div>
+
+<script>
+  // ── MAGNETIC BUTTONS (MOTION_INTENSITY > 5) ──
+  document.querySelectorAll('.btn-primary, .nav-cta, .float-btn-phone').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.18;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.18;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transition = 'transform 0.45s cubic-bezier(0.16,1,0.3,1)';
+      btn.style.transform  = '';
+      setTimeout(() => btn.style.transition = '', 450);
+    });
+  });
+
+  // ── PROGRESS BAR ──
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = pct + '%';
+  });
+
+  // ── NAV SCROLL ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── NAV INDICATOR (sliding pill) ──
+  const indicator   = document.getElementById('navIndicator');
+  const navLinkEls  = document.querySelectorAll('.nav-link-item');
+
+  function moveIndicator(el) {
+    if (!el || !indicator) return;
+    const wrapper = document.getElementById('navPillWrapper');
+    const wRect   = wrapper.getBoundingClientRect();
+    const eRect   = el.getBoundingClientRect();
+    indicator.style.width  = eRect.width  + 'px';
+    indicator.style.transform = `translateX(${eRect.left - wRect.left - 4}px)`;
+  }
+
+  navLinkEls.forEach(a => {
+    a.addEventListener('mouseenter', () => moveIndicator(a));
+    a.addEventListener('focus',      () => moveIndicator(a));
+  });
+  document.getElementById('navPillWrapper')?.addEventListener('mouseleave', () => {
+    const active = document.querySelector('.nav-link-item.active');
+    if (active) moveIndicator(active); else { indicator.style.width = '0'; }
+  });
+
+  // Active section detection
+  const sections = document.querySelectorAll('section[id]');
+  function setActiveLink() {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinkEls.forEach(a => {
+      const active = a.getAttribute('href') === '#' + current;
+      a.classList.toggle('active', active);
+      if (active) moveIndicator(a);
+    });
+  }
+  window.addEventListener('scroll', setActiveLink, { passive: true });
+  setActiveLink();
+
+  // ── MOBILE MENU ──
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+  document.getElementById('mobileClose').addEventListener('click', closeMobileMenu);
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  // ── REVEAL ON SCROLL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── FORM ──
+  function handleForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-form');
+    btn.innerHTML = '<svg style="display:inline;width:16px;height:16px;margin-right:6px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Missatge enviat!';
+    btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+    setTimeout(() => {
+      btn.innerHTML = 'Enviar missatge →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+
+  // Serveis i INDIBA: components React (vegeu <script type="module"> a sota)
+
+  // ── COUNTER ANIMATION ──
+  function animateCount(el, target, suffix = '') {
+    let current = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = (suffix === '%' ? Math.round(current) : Math.round(current)) + suffix;
+    }, 16);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const nums = e.target.querySelectorAll('.stat-num');
+        const values = [17, 11, 100];
+        const suffixes = ['+', '', '%'];
+        nums.forEach((num, i) => {
+          const prefix = suffixes[i] === '+' ? '+' : '';
+          num.textContent = prefix + '0' + (suffixes[i] === '%' ? '%' : '');
+          setTimeout(() => {
+            let count = 0;
+            const target = values[i];
+            const interval = setInterval(() => {
+              count += Math.ceil(target / 40);
+              if (count >= target) { count = target; clearInterval(interval); }
+              num.textContent = prefix + count + (suffixes[i] !== '+' ? suffixes[i] : '');
+            }, 25);
+          }, i * 150);
+        });
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const heroStats = document.querySelector('.hero-stats');
+  if (heroStats) statsObserver.observe(heroStats);
+</script>
+
+<!-- ── REACT COMPONENTS (esm.sh, sense build step) ── -->
+<script type="module">
+  import React, { useState, useRef, useEffect, useCallback, useMemo, Children, cloneElement, isValidElement, forwardRef } from 'https://esm.sh/react@18';
+  import { createRoot } from 'https://esm.sh/react-dom@18/client';
+  import htm from 'https://esm.sh/htm@3';
+  import gsap from 'https://esm.sh/gsap@3';
+
+  const html = htm.bind(React.createElement);
+
+  // ─────────────────────────────────────────────────────────
+  // Utilitat: spring-lerp tilt 3D que segueix el cursor
+  // ─────────────────────────────────────────────────────────
+  function useTilt({ max = 6, smooth = 0.15 } = {}) {
+    const ref = useRef(null);
+    const target = useRef({ rx: 0, ry: 0 });
+    const current = useRef({ rx: 0, ry: 0 });
+    const rafId = useRef(null);
+
+    const tick = useCallback(() => {
+      current.current.rx += (target.current.rx - current.current.rx) * smooth;
+      current.current.ry += (target.current.ry - current.current.ry) * smooth;
+      if (ref.current) {
+        ref.current.style.setProperty('--rx', current.current.rx.toFixed(3) + 'deg');
+        ref.current.style.setProperty('--ry', current.current.ry.toFixed(3) + 'deg');
+      }
+      const settled =
+        Math.abs(current.current.rx - target.current.rx) < 0.02 &&
+        Math.abs(current.current.ry - target.current.ry) < 0.02;
+      if (!settled) rafId.current = requestAnimationFrame(tick);
+      else rafId.current = null;
+    }, [smooth]);
+
+    const onMouseMove = useCallback(e => {
+      const el = ref.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width / 2) / r.width;
+      const y = (e.clientY - r.top - r.height / 2) / r.height;
+      target.current.rx = -y * max;
+      target.current.ry = x * max;
+      if (!rafId.current) rafId.current = requestAnimationFrame(tick);
+    }, [max, tick]);
+
+    const onMouseLeave = useCallback(() => {
+      target.current.rx = 0; target.current.ry = 0;
+      if (!rafId.current) rafId.current = requestAnimationFrame(tick);
+    }, [tick]);
+
+    useEffect(() => () => { if (rafId.current) cancelAnimationFrame(rafId.current); }, []);
+
+    return { ref, onMouseMove, onMouseLeave };
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // SERVEI EXPLORER (React)
+  // ─────────────────────────────────────────────────────────
+  const services = [
+    { num: '01', cat: 'Traumatologia', name: 'Fisioteràpia Traumatològica', icon: 'ico-bone',
+      desc: 'Tractament de lesions musculoesquelètiques: lumbàlgies, cervicàlgies, esquinços lligamentosos, trencaments musculars i rehabilitació postquirúrgica integral.',
+      tags: ['Lumbàlgia', 'Cervicàlgia', 'Post-cirurgia', 'Lesions'] },
+    { num: '02', cat: 'Esport', name: 'Fisioteràpia Esportiva', icon: 'ico-activity',
+      desc: 'Prevenció i recuperació de lesions esportives per accelerar la curació i retornar al rendiment màxim. Adaptat a atletes amateur i professionals.',
+      tags: ['Prevenció', 'Recuperació', 'Rendiment'] },
+    { num: '03', cat: 'Neurologia', name: 'Fisioteràpia Neurològica', icon: 'ico-brain',
+      desc: 'Atenció especialitzada a patologies del sistema nerviós central i perifèric: ictus, Parkinson, esclerosi múltiple, ELA i lesions medul·lars.',
+      tags: ['Ictus', 'Parkinson', 'ELA', 'Esclerosi'] },
+    { num: '04', cat: 'Aquàtica', name: 'Fisioteràpia Aquàtica', icon: 'ico-waves',
+      desc: 'Rehabilitació en medi aquàtic aprofitant la flotabilitat per reduir la càrrega articular. Ideal per a recuperació postoperatòria i hèrnies discals.',
+      tags: ['Hidroteràpia', 'Post-op', 'Hèrnia discal'] },
+    { num: '05', cat: 'Reumatologia', name: 'Reumatologia', icon: 'ico-joints',
+      desc: 'Tractament de malalties del sistema locomotor causades per afeccions reumàtiques: artritis, espondilitis anquilosant i altres patologies inflamatòries.',
+      tags: ['Artritis', 'Espondilitis', 'Dolor crònic'] },
+    { num: '06', cat: 'Geriatria', name: 'Fisioteràpia Geriàtrica', icon: 'ico-elder',
+      desc: 'Cura especialitzada per a persones grans centrada en el manteniment de la mobilitat, l\'autonomia, la força muscular i el treball de l\'equilibri i la marxa.',
+      tags: ['Mobilitat', 'Equilibri', 'Autonomia'] },
+    { num: '07', cat: 'Pediatria', name: 'Fisioteràpia Pediàtrica', icon: 'ico-child',
+      desc: 'Tractament de patologies musculoesquelètiques i rehabilitació neurològica en nens i adolescents amb tècniques adaptades a cada edat i necessitat.',
+      tags: ['Nens', 'Adolescents', 'Neuromotor'] },
+    { num: '08', cat: 'Maxil·lofacial', name: 'Fisioteràpia ATM', icon: 'ico-tooth',
+      desc: 'Tractament de disfuncions de l\'articulació temporomandibular, bruxisme, cefalees d\'origen muscular i alteracions del sistema masticatori.',
+      tags: ['ATM', 'Bruxisme', 'Cefalees'] },
+    { num: '09', cat: 'Massoteràpia', name: 'Massoteràpia', icon: 'ico-hands',
+      desc: 'Tècniques de massatge terapèutic professional per alliberar tensions musculars, millorar la circulació sanguínia i limfàtica i afavorir la recuperació.',
+      tags: ['Drenatge', 'Tensió muscular', 'Relaxació'] },
+    { num: '10', cat: 'A domicili', name: 'Fisioteràpia a Domicili', icon: 'ico-home',
+      desc: 'Atenció fisioterapèutica al domicili del pacient per a persones amb mobilitat reduïda o que necessitin tractament sense desplaçament a la clínica.',
+      tags: ['Domicili', 'Mobilitat reduïda', 'Post-op'] },
+    { num: '11', cat: 'Escola d\'esquena', name: 'Escola d\'Esquena · Pilates', icon: 'ico-figure',
+      desc: 'Programa actiu d\'educació postural i estabilitat de la columna vertebral. Pilates individual adaptat a cada pacient per a la prevenció i millora del dolor.',
+      tags: ['Pilates', 'Postura', 'Columna'] },
+  ];
+
+  // ─────────────────────────────────────────────────────────
+  // CardSwap (React Bits) · port a htm
+  // ─────────────────────────────────────────────────────────
+  const Card = forwardRef(({ customClass, ...rest }, ref) =>
+    React.createElement('div', {
+      ref,
+      ...rest,
+      className: `card ${customClass ?? ''} ${rest.className ?? ''}`.trim()
+    })
+  );
+  Card.displayName = 'Card';
+
+  const makeSlot = (i, distX, distY, total) => ({
+    x: i * distX,
+    y: -i * distY,
+    z: -i * distX * 1.5,
+    zIndex: total - i
+  });
+  const placeNow = (el, slot, skew) =>
+    gsap.set(el, {
+      x: slot.x, y: slot.y, z: slot.z,
+      xPercent: -50, yPercent: -50,
+      skewY: skew,
+      transformOrigin: 'center center',
+      zIndex: slot.zIndex,
+      force3D: true
+    });
+
+  function CardSwap({
+    width = 500,
+    height = 400,
+    cardDistance = 60,
+    verticalDistance = 70,
+    delay = 5000,
+    autoPlay = true,
+    pauseOnHover = false,
+    onCardClick,
+    onIndexChange,
+    controlsRef,
+    skewAmount = 6,
+    easing = 'elastic',
+    children
+  }) {
+    const config = easing === 'elastic'
+      ? { ease: 'power2.out', durDrop: 0.55, durMove: 0.55, durReturn: 0.55, promoteOverlap: 0.65, returnDelay: 0.2 }
+      : { ease: 'power1.inOut', durDrop: 0.6, durMove: 0.6, durReturn: 0.6, promoteOverlap: 0.45, returnDelay: 0.2 };
+
+    const childArr = useMemo(() => Children.toArray(children), [children]);
+    const refs = useMemo(
+      () => childArr.map(() => React.createRef()),
+      [childArr.length]
+    );
+
+    const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
+    const tlRef = useRef(null);
+    const intervalRef = useRef();
+    const container = useRef(null);
+    const isAnimating = useRef(false);
+
+    useEffect(() => {
+      const total = refs.length;
+      refs.forEach((r, i) =>
+        placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount)
+      );
+
+      const swapForward = () => {
+        if (order.current.length < 2 || isAnimating.current) return;
+        isAnimating.current = true;
+
+        const [front, ...rest] = order.current;
+        const elFront = refs[front].current;
+        // Safety timeout: if onComplete never fires (rare GSAP edge case), unlock anyway
+        const safety = setTimeout(() => { isAnimating.current = false; }, 2000);
+        const tl = gsap.timeline({ onComplete: () => { clearTimeout(safety); isAnimating.current = false; } });
+        tlRef.current = tl;
+
+        tl.to(elFront, { y: '+=500', duration: config.durDrop, ease: config.ease });
+        tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
+
+        rest.forEach((idx, i) => {
+          const el = refs[idx].current;
+          const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 'promote');
+          tl.to(el, {
+            x: slot.x, y: slot.y, z: slot.z,
+            duration: config.durMove, ease: config.ease
+          }, `promote+=${i * 0.15}`);
+        });
+
+        const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length);
+        tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`);
+        tl.call(() => { gsap.set(elFront, { zIndex: backSlot.zIndex }); }, undefined, 'return');
+        tl.to(elFront, {
+          x: backSlot.x, y: backSlot.y, z: backSlot.z,
+          duration: config.durReturn, ease: config.ease
+        }, 'return');
+        tl.call(() => {
+          order.current = [...rest, front];
+          onIndexChange?.(order.current[0]);
+        });
+      };
+
+      const swapBackward = () => {
+        if (order.current.length < 2 || isAnimating.current) return;
+        isAnimating.current = true;
+
+        const init = order.current.slice(0, -1);
+        const last = order.current[order.current.length - 1];
+        const elLast = refs[last].current;
+        const safety = setTimeout(() => { isAnimating.current = false; }, 2000);
+        const tl = gsap.timeline({ onComplete: () => { clearTimeout(safety); isAnimating.current = false; } });
+        tlRef.current = tl;
+
+        // Pre-position last card below screen at front-slot x/z, ready to rise
+        const frontSlot = makeSlot(0, cardDistance, verticalDistance, refs.length);
+        tl.set(elLast, {
+          x: frontSlot.x,
+          y: frontSlot.y + 500,
+          z: frontSlot.z,
+          zIndex: frontSlot.zIndex
+        });
+
+        // Rise to front
+        tl.to(elLast, {
+          y: frontSlot.y,
+          duration: config.durDrop,
+          ease: config.ease
+        });
+
+        // Demote others (each shifts back one slot)
+        tl.addLabel('demote', `-=${config.durDrop * config.promoteOverlap}`);
+        init.forEach((idx, i) => {
+          const el = refs[idx].current;
+          const slot = makeSlot(i + 1, cardDistance, verticalDistance, refs.length);
+          tl.set(el, { zIndex: slot.zIndex }, 'demote');
+          tl.to(el, {
+            x: slot.x, y: slot.y, z: slot.z,
+            duration: config.durMove, ease: config.ease
+          }, `demote+=${i * 0.12}`);
+        });
+
+        tl.call(() => {
+          order.current = [last, ...init];
+          onIndexChange?.(order.current[0]);
+        });
+      };
+
+      // Start auto-rotation
+      const startAuto = () => {
+        clearInterval(intervalRef.current);
+        if (autoPlay) {
+          intervalRef.current = window.setInterval(swapForward, delay);
+        }
+      };
+      startAuto();
+
+      // Expose imperative controls. Ignore clicks during in-progress animation
+      // (animations are ~0.55s, user won't notice). Avoids visual glitch from
+      // fast-forwarding mid-animation.
+      if (controlsRef) {
+        controlsRef.current = {
+          next: () => {
+            if (isAnimating.current) return;
+            clearInterval(intervalRef.current);
+            swapForward();
+            startAuto();
+          },
+          prev: () => {
+            if (isAnimating.current) return;
+            clearInterval(intervalRef.current);
+            swapBackward();
+            startAuto();
+          },
+          getActiveIndex: () => order.current[0]
+        };
+      }
+
+      if (pauseOnHover && autoPlay) {
+        const node = container.current;
+        const pause = () => { clearInterval(intervalRef.current); };
+        const resume = () => { startAuto(); };
+        node.addEventListener('mouseenter', pause);
+        node.addEventListener('mouseleave', resume);
+        return () => {
+          node.removeEventListener('mouseenter', pause);
+          node.removeEventListener('mouseleave', resume);
+          clearInterval(intervalRef.current);
+        };
+      }
+      return () => clearInterval(intervalRef.current);
+    }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, autoPlay]);
+
+    const rendered = childArr.map((child, i) =>
+      isValidElement(child)
+        ? cloneElement(child, {
+            key: i,
+            ref: refs[i],
+            style: { width, height, ...(child.props.style ?? {}) },
+            onClick: e => {
+              child.props.onClick?.(e);
+              onCardClick?.(i);
+            }
+          })
+        : child
+    );
+
+    return html`
+      <div ref=${container} className="card-swap-container" style=${{ width, height }}>
+        ${rendered}
+      </div>
+    `;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // SERVEI STACK · CardSwap + drag + arrows
+  // ─────────────────────────────────────────────────────────
+  function ServeiStack() {
+    const controls = useRef(null);
+    const [activeIdx, setActiveIdx] = useState(0);
+    const wrapRef = useRef(null);
+
+    // Drag-to-swipe handler
+    useEffect(() => {
+      const node = wrapRef.current;
+      if (!node) return;
+
+      let startX = 0, startY = 0, dragging = false, decided = false;
+      const THRESHOLD = 60;
+
+      const onDown = e => {
+        // Ignore drags starting on arrow buttons
+        if (e.target.closest('.stack-arrow')) return;
+        dragging = true; decided = false;
+        startX = e.clientX; startY = e.clientY;
+        node.style.cursor = 'grabbing';
+      };
+      const onMove = e => {
+        if (!dragging || decided) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.abs(dx) < THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+        decided = true;
+        if (dx < 0) controls.current?.next();
+        else controls.current?.prev();
+      };
+      const onUp = () => {
+        dragging = false;
+        node.style.cursor = '';
+      };
+
+      node.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+      return () => {
+        node.removeEventListener('pointerdown', onDown);
+        window.removeEventListener('pointermove', onMove);
+        window.removeEventListener('pointerup', onUp);
+        window.removeEventListener('pointercancel', onUp);
+      };
+    }, []);
+
+    // Keyboard nav (← →) when wrap is focused/hovered
+    useEffect(() => {
+      const onKey = e => {
+        if (e.key === 'ArrowLeft') controls.current?.prev();
+        else if (e.key === 'ArrowRight') controls.current?.next();
+      };
+      const node = wrapRef.current;
+      node?.addEventListener('keydown', onKey);
+      return () => node?.removeEventListener('keydown', onKey);
+    }, []);
+
+    return html`
+      <div
+        ref=${wrapRef}
+        className="stack-drag-area"
+        style=${{ position: 'relative', width: '100%', height: '100%', cursor: 'grab', touchAction: 'pan-y', userSelect: 'none' }}
+        tabIndex=${0}
+        role="region"
+        aria-label="Carrusel de serveis. Fes drag, fletxes ← → o botons per navegar."
+      >
+        <${CardSwap}
+          controlsRef=${controls}
+          width=${420}
+          height=${400}
+          cardDistance=${28}
+          verticalDistance=${36}
+          delay=${4500}
+          skewAmount=${4}
+          easing="elastic"
+          autoPlay=${false}
+          pauseOnHover=${false}
+          onIndexChange=${i => setActiveIdx(i)}
+        >
+          ${services.map(s => html`
+            <${Card} key=${s.num} customClass="servei-stack-card">
+              <div className="servei-stack-num">${s.num}</div>
+              <div className="servei-stack-cat">${s.cat}</div>
+              <div className="servei-stack-icon" aria-hidden="true">
+                <svg className="icon"><use href=${'#' + s.icon}/></svg>
+              </div>
+              <h3 className="servei-stack-name">${s.name}</h3>
+              <p className="servei-stack-desc">${s.desc}</p>
+              <div className="servei-stack-tags">
+                ${s.tags.map(t => html`<span key=${t} className="servei-stack-tag">${t}</span>`)}
+              </div>
+            </${Card}>
+          `)}
+        </${CardSwap}>
+
+        <div className="stack-controls" aria-hidden="false">
+          <button
+            type="button"
+            className="stack-arrow"
+            onClick=${() => controls.current?.prev()}
+            aria-label="Servei anterior"
+          >
+            <svg className="icon"><use href="#ico-chevron-left"/></svg>
+          </button>
+          <button
+            type="button"
+            className="stack-arrow"
+            onClick=${() => controls.current?.next()}
+            aria-label="Servei següent"
+          >
+            <svg className="icon"><use href="#ico-chevron-right"/></svg>
+          </button>
+          <div className="stack-counter" aria-live="polite">
+            <strong>${String(activeIdx + 1).padStart(2, '0')}</strong> / ${String(services.length).padStart(2, '0')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // INDIBA SHOWCASE (React)
+  // ─────────────────────────────────────────────────────────
+  function useCounter(target, trigger) {
+    const [val, setVal] = useState(0);
+    useEffect(() => {
+      if (!trigger) return;
+      let raf, start;
+      const dur = 1800;
+      const tick = t => {
+        if (!start) start = t;
+        const p = Math.min((t - start) / dur, 1);
+        // ease-out-quart
+        const eased = 1 - Math.pow(1 - p, 4);
+        setVal(Math.round(target * eased));
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+      return () => cancelAnimationFrame(raf);
+    }, [target, trigger]);
+    return val;
+  }
+
+  function IndibaShowcase() {
+    const [visible, setVisible] = useState(false);
+    const tilt = useTilt({ max: 4, smooth: 0.1 });
+    const sectionRef = tilt.ref;
+
+    useEffect(() => {
+      if (!sectionRef.current) return;
+      const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { setVisible(true); io.disconnect(); }
+      }, { threshold: 0.4 });
+      io.observe(sectionRef.current);
+      return () => io.disconnect();
+    }, []);
+
+    const freq = useCounter(448, visible);
+
+    return html`
+      <div
+        className="indiba-showcase"
+        ref=${tilt.ref}
+        onMouseMove=${tilt.onMouseMove}
+        onMouseLeave=${tilt.onMouseLeave}
+        style=${{ transform: 'perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))' }}
+      >
+        <div className="indiba-waves" aria-hidden="true">
+          ${[0, 1.5, 3].map(d => html`
+            <span key=${d} className="indiba-wave" style=${{ animationDelay: d + 's' }}></span>
+          `)}
+        </div>
+
+        <div className="indiba-meta">
+          <span className="indiba-pill">Líder mundial</span>
+          <span className="indiba-cat">Radiofreqüència 448 kHz</span>
+        </div>
+
+        <div className="indiba-hero">
+          <div className="indiba-glyph" aria-hidden="true">
+            <svg className="icon"><use href="#ico-lightning"/></svg>
+          </div>
+          <div className="indiba-frequency">
+            <span className="indiba-num">${freq}</span>
+            <span className="indiba-unit">kHz</span>
+          </div>
+        </div>
+
+        <h3 className="indiba-title">INDIBA Activ Therapy</h3>
+        <p className="indiba-desc">
+          Tecnologia de radiofreqüència no-invasiva que activa el metabolisme cel·lular accelerant
+          la recuperació tissular. La mateixa tecnologia que utilitzen <strong>clubs esportius d'elit</strong> i
+          centres de rehabilitació de referència a tot el món.
+        </p>
+
+        <div className="indiba-stats">
+          <div className="indiba-stat">
+            <div className="indiba-stat-num">3×</div>
+            <div className="indiba-stat-label">Recuperació més ràpida</div>
+          </div>
+          <div className="indiba-stat">
+            <div className="indiba-stat-num">CE</div>
+            <div className="indiba-stat-label">Certificació mèdica</div>
+          </div>
+          <div className="indiba-stat">
+            <div className="indiba-stat-num">100%</div>
+            <div className="indiba-stat-label">No invasiva</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Mount
+  const serveiNode = document.getElementById('serveiStack');
+  if (serveiNode) createRoot(serveiNode).render(html`<${ServeiStack}/>`);
+
+  const indibaNode = document.getElementById('indibaShowcase');
+  if (indibaNode) createRoot(indibaNode).render(html`<${IndibaShowcase}/>`);
+</script>
+</body>
+</html>

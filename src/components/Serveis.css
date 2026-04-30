@@ -1,0 +1,164 @@
+.serveis {
+  background: var(--dark);
+  position: relative; overflow: hidden;
+}
+.serveis::before {
+  content: '';
+  position: absolute; top: 30%; left: -10%;
+  width: 50%; height: 600px;
+  background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.1), transparent 70%);
+  filter: blur(80px); pointer-events: none;
+}
+
+.serveis-grid {
+  display: grid; gap: 60px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  min-height: 640px;
+}
+@media (min-width: 980px) {
+  .serveis-grid { grid-template-columns: 0.95fr 1.05fr; }
+}
+
+.serveis-intro { max-width: 480px; }
+.serveis-title {
+  font-size: var(--fs-xl);
+  margin: 16px 0 22px;
+}
+.serveis-desc {
+  font-size: 1rem;
+  color: oklch(1 0 0 / 0.65);
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+
+.serveis-controls {
+  display: flex; align-items: center; gap: 14px;
+}
+.ctrl-arrow {
+  width: 48px; height: 48px;
+  border: 1px solid oklch(1 0 0 / 0.12);
+  background: oklch(1 0 0 / 0.04);
+  color: var(--white);
+  border-radius: 14px;
+  display: grid; place-items: center;
+  transition: background 0.25s, border-color 0.25s, transform 0.3s var(--ease-emil);
+}
+.ctrl-arrow:hover {
+  background: oklch(0.65 0.19 40 / 0.18);
+  border-color: oklch(0.65 0.19 40 / 0.45);
+  color: var(--orange);
+  transform: translateY(-2px);
+}
+.ctrl-arrow:active { transform: scale(0.96); }
+
+.ctrl-counter {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700;
+  color: oklch(1 0 0 / 0.55);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+.ctrl-counter strong { color: var(--orange); font-weight: 800; margin-right: 6px; }
+
+/* 3D STACK */
+.serveis-stack {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 520px;
+  margin-left: auto;
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+  cursor: grab;
+  user-select: none;
+}
+.serveis-stack:active { cursor: grabbing; }
+.serveis-stack:focus-visible { outline: none; }
+
+.servei-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 36px 32px 30px;
+  background: linear-gradient(160deg,
+    oklch(0.20 0.018 265 / 0.97),
+    oklch(0.13 0.015 265 / 0.97));
+  border: 1px solid oklch(0.65 0.19 40 / 0.28);
+  box-shadow:
+    0 32px 80px oklch(0 0 0 / 0.55),
+    0 12px 24px oklch(0 0 0 / 0.35),
+    inset 0 1px 0 oklch(1 0 0 / 0.07);
+  display: flex; flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  overflow: hidden;
+}
+.servei-card::before {
+  content: '';
+  position: absolute; top: -40%; right: -30%;
+  width: 80%; height: 100%;
+  background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.22), transparent 70%);
+  filter: blur(40px); pointer-events: none;
+}
+
+.servei-card-num {
+  position: absolute; top: 22px; right: 28px;
+  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-size: 4.5rem; font-weight: 900;
+  letter-spacing: -0.04em; line-height: 1;
+  color: oklch(0.65 0.19 40 / 0.13);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.servei-card-cat {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 18px;
+}
+.servei-card-cat::before {
+  content: ''; width: 22px; height: 1px; background: var(--orange);
+}
+
+.servei-card-icon {
+  width: 60px; height: 60px;
+  margin-bottom: 22px;
+  display: grid; place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(135deg, oklch(0.65 0.19 40 / 0.25), oklch(0.65 0.19 40 / 0.05));
+  border: 1px solid oklch(0.65 0.19 40 / 0.3);
+  box-shadow: 0 12px 24px oklch(0.65 0.19 40 / 0.3);
+}
+.servei-card-icon svg { width: 36px; height: 36px; }
+
+.servei-card-name {
+  font-size: 1.65rem;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.servei-card-desc {
+  color: oklch(1 0 0 / 0.65);
+  line-height: 1.6;
+  font-size: 0.92rem;
+  margin-bottom: 18px;
+  flex: 1;
+}
+
+.servei-card-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.servei-tag {
+  font-size: 0.7rem; font-weight: 500;
+  background: oklch(0.65 0.19 40 / 0.1);
+  border: 1px solid oklch(0.65 0.19 40 / 0.25);
+  color: oklch(0.88 0.08 45);
+  padding: 4px 11px; border-radius: 999px;
+}
+
+@media (max-width: 979px) {
+  .serveis-stack { margin: 0 auto; max-width: 380px; height: 480px; }
+}

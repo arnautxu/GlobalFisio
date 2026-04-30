@@ -1,0 +1,108 @@
+.contacte { background: var(--dark); }
+.contacte-grid {
+  display: grid; gap: 60px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .contacte-grid { grid-template-columns: 1fr 1fr; }
+}
+.contacte-title { font-size: var(--fs-xl); margin: 16px 0 32px; }
+
+.contact-list {
+  list-style: none; display: flex; flex-direction: column; gap: 18px;
+  margin-bottom: 32px;
+}
+.contact-list li {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.contact-icon {
+  width: 44px; height: 44px;
+  background: oklch(0.65 0.19 40 / 0.15);
+  border: 1px solid oklch(0.65 0.19 40 / 0.25);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+.contact-icon svg { width: 18px; height: 18px; }
+.contact-list h5 {
+  font-family: 'Figtree', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  color: oklch(1 0 0 / 0.55);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.contact-list a, .contact-list p {
+  color: var(--white);
+  font-size: 0.95rem;
+  transition: color 0.25s;
+}
+.contact-list a:hover { color: var(--orange); }
+
+.map-wrap {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid oklch(1 0 0 / 0.08);
+}
+.map-wrap iframe {
+  width: 100%; height: 320px; border: 0;
+  filter: grayscale(0.5) invert(0.9) hue-rotate(180deg);
+  display: block;
+}
+.map-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 70%, oklch(0.13 0.015 265 / 0.5));
+  pointer-events: none;
+}
+
+.contact-form {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.form-title {
+  font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;
+}
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.74rem; font-weight: 700;
+  color: oklch(1 0 0 / 0.6);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  background: oklch(1 0 0 / 0.04);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  color: var(--white);
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-family: inherit; font-size: 0.92rem;
+  transition: border-color 0.25s, background 0.25s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--orange);
+  background: oklch(0.65 0.19 40 / 0.06);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+.form-btn:disabled {
+  background: linear-gradient(135deg, oklch(0.72 0.18 148), oklch(0.55 0.16 148));
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; }
+}
