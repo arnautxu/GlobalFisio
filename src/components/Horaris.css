@@ -1,76 +1,184 @@
-.horaris { background: var(--dark2); }
-.horaris-title { font-size: var(--fs-xl); margin: 16px 0; }
-.horaris-desc {
-  color: oklch(1 0 0 / 0.65);
-  line-height: 1.65;
-  max-width: 60ch;
-  margin-bottom: 48px;
+.horaris {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--rule);
 }
-.horaris-cols {
-  display: grid; gap: 20px;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 24px;
+
+.horaris-grid {
+  display: grid;
+  gap: clamp(40px, 5vw, 64px);
+  grid-template-columns: 1fr;
 }
-.horari-card {
-  background: oklch(1 0 0 / 0.03);
-  border: 1px solid oklch(1 0 0 / 0.07);
-  border-radius: var(--radius);
-  padding: 30px;
-  position: relative; overflow: hidden;
-  transition: border-color 0.25s, transform 0.3s var(--ease-emil);
+
+@media (min-width: 900px) {
+  .horaris-grid {
+    grid-template-columns: 1fr 1.4fr;
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+  .horari-table { grid-column: span 2; }
 }
-.horari-card:hover { transform: translateY(-3px); border-color: oklch(1 0 0 / 0.14); }
-.horari-active { border-color: oklch(0.65 0.19 40 / 0.4); }
-.horari-dot {
-  position: absolute; top: 24px; right: 24px;
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--orange);
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 12px var(--orange);
+
+.horaris-intro {
+  max-width: 28rem;
 }
-.horari-season {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  margin-bottom: 16px;
-  color: var(--blue);
-}
-.horari-active .horari-season { color: var(--orange); }
-.horari-time {
-  font-family: 'Barlow Semi Condensed', sans-serif;
-  font-size: 2.5rem; font-weight: 900;
+
+.horaris-title {
+  font-size: var(--fs-xl);
   letter-spacing: -0.03em;
+  margin: 18px 0 22px;
+  font-weight: 600;
+  color: var(--text-strong);
+}
+.horaris-title em {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.horaris-desc {
+  color: var(--text-body);
+  line-height: 1.6;
+  font-size: var(--fs-md);
+  max-width: 44ch;
+}
+
+/* ── Season cards ───────────────────────────────────────────────────── */
+.horaris-cards {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 640px) {
+  .horaris-cards { grid-template-columns: 1fr; }
+}
+
+.horari-card {
+  position: relative;
+  padding: 26px;
+  background: var(--bg-glass);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+  transition: border-color var(--dur-ui), box-shadow var(--dur-ui);
+}
+.horari-card:hover {
+  border-color: var(--rule-strong);
+  box-shadow: var(--shadow-float);
+}
+
+.horari-active {
+  background: linear-gradient(135deg, var(--indigo-d), var(--indigo));
+  border-color: var(--vermilion);
+  box-shadow: var(--shadow-cool);
+}
+
+.horari-active-tag {
+  position: absolute;
+  top: -10px; right: 16px;
+  background: var(--vermilion);
+  color: var(--text-strong);
+  padding: 4px 10px;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+}
+
+.horari-season {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  color: var(--indigo-l);
+}
+.horari-active .horari-season { color: var(--vermilion-l); }
+
+.horari-time {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.4rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
 }
 .horari-days {
-  color: oklch(1 0 0 / 0.55);
-  margin-top: 6px;
-  font-size: 0.92rem;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
 }
+.horari-active .horari-days { color: rgba(245, 244, 255, 0.85); }
+
 .horari-note {
-  margin-top: 14px;
+  margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px solid oklch(1 0 0 / 0.06);
-  font-size: 0.78rem;
-  color: oklch(1 0 0 / 0.4);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+.horari-active .horari-note {
+  border-top-color: rgba(255, 255, 255, 0.16);
+  color: rgba(245, 244, 255, 0.65);
 }
 
-.horari-full {
-  background: oklch(1 0 0 / 0.03);
-  border: 1px solid oklch(1 0 0 / 0.07);
+/* ── Full table ─────────────────────────────────────────────────────── */
+.horari-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-glass);
+  border: 1px solid var(--rule-soft);
   border-radius: var(--radius);
-  padding: 30px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-.horari-full h4 { margin-bottom: 16px; }
 .horari-row {
-  display: flex; justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid oklch(1 0 0 / 0.05);
-  font-size: 0.92rem;
+  border-bottom: 1px solid var(--rule);
 }
 .horari-row:last-child { border-bottom: none; }
-.horari-row span:first-child { color: oklch(1 0 0 / 0.6); }
-.horari-row span:last-child { font-weight: 600; }
 
-@media (max-width: 640px) {
-  .horaris-cols { grid-template-columns: 1fr; }
+.horari-row-day {
+  padding: 18px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-body);
+  border-right: 1px solid var(--rule);
+  width: 50%;
+}
+.horari-row-time {
+  padding: 18px 24px;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.005em;
+}
+
+.horari-row-closed .horari-row-time {
+  color: var(--text-faint);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
 }

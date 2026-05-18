@@ -4,60 +4,94 @@ import { PHONE_DISPLAY, PHONE } from '../data/services';
 import './Nav.css';
 
 const links = [
-  { href: '#sobre', label: 'El Centre' },
-  { href: '#serveis', label: 'Serveis' },
-  { href: '#tecnologia', label: 'Tecnologia' },
-  { href: '#horaris', label: 'Horaris' },
+  { href: '#sobre', label: 'Centre', n: '01' },
+  { href: '#serveis', label: 'Serveis', n: '02' },
+  { href: '#tecnologia', label: 'Tecnologia', n: '03' },
+  { href: '#horaris', label: 'Horaris', n: '04' },
+  { href: '#contacte', label: 'Contacte', n: '05' },
 ];
 
 export default function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   const { scrollYProgress } = useScroll();
   const progressW = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [open]);
+
   return (
     <>
-      <motion.div className="progress-bar" style={{ width: progressW }} />
-      <nav className={`nav ${scrolled ? 'nav-scrolled' : ''}`} aria-label="Navegació principal">
-        <a href="#" className="nav-logo">
-          <div className="nav-logo-text">
-            Global Fisio
-            <span>Centre de Fisioteràpia</span>
-          </div>
-        </a>
+      <motion.div className="progress-bar" style={{ width: progressW }} aria-hidden />
 
-        <ul className="nav-links" role="list">
-          {links.map(l => (
-            <li key={l.href}><a href={l.href}>{l.label}</a></li>
-          ))}
-        </ul>
+      <nav className="nav" aria-label="Navegació principal">
+        <div className="nav-inner">
+          <a href="#hero" className="nav-logo" aria-label="Inici">
+            <span className="nav-logo-mark" aria-hidden>
+              <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="gfgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#e94e1b"/>
+                    <stop offset="50%" stopColor="#f06d3f"/>
+                    <stop offset="100%" stopColor="#27348b"/>
+                  </linearGradient>
+                </defs>
+                <path d="M16 3 L29 10 L29 22 L16 29 L3 22 L3 10 Z" fill="url(#gfgrad)" />
+                <path d="M11 14 L11 19 Q11 21 13 21 L18 21 Q20 21 20 19 L20 16 L15 16" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
+            </span>
+            <span className="nav-logo-text">
+              <strong className="gradient-text">Global Fisio</strong>
+              <em>Sant Antoni de Calonge · est. 2007</em>
+            </span>
+          </a>
 
-        <a href={`tel:${PHONE}`} className="nav-cta">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.05 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.05a16 16 0 0 0 5.86 5.86l1.21-1.21a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
-          </svg>
-          <span>{PHONE_DISPLAY}</span>
-        </a>
+          <ul className="nav-links" role="list">
+            {links.map(l => (
+              <li key={l.href}>
+                <a href={l.href}>
+                  <span className="nav-link-n">{l.n}</span>
+                  <span className="nav-link-label">{l.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        <button className={`nav-burger ${open ? 'open' : ''}`} aria-label="Menú" onClick={() => setOpen(o => !o)}>
-          <span/><span/><span/>
-        </button>
+          <a href={`tel:${PHONE}`} className="nav-cta">
+            <span className="nav-cta-label">Trucar</span>
+            <span className="nav-cta-number">{PHONE_DISPLAY}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M7 17 17 7M9 7h8v8" />
+            </svg>
+          </a>
 
-        <div className={`nav-mobile ${open ? 'open' : ''}`}>
-          {links.map(l => (
-            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</a>
-          ))}
-          <a href={`tel:${PHONE}`} className="nav-mobile-cta" onClick={() => setOpen(false)}>{PHONE_DISPLAY}</a>
+          <button
+            className={`nav-burger ${open ? 'is-open' : ''}`}
+            aria-label={open ? 'Tancar menú' : 'Obrir menú'}
+            aria-expanded={open}
+            onClick={() => setOpen(o => !o)}
+          >
+            <span/><span/>
+          </button>
         </div>
       </nav>
+
+      <div className={`nav-mobile ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+        <ul>
+          {links.map((l, i) => (
+            <li key={l.href} style={{ ['--i' as any]: i }}>
+              <a href={l.href} onClick={() => setOpen(false)}>
+                <span className="nav-mobile-n">{l.n}</span>
+                <span>{l.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a href={`tel:${PHONE}`} className="nav-mobile-cta" onClick={() => setOpen(false)}>
+          {PHONE_DISPLAY}
+        </a>
+      </div>
     </>
   );
 }

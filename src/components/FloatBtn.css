@@ -1,25 +1,33 @@
 .float-btn {
-  position: fixed; bottom: 24px; right: 24px; z-index: 500;
-  display: inline-flex; align-items: center; gap: 10px;
-  background: linear-gradient(135deg, var(--orange), var(--orange-d));
-  color: var(--white);
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--vermilion);
+  color: var(--text-strong);
   padding: 14px 22px;
-  border-radius: 999px;
-  font-weight: 700; font-size: 0.86rem;
-  box-shadow:
-    0 12px 32px oklch(0.65 0.19 40 / 0.5),
-    0 4px 12px oklch(0 0 0 / 0.3);
-  transition: transform 0.3s var(--ease-emil), box-shadow 0.3s;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-warm);
+  transition: background var(--dur-ui), box-shadow var(--dur-ui), transform var(--dur-ui);
 }
 .float-btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 20px 40px oklch(0.65 0.19 40 / 0.6);
+  background: var(--vermilion-l);
+  box-shadow: 0 18px 48px rgba(233, 78, 27, 0.6);
 }
-.float-btn svg { width: 16px; height: 16px; }
+.float-btn:active {
+  transform: scale(0.97);
+}
+.float-btn svg { width: 18px; height: 18px; }
 
 @media (max-width: 600px) {
   .float-btn { bottom: 16px; right: 16px; padding: 12px 18px; }
   .float-btn span { display: none; }
-  .float-btn { width: 52px; height: 52px; padding: 0; justify-content: center; }
-  .float-btn svg { width: 22px; height: 22px; }
+  .float-btn { width: 56px; height: 56px; padding: 0; justify-content: center; }
+  .float-btn svg { width: 24px; height: 24px; }
 }

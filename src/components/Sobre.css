@@ -1,118 +1,138 @@
-.sobre { background: var(--dark2); position: relative; overflow: hidden; }
-.sobre::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 50%; height: 600px;
-  background: radial-gradient(circle, oklch(0.65 0.19 40 / 0.1), transparent 70%);
-  filter: blur(80px); pointer-events: none;
+.sobre {
+  background: var(--bg);
+  position: relative;
+  border-bottom: 1px solid var(--rule);
 }
 
 .sobre-grid {
-  display: grid; gap: 60px;
+  display: grid;
+  gap: clamp(48px, 6vw, 96px);
   grid-template-columns: 1fr;
-  align-items: center;
+  align-items: start;
 }
+
 @media (min-width: 900px) {
-  .sobre-grid { grid-template-columns: 1fr 1.1fr; gap: 80px; }
+  .sobre-grid {
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(56px, 7vw, 120px);
+  }
 }
 
-.sobre-visual {
-  position: relative;
-  width: 360px; height: 360px;
-  margin: 0 auto;
-  display: grid; place-items: center;
+.sobre-numeral {
+  position: sticky;
+  top: 120px;
 }
-.sobre-ring {
-  position: absolute;
-  border: 1px solid;
-  border-radius: 50%;
-  animation: spin 20s linear infinite;
-}
-.sobre-ring-1 {
-  width: 360px; height: 360px;
-  border-color: oklch(0.65 0.19 40 / 0.32);
-}
-.sobre-ring-2 {
-  width: 260px; height: 260px;
-  border-color: oklch(0.65 0.19 40 / 0.2);
-  animation-direction: reverse;
-  animation-duration: 14s;
-}
-.sobre-ring-3 {
-  width: 180px; height: 180px;
-  border-color: oklch(0.65 0.19 40 / 0.25);
-  animation-duration: 10s;
-}
-.sobre-ring::before {
-  content: '';
-  position: absolute; top: -4px; left: 50%;
-  width: 8px; height: 8px;
-  margin-left: -4px;
-  background: var(--orange);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--orange);
-}
-@keyframes spin { to { transform: rotate(360deg); } }
 
-.sobre-center {
-  font-family: 'Barlow Semi Condensed', sans-serif;
-  font-size: 4.5rem;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-  background: linear-gradient(135deg, var(--orange), var(--orange-d));
-  -webkit-background-clip: text;
+.sobre-num {
+  display: flex;
+  font-family: var(--font-display);
+  font-size: var(--fs-mega);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  margin-top: 18px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, var(--vermilion) 0%, var(--vermilion-l) 45%, var(--indigo-l) 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
-  z-index: 1;
+  -webkit-text-fill-color: transparent;
 }
-.sobre-center-label {
-  position: absolute;
-  bottom: 130px;
-  font-size: 0.78rem; font-weight: 600;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: oklch(1 0 0 / 0.5);
+.sobre-num span {
+  display: inline-block;
+  will-change: transform;
+}
+
+.sobre-num-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.6vw, 1.6rem);
+  font-weight: 500;
+  line-height: 1.15;
+  margin-top: 16px;
+  letter-spacing: -0.015em;
+  color: var(--text-body);
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  max-width: 18ch;
+}
+
+.sobre-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .sobre-title {
   font-size: var(--fs-xl);
-  margin: 16px 0 20px;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  color: var(--text-strong);
+  font-weight: 600;
 }
-.orange { color: var(--orange); }
+.sobre-title em {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
 
-.sobre-desc {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: oklch(1 0 0 / 0.7);
-  max-width: 60ch;
+.sobre-lead {
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text-body);
+  max-width: 56ch;
 }
 
 .sobre-pills {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 .pill {
-  font-size: 0.78rem;
-  background: oklch(1 0 0 / 0.05);
-  border: 1px solid oklch(1 0 0 / 0.1);
+  font-size: 0.82rem;
+  font-weight: 500;
+  background: var(--bg-glass);
+  border: 1px solid var(--rule-soft);
   padding: 6px 14px;
-  border-radius: 999px;
-  color: oklch(1 0 0 / 0.75);
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  color: var(--text-body);
+  cursor: default;
+  border-radius: var(--radius-pill);
+  transition: background var(--dur-micro), border-color var(--dur-micro), color var(--dur-micro);
 }
 .pill:hover {
-  background: oklch(0.65 0.19 40 / 0.15);
-  border-color: var(--orange);
-  color: var(--orange);
+  background: var(--vermilion-tint);
+  border-color: var(--vermilion);
+  color: var(--vermilion-l);
 }
 
 .sobre-quote {
-  margin-top: 32px;
-  padding: 22px 24px;
-  background: linear-gradient(135deg, oklch(0.65 0.19 40 / 0.18), oklch(0.65 0.19 40 / 0.04));
-  border: 1px solid oklch(0.65 0.19 40 / 0.2);
+  position: relative;
+  padding: 28px 28px 28px 72px;
+  background:
+    linear-gradient(135deg, rgba(39, 52, 139, 0.32), rgba(233, 78, 27, 0.18)),
+    var(--bg-2);
+  border: 1px solid var(--rule-soft);
   border-radius: var(--radius);
+  color: var(--text-strong);
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  line-height: 1.5;
+  font-weight: 400;
   font-style: italic;
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: oklch(1 0 0 / 0.85);
+  max-width: 56ch;
+  box-shadow: var(--shadow-card);
+}
+.sobre-quote-mark {
+  position: absolute;
+  left: 22px; top: 4px;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--vermilion);
 }

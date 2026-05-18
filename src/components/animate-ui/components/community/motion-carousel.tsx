@@ -20,6 +20,8 @@ type MotionCarouselProps<T> = {
   getItemKey?: (item: T, index: number) => React.Key;
   getItemLabel?: (item: T, index: number) => string;
   renderItem: (item: T, index: number, active: boolean) => React.ReactNode;
+  /** Called whenever the active slide index changes. */
+  onSelect?: (index: number) => void;
 };
 
 type EmblaControls = {
@@ -111,6 +113,7 @@ function MotionCarousel<T>(props: MotionCarouselProps<T>) {
     getItemKey,
     getItemLabel,
     renderItem,
+    onSelect,
   } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const {
@@ -122,6 +125,10 @@ function MotionCarousel<T>(props: MotionCarouselProps<T>) {
     onPrev,
     onNext,
   } = useEmblaControls(emblaApi);
+
+  React.useEffect(() => {
+    onSelect?.(selectedIndex);
+  }, [selectedIndex, onSelect]);
 
   return (
     <div

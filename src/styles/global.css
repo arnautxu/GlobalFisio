@@ -1,115 +1,322 @@
-/* GlobalFisio · Design tokens + reset */
+/* GlobalFisio · Clean Tech Design System
+   Deep indigo · vermilion accent · New Science type
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* New Science (Sharp Type) — drop the files in /public/fonts/new-science/
+   to activate. Otherwise the stack falls through to Geist + Space Grotesk. */
+@font-face {
+  font-family: 'New Science';
+  src: url('/fonts/new-science/NewScience-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'New Science';
+  src: url('/fonts/new-science/NewScience-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'New Science';
+  src: url('/fonts/new-science/NewScience-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'New Science';
+  src: url('/fonts/new-science/NewScience-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'New Science';
+  src: url('/fonts/new-science/NewScience-Extended-Bold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --orange: oklch(0.65 0.19 40);
-  --orange-d: oklch(0.55 0.20 38);
-  --orange-l: oklch(0.88 0.08 45);
-  --blue: oklch(0.62 0.17 220);
-  --blue-d: oklch(0.45 0.16 225);
-  --blue-l: oklch(0.85 0.08 220);
-  --green: oklch(0.72 0.18 148);
-  --dark: oklch(0.13 0.015 265);
-  --dark2: oklch(0.18 0.015 265);
-  --mid: oklch(0.28 0.015 265);
-  --light: oklch(0.98 0.005 40);
-  --white: oklch(0.99 0.005 40);
-  --radius: 16px;
+  /* ── Brand colours ──────────────────────────────────────────────────── */
+  --vermilion: #e94e1b;
+  --vermilion-d: #b83b13;
+  --vermilion-l: #fa7a4d;
+  --vermilion-tint: rgba(233, 78, 27, 0.12);
+
+  --indigo: #27348b;
+  --indigo-d: #1a2462;
+  --indigo-l: #4554b5;
+  --indigo-deep: #131b4b;   /* darkest — body background base */
+  --indigo-deepest: #0a1132; /* for ultra-dark surfaces */
+
+  --green: #3acf85;
+
+  /* ── Brand gradient (used for logo + accents) ───────────────────────── */
+  --gradient-brand: linear-gradient(135deg, #e94e1b 0%, #f06d3f 30%, #4554b5 70%, #27348b 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(233, 78, 27, 0.65), rgba(39, 52, 139, 0.65));
+  --gradient-deep: linear-gradient(180deg, var(--indigo-deepest) 0%, var(--indigo-deep) 100%);
+
+  /* ── Canvas (DARK) ──────────────────────────────────────────────────── */
+  --bg: #0a1132;             /* near-black indigo, main background */
+  --bg-2: #131b4b;           /* one step lighter */
+  --bg-3: #1d2865;           /* card surfaces */
+  --bg-glass: rgba(255, 255, 255, 0.04);
+
+  /* Text — calibrated for AAA on --bg */
+  --text-strong: #f5f4ff;
+  --text-body: rgba(245, 244, 255, 0.82);
+  --text-mute: rgba(245, 244, 255, 0.58);
+  --text-faint: rgba(245, 244, 255, 0.36);
+
+  /* ── Rules & borders (clean tech = hairlines, not 2px brutalism) ────── */
+  --rule: rgba(255, 255, 255, 0.08);
+  --rule-soft: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.22);
+  --rule-vermilion: rgba(233, 78, 27, 0.55);
+
+  /* ── Legacy aliases — components still reference these ──────────────── */
+  --paper: var(--bg);
+  --paper-2: var(--bg-2);
+  --paper-3: var(--bg-3);
+  --ink: var(--text-strong);
+  --ink-2: var(--text-body);
+  --ink-mute: var(--text-mute);
+  --ink-faint: var(--text-faint);
+  --orange: var(--vermilion);
+  --orange-d: var(--vermilion-d);
+  --orange-l: var(--vermilion-l);
+  --orange-tint: var(--vermilion-tint);
+  --blue: var(--indigo);
+  --blue-d: var(--indigo-d);
+  --blue-l: var(--indigo-l);
+  --dark: var(--bg);
+  --dark2: var(--bg-2);
+  --mid: var(--bg-3);
+  --light: var(--text-strong);
+  --white: #fff;
+  --border-faint: var(--rule);
+  --border-soft: var(--rule-soft);
+  --border-strong: var(--rule-strong);
+  --surface-1: var(--bg-glass);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --surface-3: rgba(255, 255, 255, 0.10);
+  --rule-bold: var(--rule-strong);
+  --rule-ink: var(--text-strong);
+
+  /* ── Geometry (clean tech: subtle radius, not zero) ─────────────────── */
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --grid-gap: clamp(16px, 1.6vw, 28px);
+  --hairline: 1px;
+
+  /* ── Motion tiers ───────────────────────────────────────────────────── */
+  --dur-micro: 180ms;
+  --dur-ui: 280ms;
+  --dur-reveal: 720ms;
+
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-emil: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
 
-  /* Fluid type scale */
-  --fs-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.82rem);
-  --fs-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.92rem);
-  --fs-base: clamp(0.95rem, 0.9rem + 0.3vw, 1.05rem);
-  --fs-md: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
-  --fs-lg: clamp(1.5rem, 1.3rem + 0.8vw, 1.9rem);
-  --fs-xl: clamp(2rem, 1.7rem + 1.4vw, 2.8rem);
-  --fs-display: clamp(3rem, 2.4rem + 3vw, 5.5rem);
+  /* ── Elevation (clean tech: soft glows + tints, no hard offsets) ────── */
+  --shadow-card:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-float:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 18px 48px rgba(0, 0, 0, 0.5);
+  --shadow-hero:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 32px 80px rgba(0, 0, 0, 0.55);
+  --shadow-warm:
+    0 12px 32px rgba(233, 78, 27, 0.42),
+    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+  --shadow-cool:
+    0 12px 32px rgba(39, 52, 139, 0.55),
+    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+
+  /* Subtle inner ring used on cards (clean tech signature) */
+  --ring-card:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* ── Fluid type — bold but cleaner than full brutalist ──────────────── */
+  --fs-xs: clamp(0.74rem, 0.7rem + 0.18vw, 0.82rem);
+  --fs-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
+  --fs-md: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --fs-lg: clamp(1.8rem, 1.4rem + 1.5vw, 2.6rem);
+  --fs-xl: clamp(2.6rem, 1.8rem + 3vw, 4.4rem);
+  --fs-2xl: clamp(3.6rem, 2.2rem + 5vw, 6.8rem);
+  --fs-display: clamp(4rem, 2rem + 9vw, 13rem);
+  --fs-mega: clamp(5rem, 2rem + 14vw, 22rem);
+
+  /* ── Layout ─────────────────────────────────────────────────────────── */
+  --container: 1440px;
+  --container-narrow: 1080px;
+  --section-y: clamp(96px, 12vw, 180px);
+  --gutter: clamp(20px, 4vw, 56px);
+
+  /* ── Font stacks (New Science → Geist → system) ─────────────────────── */
+  --font-display: 'New Science', 'Geist Variable', 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-body: 'New Science', 'Geist Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'New Science', 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: auto;
+  background: var(--bg);
+}
 
 body {
-  font-family: 'Figtree', system-ui, sans-serif;
-  background: var(--dark);
-  color: var(--white);
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-strong);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: 'kern', 'liga', 'cv11';
+  font-feature-settings: 'kern', 'liga', 'cv11', 'ss01';
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+/* Ambient mesh gradient behind everything (clean tech depth) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 12% 8%, rgba(233, 78, 27, 0.10), transparent 60%),
+    radial-gradient(ellipse 70% 70% at 90% 50%, rgba(69, 84, 181, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(233, 78, 27, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Barlow Semi Condensed', sans-serif;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  line-height: 0.96;
+  font-weight: 700;
+  color: var(--text-strong);
+  text-wrap: balance;
 }
 
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
 img, svg { display: block; max-width: 100%; }
 
-/* Noise texture (subtle, fixed) */
+/* Subtle grain overlay (very light on dark) */
 body::before {
   content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9999; opacity: 0.4;
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025) 0.5px, transparent 1px);
+  background-size: 3px 3px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.55;
+  mix-blend-mode: screen;
 }
 
-/* Selection */
-::selection { background: var(--orange); color: var(--white); }
+::selection { background: var(--vermilion); color: var(--text-strong); }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--dark2); }
-::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 3px; }
+::-webkit-scrollbar { width: 0; display: none; }
+* { scrollbar-width: none; }
 
-/* Focus */
 :focus-visible {
-  outline: 2px solid var(--orange);
-  outline-offset: 4px;
-  border-radius: 4px;
+  outline: 2px solid var(--vermilion);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-/* Utility containers */
+/* ── Layout primitives ───────────────────────────────────────────────── */
 .container {
-  max-width: 1280px;
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
   margin: 0 auto;
-  padding: 0 clamp(20px, 5vw, 48px);
+  padding: 0 var(--gutter);
+}
+.container-narrow {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
 }
 
 .section {
-  padding: clamp(72px, 10vw, 140px) 0;
   position: relative;
+  z-index: 1;
+  padding: var(--section-y) 0;
 }
 
+/* ── Atoms ────────────────────────────────────────────────────────────── */
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: var(--fs-xs); font-weight: 700;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--orange);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+  padding-bottom: 8px;
 }
 .eyebrow::before {
-  content: ''; width: 24px; height: 1px; background: var(--orange);
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--vermilion);
 }
 
-/* Skip link */
+/* Gradient text utility — for the wordmark */
+.gradient-text {
+  background: var(--gradient-brand);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Brutalist rules — keep as hairlines now */
+.rule { height: 1px; background: var(--rule); border: 0; }
+.rule-vermilion { height: 1px; background: var(--vermilion); border: 0; }
+.rule-indigo { height: 1px; background: var(--indigo-l); border: 0; }
+
+[role="button"], [data-clickable] { cursor: pointer; }
+
 .skip-link {
   position: absolute; top: -100px; left: 16px; z-index: 99999;
-  background: var(--orange); color: var(--white);
-  padding: 10px 20px; border-radius: 8px;
+  background: var(--vermilion); color: var(--text-strong);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: top var(--dur-ui) var(--ease-out);
 }
 .skip-link:focus { top: 16px; }

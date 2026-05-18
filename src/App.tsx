@@ -1,24 +1,39 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { registerGsap, bridgeLenisToGsap, ScrollTrigger } from './lib/gsap';
 import Nav from './components/Nav';
 import Hero from './components/Hero';
 import Sobre from './components/Sobre';
+import Confianca from './components/Confianca';
 import Serveis from './components/Serveis';
 import Indiba from './components/Indiba';
-import Mutualitats from './components/Mutualitats';
 import Horaris from './components/Horaris';
 import Contacte from './components/Contacte';
 import Footer from './components/Footer';
 import FloatBtn from './components/FloatBtn';
 
 export default function App() {
-  // Smooth scroll (Emil-style buttery)
   useEffect(() => {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-    let raf: number;
-    const tick = (t: number) => { lenis.raf(t); raf = requestAnimationFrame(tick); };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); lenis.destroy(); };
+    registerGsap();
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      // No smooth scroll for reduced-motion users; ScrollTrigger uses native scroll.
+      return;
+    }
+
+    const lenis = new Lenis({
+      lerp: 0.11,
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
+    bridgeLenisToGsap(lenis);
+    ScrollTrigger.refresh();
+
+    return () => {
+      lenis.destroy();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
   }, []);
 
   return (
@@ -28,9 +43,9 @@ export default function App() {
       <main id="main">
         <Hero />
         <Sobre />
+        <Confianca />
         <Serveis />
         <Indiba />
-        <Mutualitats />
         <Horaris />
         <Contacte />
       </main>
