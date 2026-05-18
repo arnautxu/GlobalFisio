@@ -87,9 +87,25 @@
 @media (max-width: 900px) {
   .nav-stat-md, .nav-stat-sep-md { display: none; }
 }
+
+/* Mobile: only show OBERT label (with closing time) + live clock.
+   Hide LOC, EST, SCROLL and the surrounding separators. */
 @media (max-width: 640px) {
-  .nav-status-inner { font-size: 0.66rem; gap: 10px; }
-  .nav-stat-val { display: none; }
+  .nav-status-inner {
+    font-size: 0.68rem;
+    gap: 8px;
+    padding: 6px var(--gutter);
+  }
+  /* Hide everything between the first stat and the time/scroll cluster */
+  .nav-status-inner > .nav-stat:not(:first-child):not(:nth-last-child(3)),
+  .nav-status-inner > .nav-stat-sep:not(:nth-last-child(2)) {
+    display: none;
+  }
+  /* Keep SCROLL hidden on tiniest viewports (limited horizontal room) */
+  .nav-status-inner > .nav-stat:last-child,
+  .nav-status-inner > .nav-stat-sep:nth-last-child(2) {
+    display: none;
+  }
 }
 
 /* ── Main row ───────────────────────────────────────────────────────── */
@@ -336,5 +352,20 @@
 @media (max-width: 960px) {
   .nav-links, .nav-cta { display: none; }
   .nav-burger { display: flex; }
-  .nav-logo { padding-right: 20px; }
+  .nav-logo { padding-right: 16px; gap: 10px; }
+}
+
+/* Tighten logo on tiny viewports */
+@media (max-width: 480px) {
+  .nav-logo-text em {
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+    /* Shorten via clip-path so we keep the same DOM */
+    max-width: 11ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .nav-logo-mark { width: 30px; height: 30px; }
+  .nav-burger { width: 52px; }
 }

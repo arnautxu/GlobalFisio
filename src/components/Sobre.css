@@ -19,8 +19,13 @@
 }
 
 .sobre-numeral {
-  position: sticky;
-  top: 120px;
+  position: relative;
+}
+@media (min-width: 900px) {
+  .sobre-numeral {
+    position: sticky;
+    top: 120px;
+  }
 }
 
 .sobre-num {
