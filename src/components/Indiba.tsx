@@ -82,14 +82,6 @@ export default function Indiba() {
       tl.to('.indiba-canvas', { opacity: 1, ease: 'none' }, 0);
     });
 
-    // Tech extras reveal
-    gsap.from('.tec-extra', {
-      y: 50,
-      duration: 0.7,
-      ease: 'expo.out',
-      stagger: 0.12,
-      scrollTrigger: { trigger: '.indiba-extras', start: 'top 80%', once: true },
-    });
   }, []);
 
   return (
@@ -149,28 +141,6 @@ export default function Indiba() {
         </div>
       </div>
 
-      <div className="indiba-extras container">
-        <article className="tec-extra">
-          <div className="tec-extra-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          </div>
-          <div>
-            <div className="tec-extra-eyebrow">Control del dolor</div>
-            <h4>Electroteràpia Especialitzada</h4>
-            <p>TENS, corrents interferencials i electroestimulació per al control del dolor i la recuperació muscular.</p>
-          </div>
-        </article>
-        <article className="tec-extra">
-          <div className="tec-extra-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-          </div>
-          <div>
-            <div className="tec-extra-eyebrow">Antigravitatori</div>
-            <h4>Hidroteràpia</h4>
-            <p>Instal·lacions aquàtiques especialitzades per a tractaments en medi aquàtic.</p>
-          </div>
-        </article>
-      </div>
     </section>
   );
 }
