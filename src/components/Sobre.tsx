@@ -7,11 +7,12 @@ const pills = ['Traumatologia', 'Esport', 'Neurologia', 'Geriatria', 'Pediatria'
 export default function Sobre() {
   const ref = useGsap<HTMLElement>((_ctx, el) => {
     gsap.from(el.querySelectorAll('.sobre-num span'), {
-      yPercent: 110,
+      autoAlpha: 0,
+      y: 40,
       ease: 'expo.out',
       duration: 1.1,
       stagger: 0.06,
-      scrollTrigger: { trigger: el, start: 'top 70%', once: true },
+      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
     });
     gsap.from(el.querySelectorAll('.sobre-body > *'), {
       y: 40,

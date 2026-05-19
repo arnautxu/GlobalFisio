@@ -39,7 +39,7 @@ function useClinicStatus() {
 export default function Hero() {
   const { isOpen, label } = useClinicStatus();
 
-  const ref = useGsap<HTMLElement>((ctx, el) => {
+  const ref = useGsap<HTMLElement>((_ctx, el) => {
     const words = el.querySelectorAll('.h1-word');
     const intro = gsap.timeline({ delay: 0.05 });
     intro.from(words, {
@@ -100,7 +100,7 @@ export default function Hero() {
       repeat: -1,
     });
 
-    ctx.add(() => { ScrollTrigger.refresh(); });
+    ScrollTrigger.refresh();
   }, []);
 
   return (

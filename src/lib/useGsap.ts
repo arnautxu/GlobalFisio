@@ -24,9 +24,9 @@ export function useGsap<T extends HTMLElement = HTMLElement>(
 
     let ctx: gsap.Context | undefined;
     try {
-      ctx = gsap.context(() => {
+      ctx = gsap.context((self: gsap.Context) => {
         try {
-          setup(ctx as gsap.Context, el);
+          setup(self, el);
         } catch (err) {
           console.error('[useGsap] setup error:', err);
         }
