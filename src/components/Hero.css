@@ -8,11 +8,11 @@
   isolation: isolate;
 }
 
-/* Ambient glows — clean tech depth */
+/* Subtle warm glow blobs — very low opacity on light theme */
 .hero-glow {
   position: absolute;
   pointer-events: none;
-  filter: blur(80px);
+  filter: blur(100px);
   z-index: 0;
   will-change: transform;
 }
@@ -21,14 +21,16 @@
   height: 50vw;
   top: -10%;
   right: -10%;
-  background: radial-gradient(circle, rgba(233, 78, 27, 0.45), transparent 60%);
+  background: rgba(233, 78, 27, 0.09);
+  border-radius: 50%;
 }
 .hero-glow-b {
   width: 60vw;
   height: 60vw;
   bottom: -20%;
   left: -10%;
-  background: radial-gradient(circle, rgba(69, 84, 181, 0.45), transparent 60%);
+  background: rgba(39, 52, 139, 0.07);
+  border-radius: 50%;
 }
 
 .hero-frame {
@@ -105,11 +107,7 @@
 .h1-word-em {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(135deg, var(--vermilion) 0%, var(--vermilion-l) 60%, var(--indigo-l) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
   letter-spacing: -0.02em;
 }
 
@@ -117,7 +115,7 @@
 .hero-accent {
   height: 3px;
   width: 100%;
-  background: var(--gradient-brand);
+  background: var(--vermilion);
   border-radius: 999px;
   transform-origin: left;
   will-change: transform;
@@ -142,10 +140,8 @@
   font-size: 0.8rem;
   font-weight: 500;
   font-family: var(--font-body);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
   color: var(--text-strong);
   width: max-content;
   letter-spacing: 0.01em;
@@ -181,22 +177,20 @@
   margin-top: 6px;
 }
 
-/* CTA — clean tech filled, subtle hover glow (no offset shadow) */
+/* CTA */
 .hero-cta {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   padding: 16px 24px;
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.01em;
   border-radius: var(--radius-pill);
-  box-shadow:
-    0 12px 32px rgba(233, 78, 27, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-warm);
   transition:
     transform var(--dur-ui) var(--ease-out),
     box-shadow var(--dur-ui) var(--ease-out),
@@ -208,10 +202,8 @@
   transition: transform var(--dur-ui) var(--ease-out);
 }
 .hero-cta:hover {
-  background: var(--vermilion-l);
-  box-shadow:
-    0 18px 48px rgba(233, 78, 27, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  background: var(--vermilion-d);
+  box-shadow: 0 12px 36px rgba(233, 78, 27, 0.4);
 }
 .hero-cta:hover svg { transform: translateX(4px); }
 
@@ -224,7 +216,7 @@
   transition: color var(--dur-micro), border-color var(--dur-micro);
 }
 .hero-link:hover {
-  color: var(--vermilion-l);
+  color: var(--vermilion);
   border-color: var(--vermilion);
 }
 

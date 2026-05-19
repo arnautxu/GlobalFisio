@@ -1,5 +1,5 @@
 /* GlobalFisio · Clean Tech Design System
-   Deep indigo · vermilion accent · New Science type
+   Warm white · vermilion dominant · indigo accent · New Science type
    ─────────────────────────────────────────────────────────────────────── */
 
 /* New Science (Sharp Type) — drop the files in /public/fonts/new-science/
@@ -47,40 +47,33 @@
   --vermilion: #e94e1b;
   --vermilion-d: #b83b13;
   --vermilion-l: #fa7a4d;
-  --vermilion-tint: rgba(233, 78, 27, 0.12);
+  --vermilion-tint: rgba(233, 78, 27, 0.08);
 
   --indigo: #27348b;
   --indigo-d: #1a2462;
   --indigo-l: #4554b5;
-  --indigo-deep: #131b4b;   /* darkest — body background base */
-  --indigo-deepest: #0a1132; /* for ultra-dark surfaces */
 
   --green: #3acf85;
 
-  /* ── Brand gradient (used for logo + accents) ───────────────────────── */
-  --gradient-brand: linear-gradient(135deg, #e94e1b 0%, #f06d3f 30%, #4554b5 70%, #27348b 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(233, 78, 27, 0.65), rgba(39, 52, 139, 0.65));
-  --gradient-deep: linear-gradient(180deg, var(--indigo-deepest) 0%, var(--indigo-deep) 100%);
+  /* ── Canvas (LIGHT) ─────────────────────────────────────────────────── */
+  --bg: #fafaf8;             /* warm off-white */
+  --bg-2: #f2f1ee;           /* one step warmer */
+  --bg-3: #e8e7e3;           /* table/card surfaces */
+  --bg-glass: rgba(233, 78, 27, 0.04);
 
-  /* ── Canvas (DARK) ──────────────────────────────────────────────────── */
-  --bg: #0a1132;             /* near-black indigo, main background */
-  --bg-2: #131b4b;           /* one step lighter */
-  --bg-3: #1d2865;           /* card surfaces */
-  --bg-glass: rgba(255, 255, 255, 0.04);
+  /* Text — warm near-black on light */
+  --text-strong: #1a1917;
+  --text-body: rgba(26, 25, 23, 0.76);
+  --text-mute: rgba(26, 25, 23, 0.50);
+  --text-faint: rgba(26, 25, 23, 0.32);
 
-  /* Text — calibrated for AAA on --bg */
-  --text-strong: #f5f4ff;
-  --text-body: rgba(245, 244, 255, 0.82);
-  --text-mute: rgba(245, 244, 255, 0.58);
-  --text-faint: rgba(245, 244, 255, 0.36);
+  /* ── Rules & borders ────────────────────────────────────────────────── */
+  --rule: rgba(26, 25, 23, 0.10);
+  --rule-soft: rgba(26, 25, 23, 0.07);
+  --rule-strong: rgba(26, 25, 23, 0.22);
+  --rule-vermilion: rgba(233, 78, 27, 0.45);
 
-  /* ── Rules & borders (clean tech = hairlines, not 2px brutalism) ────── */
-  --rule: rgba(255, 255, 255, 0.08);
-  --rule-soft: rgba(255, 255, 255, 0.12);
-  --rule-strong: rgba(255, 255, 255, 0.22);
-  --rule-vermilion: rgba(233, 78, 27, 0.55);
-
-  /* ── Legacy aliases — components still reference these ──────────────── */
+  /* ── Legacy aliases ─────────────────────────────────────────────────── */
   --paper: var(--bg);
   --paper-2: var(--bg-2);
   --paper-3: var(--bg-3);
@@ -95,21 +88,17 @@
   --blue: var(--indigo);
   --blue-d: var(--indigo-d);
   --blue-l: var(--indigo-l);
-  --dark: var(--bg);
-  --dark2: var(--bg-2);
-  --mid: var(--bg-3);
-  --light: var(--text-strong);
   --white: #fff;
   --border-faint: var(--rule);
   --border-soft: var(--rule-soft);
   --border-strong: var(--rule-strong);
   --surface-1: var(--bg-glass);
-  --surface-2: rgba(255, 255, 255, 0.07);
-  --surface-3: rgba(255, 255, 255, 0.10);
+  --surface-2: rgba(233, 78, 27, 0.06);
+  --surface-3: rgba(233, 78, 27, 0.10);
   --rule-bold: var(--rule-strong);
   --rule-ink: var(--text-strong);
 
-  /* ── Geometry (clean tech: subtle radius, not zero) ─────────────────── */
+  /* ── Geometry ───────────────────────────────────────────────────────── */
   --radius: 12px;
   --radius-sm: 6px;
   --radius-lg: 18px;
@@ -128,28 +117,26 @@
   --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1);
   --ease-expo: cubic-bezier(0.87, 0, 0.13, 1);
 
-  /* ── Elevation (clean tech: soft glows + tints, no hard offsets) ────── */
+  /* ── Elevation (light: warm-tinted, offset-based) ───────────────────── */
   --shadow-card:
-    0 1px 0 rgba(255, 255, 255, 0.04) inset,
-    0 10px 30px rgba(0, 0, 0, 0.35);
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 4px 16px rgba(26, 25, 23, 0.07);
   --shadow-float:
-    0 1px 0 rgba(255, 255, 255, 0.06) inset,
-    0 18px 48px rgba(0, 0, 0, 0.5);
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 12px 36px rgba(26, 25, 23, 0.11);
   --shadow-hero:
-    0 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 32px 80px rgba(0, 0, 0, 0.55);
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 24px 64px rgba(26, 25, 23, 0.15);
   --shadow-warm:
-    0 12px 32px rgba(233, 78, 27, 0.42),
-    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+    0 8px 24px rgba(233, 78, 27, 0.28),
+    0 1px 0 rgba(255, 255, 255, 0.5) inset;
   --shadow-cool:
-    0 12px 32px rgba(39, 52, 139, 0.55),
-    0 1px 0 rgba(255, 255, 255, 0.18) inset;
+    0 8px 24px rgba(39, 52, 139, 0.24),
+    0 1px 0 rgba(255, 255, 255, 0.5) inset;
 
-  /* Subtle inner ring used on cards (clean tech signature) */
-  --ring-card:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --ring-card: inset 0 0 0 1px rgba(26, 25, 23, 0.06);
 
-  /* ── Fluid type — bold but cleaner than full brutalist ──────────────── */
+  /* ── Fluid type ─────────────────────────────────────────────────────── */
   --fs-xs: clamp(0.74rem, 0.7rem + 0.18vw, 0.82rem);
   --fs-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
   --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.12rem);
@@ -167,8 +154,8 @@
   --gutter: clamp(20px, 4vw, 56px);
 
   /* ── Font stacks (New Science → Geist → system) ─────────────────────── */
-  --font-display: 'New Science', 'Geist Variable', 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  --font-body: 'New Science', 'Geist Variable', 'Inter', system-ui, sans-serif;
+  --font-display: 'New Science', 'Geist Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'New Science', 'Geist Variable', system-ui, sans-serif;
   --font-mono: 'New Science', 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
 }
 
@@ -190,17 +177,18 @@ body {
   line-height: 1.55;
 }
 
-/* Ambient mesh gradient behind everything (clean tech depth) */
-body::after {
+/* Subtle grain overlay (fixed, pointer-events-none — no GPU repaint on scroll) */
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 12% 8%, rgba(233, 78, 27, 0.10), transparent 60%),
-    radial-gradient(ellipse 70% 70% at 90% 50%, rgba(69, 84, 181, 0.18), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(233, 78, 27, 0.08), transparent 60%);
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(26, 25, 23, 0.018) 0.5px, transparent 1px);
+  background-size: 3px 3px;
   pointer-events: none;
-  z-index: 0;
+  z-index: 9999;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
 }
 
 h1, h2, h3, h4 {
@@ -216,21 +204,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
 img, svg { display: block; max-width: 100%; }
 
-/* Subtle grain overlay (very light on dark) */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.025) 0.5px, transparent 1px);
-  background-size: 3px 3px;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.55;
-  mix-blend-mode: screen;
-}
-
-::selection { background: var(--vermilion); color: var(--text-strong); }
+::selection { background: var(--vermilion); color: #fff; }
 
 ::-webkit-scrollbar { width: 0; display: none; }
 * { scrollbar-width: none; }
@@ -292,16 +266,16 @@ body::before {
   background: var(--vermilion);
 }
 
-/* Gradient text utility — for the wordmark */
+/* Gradient text utility — for the wordmark only */
 .gradient-text {
-  background: var(--gradient-brand);
+  background: linear-gradient(135deg, #e94e1b 0%, #f06d3f 30%, #4554b5 70%, #27348b 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
 
-/* Brutalist rules — keep as hairlines now */
+/* Brutalist rules — keep as hairlines */
 .rule { height: 1px; background: var(--rule); border: 0; }
 .rule-vermilion { height: 1px; background: var(--vermilion); border: 0; }
 .rule-indigo { height: 1px; background: var(--indigo-l); border: 0; }
@@ -310,7 +284,7 @@ body::before {
 
 .skip-link {
   position: absolute; top: -100px; left: 16px; z-index: 99999;
-  background: var(--vermilion); color: var(--text-strong);
+  background: var(--vermilion); color: #fff;
   padding: 12px 24px;
   border-radius: var(--radius-sm);
   font-weight: 700;

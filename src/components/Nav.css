@@ -3,7 +3,7 @@
   position: fixed; top: 0; left: 0;
   height: 2px;
   z-index: 2001;
-  background: var(--gradient-brand);
+  background: var(--vermilion);
   transform-origin: 0 50%;
 }
 
@@ -11,7 +11,7 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  background: rgba(10, 17, 50, 0.78);
+  background: rgba(250, 250, 248, 0.88);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border-bottom: 1px solid var(--rule);
@@ -21,7 +21,7 @@
 /* ── Status strip (terminal-style) ──────────────────────────────────── */
 .nav-status {
   border-bottom: 1px solid var(--rule);
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(26, 25, 23, 0.03);
 }
 .nav-status-inner {
   display: flex;
@@ -88,20 +88,17 @@
   .nav-stat-md, .nav-stat-sep-md { display: none; }
 }
 
-/* Mobile: only show OBERT label (with closing time) + live clock.
-   Hide LOC, EST, SCROLL and the surrounding separators. */
+/* Mobile: only show OBERT label (with closing time) + live clock. */
 @media (max-width: 640px) {
   .nav-status-inner {
     font-size: 0.68rem;
     gap: 8px;
     padding: 6px var(--gutter);
   }
-  /* Hide everything between the first stat and the time/scroll cluster */
   .nav-status-inner > .nav-stat:not(:first-child):not(:nth-last-child(3)),
   .nav-status-inner > .nav-stat-sep:not(:nth-last-child(2)) {
     display: none;
   }
-  /* Keep SCROLL hidden on tiniest viewports (limited horizontal room) */
   .nav-status-inner > .nav-stat:last-child,
   .nav-status-inner > .nav-stat-sep:nth-last-child(2) {
     display: none;
@@ -153,7 +150,7 @@
   margin-top: 3px;
 }
 
-/* ── Links (tactical brackets) ──────────────────────────────────────── */
+/* ── Links ──────────────────────────────────────────────────────────── */
 .nav-links {
   display: flex;
   align-items: stretch;
@@ -174,7 +171,6 @@
   transition: color var(--dur-micro);
 }
 .nav-links a::before {
-  /* Active marker line (vermilion bar bottom) */
   content: '';
   position: absolute;
   left: 18px; right: 18px; bottom: 0;
@@ -207,7 +203,7 @@
 }
 .nav-link-label { font-family: var(--font-body); }
 
-/* ── CTA — tel:// terminal-style button ─────────────────────────────── */
+/* ── CTA ────────────────────────────────────────────────────────────── */
 .nav-cta {
   display: inline-flex;
   align-items: center;
@@ -215,7 +211,7 @@
   padding: 10px 22px 10px 18px;
   border-left: 1px solid var(--rule);
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   font-family: var(--font-mono);
   font-size: 0.92rem;
   font-weight: 500;
@@ -223,7 +219,7 @@
   font-variant-numeric: tabular-nums;
   transition: background var(--dur-micro);
 }
-.nav-cta:hover { background: var(--vermilion-l); }
+.nav-cta:hover { background: var(--vermilion-d); }
 .nav-cta-prefix {
   font-size: 0.78em;
   opacity: 0.7;
@@ -340,7 +336,7 @@
   justify-content: center;
   gap: 8px;
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   padding: 18px;
   font-family: var(--font-mono);
   font-size: 1.05rem;
@@ -355,12 +351,10 @@
   .nav-logo { padding-right: 16px; gap: 10px; }
 }
 
-/* Tighten logo on tiny viewports */
 @media (max-width: 480px) {
   .nav-logo-text em {
     font-size: 0.58rem;
     letter-spacing: 0.06em;
-    /* Shorten via clip-path so we keep the same DOM */
     max-width: 11ch;
     overflow: hidden;
     text-overflow: ellipsis;

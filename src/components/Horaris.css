@@ -31,11 +31,7 @@
 .horaris-title em {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
 }
 
 .horaris-desc {
@@ -58,11 +54,10 @@
 .horari-card {
   position: relative;
   padding: 26px;
-  background: var(--bg-glass);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
-  backdrop-filter: blur(10px);
   transition: border-color var(--dur-ui), box-shadow var(--dur-ui);
 }
 .horari-card:hover {
@@ -70,17 +65,22 @@
   box-shadow: var(--shadow-float);
 }
 
+/* Active season card — dark indigo for contrast */
 .horari-active {
-  background: linear-gradient(135deg, var(--indigo-d), var(--indigo));
-  border-color: var(--vermilion);
+  background: var(--indigo);
+  border-color: var(--indigo);
   box-shadow: var(--shadow-cool);
+  --text-strong: rgba(245, 244, 255, 0.96);
+  --text-body: rgba(245, 244, 255, 0.82);
+  --text-mute: rgba(245, 244, 255, 0.58);
+  --rule: rgba(255, 255, 255, 0.14);
 }
 
 .horari-active-tag {
   position: absolute;
   top: -10px; right: 16px;
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   padding: 4px 10px;
   font-family: var(--font-body);
   font-size: 0.66rem;
@@ -102,7 +102,7 @@
   margin-bottom: 14px;
   color: var(--indigo-l);
 }
-.horari-active .horari-season { color: var(--vermilion-l); }
+.horari-active .horari-season { color: rgba(245, 244, 255, 0.65); }
 
 .horari-time {
   font-family: var(--font-display);
@@ -119,7 +119,6 @@
   color: var(--text-body);
   font-variant-numeric: tabular-nums;
 }
-.horari-active .horari-days { color: rgba(245, 244, 255, 0.85); }
 
 .horari-note {
   margin-top: 16px;
@@ -132,20 +131,15 @@
   text-transform: uppercase;
   color: var(--text-mute);
 }
-.horari-active .horari-note {
-  border-top-color: rgba(255, 255, 255, 0.16);
-  color: rgba(245, 244, 255, 0.65);
-}
 
 /* ── Full table ─────────────────────────────────────────────────────── */
 .horari-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--bg-glass);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   overflow: hidden;
-  backdrop-filter: blur(10px);
 }
 .horari-row {
   border-bottom: 1px solid var(--rule);

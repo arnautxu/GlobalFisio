@@ -1,7 +1,7 @@
 .confianca {
   position: relative;
   padding: clamp(80px, 11vw, 140px) 0;
-  background: var(--bg);
+  background: var(--bg-2);
   border-bottom: 1px solid var(--rule);
 }
 .confianca::before {
@@ -9,8 +9,8 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: var(--gradient-brand);
-  opacity: 0.6;
+  background: var(--vermilion);
+  opacity: 0.5;
 }
 
 .confi-grid {
@@ -40,11 +40,7 @@
 .confi-title em {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
 }
 
 /* ── Stats grid — clean hairlines ───────────────────────────────────── */
@@ -55,8 +51,7 @@
   border-left: 1px solid var(--rule);
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--bg-glass);
-  backdrop-filter: blur(8px);
+  background: var(--bg);
 }
 
 @media (min-width: 720px) {
@@ -86,7 +81,7 @@
 .confi-cell-indigo::before { background: var(--indigo-l); }
 
 .confi-cell:hover::before { transform: scaleX(1); }
-.confi-cell:hover { background: rgba(255, 255, 255, 0.04); }
+.confi-cell:hover { background: var(--vermilion-tint); }
 
 .confi-num {
   font-family: var(--font-display);
@@ -102,7 +97,7 @@
   margin-bottom: 18px;
 }
 
-.confi-cell-vermilion .confi-num { color: var(--vermilion-l); }
+.confi-cell-vermilion .confi-num { color: var(--vermilion); }
 .confi-cell-indigo .confi-num { color: var(--indigo-l); }
 
 .confi-num-val { display: inline-block; }

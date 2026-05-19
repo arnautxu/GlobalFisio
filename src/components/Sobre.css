@@ -41,11 +41,7 @@
 .sobre-num span {
   display: inline-block;
   will-change: transform;
-  background: linear-gradient(135deg, var(--vermilion) 0%, var(--vermilion-l) 45%, var(--indigo-l) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
 }
 
 .sobre-num-label {
@@ -77,11 +73,7 @@
 .sobre-title em {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
   letter-spacing: -0.02em;
 }
 
@@ -100,8 +92,8 @@
 .pill {
   font-size: 0.82rem;
   font-weight: 500;
-  background: var(--bg-glass);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
   padding: 6px 14px;
   color: var(--text-body);
   cursor: default;
@@ -110,17 +102,15 @@
 }
 .pill:hover {
   background: var(--vermilion-tint);
-  border-color: var(--vermilion);
-  color: var(--vermilion-l);
+  border-color: var(--rule-vermilion);
+  color: var(--vermilion-d);
 }
 
 .sobre-quote {
   position: relative;
   padding: 28px 28px 28px 72px;
-  background:
-    linear-gradient(135deg, rgba(39, 52, 139, 0.32), rgba(233, 78, 27, 0.18)),
-    var(--bg-2);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
   color: var(--text-strong);
   font-size: clamp(1.05rem, 1.4vw, 1.3rem);

@@ -19,7 +19,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.4;
   z-index: 0;
 }
 
@@ -44,7 +44,7 @@
 
 .indiba-pill {
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   padding: 6px 14px;
   font-family: var(--font-body);
   font-size: 0.66rem;
@@ -66,11 +66,7 @@
 .indiba-h2 em {
   font-style: italic;
   font-weight: 400;
-  background: linear-gradient(135deg, var(--vermilion), var(--vermilion-l));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--vermilion);
 }
 
 .indiba-hero {
@@ -84,14 +80,12 @@
   width: clamp(76px, 8vw, 110px);
   height: clamp(76px, 8vw, 110px);
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   border-radius: var(--radius);
-  box-shadow:
-    0 16px 40px rgba(233, 78, 27, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: var(--shadow-warm);
   will-change: transform;
 }
 .indiba-glyph svg { width: 50%; height: 50%; }
@@ -173,12 +167,11 @@
 .tec-extra {
   display: flex;
   gap: 20px;
-  background: var(--bg-glass);
-  border: 1px solid var(--rule-soft);
+  background: var(--bg);
+  border: 1px solid var(--rule);
   padding: 28px;
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
-  backdrop-filter: blur(12px);
   transition: border-color var(--dur-ui), box-shadow var(--dur-ui), transform var(--dur-ui);
 }
 .tec-extra:hover {
@@ -190,11 +183,11 @@
   height: 52px;
   flex-shrink: 0;
   background: var(--vermilion);
-  color: var(--text-strong);
+  color: #fff;
   display: grid;
   place-items: center;
   border-radius: var(--radius-sm);
-  box-shadow: 0 6px 20px rgba(233, 78, 27, 0.4);
+  box-shadow: 0 6px 20px rgba(233, 78, 27, 0.32);
 }
 .tec-extra-icon svg { width: 22px; height: 22px; }
 .tec-extra-eyebrow {
